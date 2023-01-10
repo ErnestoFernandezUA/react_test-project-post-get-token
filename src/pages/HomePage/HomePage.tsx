@@ -1,42 +1,65 @@
-import { FunctionComponent } from "react";
-import { Link } from 'react-router-dom'
-import { useAppSelector } from "../../store/hooks";
-import { selectPosts } from "../../features/Posts/postsSlice";
+import React from "react";
+import { FunctionComponent, useEffect } from "react";
+import { User } from "../../components/User";
+import { addPayload, selectPayloadUsers, selectUsers, selectUsersStatusLoading } from "../../features/Users/usersSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { UserType } from "../../type/User";
 import './HomePage.scss'
  
 export const HomePage: FunctionComponent = () => {
-  const posts = useAppSelector(selectPosts);
+  const dispatch = useAppDispatch();
+  const users = useAppSelector(selectUsers);
+  const payloadUsers = useAppSelector(selectPayloadUsers);
+  const isLoading = useAppSelector(selectUsersStatusLoading);
+  console.log('users', users);    
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!payloadUsers.length) {
+
+        console.log('setTimeout dispatch(addPayload)');
+        dispatch(addPayload());
+      }
+    }, 5000)
+
+    
+  }, [users.length, payloadUsers, dispatch])
 
   return (
     <div className="HomePage">
       <h2>HomePage</h2>
-      <ul style={{
-        listStyle: 'none',
-        textAlign: 'left',
-      }}>
-        {posts.map(post => (
-          <li key={post.id}>
-            <Link 
-              to={`post/${post.id}`}
-              style={{
-                display: 'block',
-                textDecoration: 'none',
-                color: 'grey',
-                border: '1px solid grey',
-                borderRadius: '10px',
-                margin: '1rem',
-                padding: '1rem',
-                boxSizing: 'border-box',
-                
-              }}
-            >
-              {`${post.id}. ${post.title}: ${post.body}`}
-            </Link>
-          </li>
-        ))}
-      </ul>
 
+      {users.map((user: UserType) => (
+        <User key={user.id} user={user} />
+      ))}
+
+      {(isLoading === 'loading') && <>Loading .....</>}
+
+      {payloadUsers.map((user: UserType) => (
+        <User key={user.id} user={user} />
+      ))}
+
+      {/* <LoadEffect 
+        isLoading={(isLoading === 'loading')}
+        loader={<>Loading .....</>}
+        payload={payloadUsers.map((user: UserType) => (
+          <User key={user.id} user={user} />
+        ))}
+      /> */}
     </div>
   );
 }
+
+// interface LoadEffectProps {
+//   isLoading: boolean;
+//   loader: any;
+//   payload: any;
+// }
  
+// const LoadEffect: FunctionComponent<LoadEffectProps> = ({ isLoading, loader, payload }) => {
+//   return (
+//   <>
+//     {isLoading && loader}
+//     {payload}
+//   </>);
+// }

@@ -1,21 +1,36 @@
 import React, { useEffect } from 'react';
-import { createHashRouter, Outlet, useLoaderData } from 'react-router-dom'
+import { createHashRouter, Outlet } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getPostsAsync, selectPosts } from './features/Posts/postsSlice';
 import './App.scss';
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage/HomePage';
 import { PostPage } from './pages/PostPage/PostPage';
-import { UserJsonplaceholder } from './type/User';
-import { getToken } from './api/token';
-import { getAllUsers } from './api/users';
 import { getTokenAsync, setToken } from './features/Token/tokenSlice';
 import { getUsersAsync } from './features/Users/usersSlice';
 
 export async function rootLoader() {
-  const response = await getAllUsers();
-
-  return response;
+  if (!localStorage.getItem('token')) {
+    const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token')
+    .then(function(response){
+      console.log(response);
+  
+      return response.json(); 
+    })
+    .then(function(data){
+      console.log(data);
+      
+      localStorage.setItem('token', data.token);
+      
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
+  
+    return response;
+  } else {
+    return localStorage.getItem('token');
+  }
 }
 
 export const router = createHashRouter([
@@ -47,41 +62,11 @@ function App() {
   // const users = useLoaderData() as User[];
   const posts = useAppSelector(selectPosts);
   const dispatch = useAppDispatch();
-
+  // dispatch(setToken(data.token));
   useEffect(() => {
     if (posts.length === 0) {
       dispatch(getPostsAsync());
     }
-
-    dispatch(getTokenAsync());
-
-  const fetchToken = async () => {
-    console.log('fetchToken');
-
-    const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token')
-      .then(function(response){
-        console.log(response);
-
-        return response.json(); 
-      })
-      .then(function(data){
-        console.log(data);
-        
-        localStorage.setItem('token', data.token);
-        dispatch(setToken(data.token));
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-
-    return response; 
-  }
-
-  console.log(localStorage.getItem('token'));
-  
-  if (!localStorage.getItem('token')) {
-    fetchToken();
-  }
 
   dispatch(getUsersAsync({ page: 1,count: 6}));
 
@@ -90,10 +75,7 @@ function App() {
   return (
     <div className="App">
       <header className="App__Header">
-        <h1>React Template</h1>
-        {/* {users.length && users.map((user: User) => (
-          <p key={user.id}>{user.name}</p>
-        ))} */}
+        Header
       </header>
 
       <main className="App__Container">

@@ -24,7 +24,7 @@ export type UserJsonplaceholder = {
 
 type Position = 'Security' | 'Designer' | 'Content manager' | 'Lawyer';
 
-export type User = {
+export type UserType = {
   id: number,
   name: string,
   email: string,

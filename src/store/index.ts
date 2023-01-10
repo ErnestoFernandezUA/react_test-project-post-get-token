@@ -16,12 +16,12 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-// eslint-disable-next-line import/no-cycle
 import postsReducer from '../features/Posts/postsSlice';
-// eslint-disable-next-line import/no-cycle
 import tokenReducer from '../features/Posts/postsSlice';
+import usersSlice from '../features/Users/usersSlice';
 
 const rootReducer = combineReducers({
+  users: usersSlice,
   posts: postsReducer,
   token: tokenReducer,
 });

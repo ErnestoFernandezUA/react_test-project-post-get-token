@@ -7,44 +7,94 @@ import {
 import {
   RootState,
 } from '../../store/index';
-import { User } from '../../type/User';
+import { UserType } from '../../type/User';
 
-export interface PostsState {
-  storage: User[];
+export interface UsersState {
+  storage: UserType[];
+  payload: UserType[];
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
+
+  next_url: string | null;
+  page: number | null;
+  total_pages: number | null;
 }
 
-const initialState: PostsState = {
+const initialState: UsersState = {
   storage: [],
+  payload: [],
   statusLoading: 'idle',
   error: null,
+
+  next_url: null,
+  page: null,
+  total_pages: null,
 };
 
 type GetUsersParams = {
+  link_to_next_page?: string;
   page: number;
   count: number;
+  delay?: number;
+}
+
+type GetUsersResponse = {
+  count: number;
+  links: {
+    next_url: string | null;
+    prev_url: string | null;
+  },
+  page: number;
+  success: boolean;
+  total_pages: number;
+  total_users: number;
+  users: UserType[];
 }
 
 export const getUsersAsync = createAsyncThunk(
   'users/fetchUsers',
   async ({
+    link_to_next_page,
     page,
     count,
+    delay = 3000,
   }:GetUsersParams) => {
-    const response = await fetch(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
-      .then(function(response) {
-        return response.json(); 
-      })
-      .then(function(data) {
-        console.log(data);
+    // const response = await fetch(
+    //   link_to_next_page
+    //   ? link_to_next_page 
+    //   : `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
+    //   .then(function(response) {
+    //     return response.json(); 
+    //   })
+    //   .then(function(data) {
+    //     console.log('response', data);
 
-        if(data.success) { 
-          // process success response 
-        } else { 
-          // proccess server errors 
-        } 
-      });
+    //     if(data.success) { 
+    //       // process success response 
+    //       return data;
+    //     } else { 
+    //       // proccess server errors 
+    //     } 
+    //   });
+
+    const response = new Promise(resolve => setTimeout(resolve, delay))
+      .then(() => fetch(
+        link_to_next_page
+        ? link_to_next_page 
+        : `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
+        .then(function(response) {
+          return response.json(); 
+        })
+        .then(function(data) {
+          console.log('response', data);
+  
+          if(data.success) { 
+            // process success response 
+            return data;
+          } else { 
+            // proccess server errors 
+          } 
+        }))
 
     console.log('getUsersAsync', response);
 
@@ -53,38 +103,46 @@ export const getUsersAsync = createAsyncThunk(
 );
 
 const usersSlice = createSlice({
-  name: 'post',
+  name: 'user',
   initialState,
   reducers: {
-    addPosts: (state: PostsState, action: PayloadAction<User[]>) => {
+    addUser: (state: UsersState, action: PayloadAction<UserType[]>) => {
       state.storage.push(...action.payload);
     },
+    addPayload: (state: UsersState) => {
+      state.storage.push(...state.payload);
+      state.payload.length = 0;
+    },
     setStatus: (
-      state: PostsState,
+      state: UsersState,
       action: PayloadAction<'idle' | 'loading' | 'failed'>,
     ) => {
       state.statusLoading = action.payload;
     },
     setError: (
-      state: PostsState,
+      state: UsersState,
       action: PayloadAction<unknown>,
     ) => {
       state.error = action.payload;
       state.statusLoading = 'failed';
     },
-    resetState: (state: PostsState) => {
+    resetState: (state: UsersState) => {
       state = initialState;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(getUsersAsync.pending, (
-        state: PostsState,
+        state: UsersState,
       ) => {
         state.statusLoading = 'loading';
       })
       .addCase(getUsersAsync.fulfilled, (state, action) => {
-        // state.storage.push(...action.payload);
+        const {
+          users,
+        } = action.payload as GetUsersResponse;
+
+        state.payload.push(...users);
         state.statusLoading = 'idle';
       })
       .addCase(getUsersAsync.rejected, (state) => {
@@ -95,12 +153,14 @@ const usersSlice = createSlice({
 
 export default usersSlice.reducer;
 export const {
-  addPosts,
+  addUser,
+  addPayload,
   setStatus,
   setError,
   resetState,
 } = usersSlice.actions;
 
-export const selectPosts = (state: RootState) => state.posts.storage;
-export const selectPostStatusLoading = (state: RootState) => state.posts.statusLoading;
-export const selectPostError = (state: RootState) => state.posts.error;
+export const selectUsers = (state: RootState) => state.users.storage;
+export const selectPayloadUsers = (state: RootState) => state.users.payload;
+export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
+export const selectUsersError = (state: RootState) => state.users.error;
