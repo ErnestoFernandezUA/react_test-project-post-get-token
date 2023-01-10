@@ -1,5 +1,5 @@
 import { client } from '../utils/axiosClient';
-import { User } from '../type/User';
+import { UserJsonplaceholder } from '../type/User';
 
-export const getAllUsers = () => client.get<User[]>(`/users`);
-export const getUserById = (userId: number) => client.get<User[]>(`/users/${userId}`);
+export const getAllUsers = () => client.get<UserJsonplaceholder[]>(`/users`);
+export const getUserById = (userId: number) => client.get<UserJsonplaceholder[]>(`/users/${userId}`);

@@ -1,15 +1,15 @@
 import { FunctionComponent } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { resetState, selectPosts } from "../../features/Posts/postsSlice";
+import { selectPosts } from "../../features/Posts/postsSlice";
 import './PostPage.scss';
 
 export const PostPage: FunctionComponent = () => {
   let { id } = useParams();
   console.log(id);
   const posts = useAppSelector(selectPosts);
-  const dispatch = useAppDispatch();
-  dispatch(resetState());
+  // const dispatch = useAppDispatch();
+  // dispatch(resetToken());
 
   const post = posts.find(post => String(post.id) === String(id));
   console.log(posts);
@@ -28,9 +28,11 @@ export const PostPage: FunctionComponent = () => {
         Back
       </Link>
 
+      <h2>PostPage</h2>
+
       {post ? (
         <div>
-          <h1>PostPage: {post.title}</h1>
+          <h2>{post.title}</h2>
           <p>{post.body}</p>
         </div>
       ) : (

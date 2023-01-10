@@ -1,4 +1,4 @@
-export type User = {
+export type UserJsonplaceholder = {
   id: string,
   name: string,
   username: string,
@@ -20,4 +20,17 @@ export type User = {
     catchPhrase: string,
     bs: string,
   }
+}
+
+type Position = 'Security' | 'Designer' | 'Content manager' | 'Lawyer';
+
+export type User = {
+  id: number,
+  name: string,
+  email: string,
+  phone: string,
+  position: Position,
+  position_id: number,
+  registration_timestamp: number,
+  photo: string,
 }

@@ -18,9 +18,12 @@ import storage from 'redux-persist/lib/storage';
 
 // eslint-disable-next-line import/no-cycle
 import postsReducer from '../features/Posts/postsSlice';
+// eslint-disable-next-line import/no-cycle
+import tokenReducer from '../features/Posts/postsSlice';
 
 const rootReducer = combineReducers({
   posts: postsReducer,
+  token: tokenReducer,
 });
 
 const persistConfig = {
