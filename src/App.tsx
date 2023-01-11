@@ -8,6 +8,8 @@ import { HomePage } from './pages/HomePage/HomePage';
 import { PostPage } from './pages/PostPage/PostPage';
 import { getTokenAsync, setToken } from './features/Token/tokenSlice';
 import { getUsersAsync } from './features/Users/usersSlice';
+import { Container } from './components/Container';
+import { Wrapper } from './components/Wrapper';
 
 export async function rootLoader() {
   if (!localStorage.getItem('token')) {
@@ -74,13 +76,17 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App__Header">
-        Header
-      </header>
+      <Container>
+        <Wrapper>
+          <header>
+            Header
+          </header>
+        </Wrapper>
 
-      <main className="App__Container">
-        <Outlet/>     
-      </main>
+        <Wrapper>
+          <Outlet/>     
+        </Wrapper>
+      </Container>
     </div>
   );
 }

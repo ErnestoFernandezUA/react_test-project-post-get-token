@@ -18,6 +18,7 @@ export interface UsersState {
   next_url: string | null;
   page: number | null;
   total_pages: number | null;
+  positions: string[];
 }
 
 const initialState: UsersState = {
@@ -29,26 +30,40 @@ const initialState: UsersState = {
   next_url: null,
   page: null,
   total_pages: null,
+  positions: []
 };
 
 type GetUsersParams = {
-  link_to_next_page?: string;
-  page: number;
-  count: number;
+  link_to_next_page?: string | null;
+  page?: number;
+  count?: number;
   delay?: number;
 }
 
 type GetUsersResponse = {
-  count: number;
+  count: number | null;
   links: {
     next_url: string | null;
     prev_url: string | null;
   },
-  page: number;
+  page: number | null;
   success: boolean;
-  total_pages: number;
-  total_users: number;
+  total_pages: number | null;
+  total_users: number | null;
   users: UserType[];
+}
+
+type PostUserResponse = {
+  success: boolean;
+  user_id: number;
+  message: string;
+  fails?: {
+    name: string[],
+    email: string[],
+    phone: string[],
+    position_id: string[],
+    photo: string[],
+  } 
 }
 
 export const getUsersAsync = createAsyncThunk(
@@ -59,6 +74,25 @@ export const getUsersAsync = createAsyncThunk(
     count,
     delay = 3000,
   }:GetUsersParams) => {
+    if (!link_to_next_page
+      && page === undefined
+      && count === undefined) {
+      console.log('no params in getUsersAsync');
+
+      return {
+        count: null,
+        links: {
+          next_url: null,
+          prev_url: null,
+        },
+        page: null,
+        success: true,
+        total_pages: null,
+        total_users: null,
+        users: [],
+      };
+    }
+
     // const response = await fetch(
     //   link_to_next_page
     //   ? link_to_next_page 
@@ -102,6 +136,63 @@ export const getUsersAsync = createAsyncThunk(
   },
 );
 
+export const postUserAsync = createAsyncThunk(
+  'users/postUser',
+  async ({
+    user,
+    delay = 1000,
+  }: any) => {
+    console.log('postUserAsync');
+    const token = localStorage.getItem('token') || '';
+
+    const response = new Promise(resolve => setTimeout(resolve, delay))
+      .then(() => fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
+        {
+          method: 'POST', 
+          body: JSON.stringify(user), 
+          headers: { 
+            'Token': token, 
+          }, 
+        }
+      ) 
+      .then(function(response) { 
+        return response.json(); 
+      })
+      .then(function(data) { 
+        console.log(data); 
+        
+        if(data.success) { 
+        // process success response 
+        } else { 
+        // proccess server errors 
+      } }) 
+      .catch(function(error) { 
+        // proccess network errors 
+      }));
+
+    console.log('postUserAsync', response);
+
+    return response;
+  },
+);
+
+export const getPositionsAsync = createAsyncThunk(
+  'users/getPositions',
+  async () => {
+    const response = fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
+    .then(function(response) { 
+      return response.json(); 
+    }) 
+    .then(function(data) { 
+      console.log(data); 
+      // process success response 
+    })
+
+    return response;
+  }
+);
+
+
 const usersSlice = createSlice({
   name: 'user',
   initialState,
@@ -140,14 +231,35 @@ const usersSlice = createSlice({
       .addCase(getUsersAsync.fulfilled, (state, action) => {
         const {
           users,
+          links: { next_url },
+          total_pages,
+          page,
         } = action.payload as GetUsersResponse;
 
         state.payload.push(...users);
         state.statusLoading = 'idle';
+        state.next_url = next_url;
+        state.total_pages = total_pages;
+        state.page = page;
       })
       .addCase(getUsersAsync.rejected, (state) => {
         state.statusLoading = 'failed';
-      });
+      })
+      .addCase(postUserAsync.pending, (
+        state: UsersState,
+      ) => {
+        state.statusLoading = 'loading';
+      })
+      .addCase(postUserAsync.fulfilled, (state, action) => {
+        state.statusLoading = 'idle';
+
+        console.log(action.payload);
+        // state.storage.push(action.payload);
+      })
+      .addCase(postUserAsync.rejected, (state) => {
+        state.statusLoading = 'failed';
+      })
+
   },
 });
 
@@ -164,3 +276,5 @@ export const selectUsers = (state: RootState) => state.users.storage;
 export const selectPayloadUsers = (state: RootState) => state.users.payload;
 export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
 export const selectUsersError = (state: RootState) => state.users.error;
+export const selectLinkToNext = (state: RootState) => state.users.next_url;
+export const selectIsLastPage = (state: RootState) => state.users.page === state.users.total_pages;
