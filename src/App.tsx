@@ -61,10 +61,8 @@ export const router = createHashRouter([
 // localStorage.clear();
 
 function App() {
-  // const users = useLoaderData() as User[];
   const posts = useAppSelector(selectPosts);
   const dispatch = useAppDispatch();
-  // dispatch(setToken(data.token));
   useEffect(() => {
     if (posts.length === 0) {
       dispatch(getPostsAsync());

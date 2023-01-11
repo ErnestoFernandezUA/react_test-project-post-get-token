@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FunctionComponent, useEffect } from "react";
 import { FormComponent } from "../../components/Form";
 import { List } from "../../components/List";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UserType } from "../../type/User";
  
 export const HomePage: FunctionComponent = () => {
+  const divRef = useRef<any>(null);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const payloadUsers = useAppSelector(selectPayloadUsers);
@@ -17,12 +18,16 @@ export const HomePage: FunctionComponent = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (!payloadUsers.length) {
+      if (payloadUsers.length > 0) {
 
         console.log('setTimeout dispatch(addPayload)');
         dispatch(addPayload());
       }
-    }, 5000)
+    }, 50)
+
+    if (divRef.current !== null) {
+      divRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [users.length, payloadUsers, dispatch])
 
   return (
@@ -51,7 +56,7 @@ export const HomePage: FunctionComponent = () => {
           Show More
         </button>
       }
-
+      <div ref={divRef}></div>
       <FormComponent />
     </div>
   );
