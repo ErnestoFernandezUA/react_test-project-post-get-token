@@ -16,20 +16,18 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import postsReducer from '../features/Posts/postsSlice';
-import tokenReducer from '../features/Posts/postsSlice';
-import usersSlice from '../features/Users/usersSlice';
+import tokenReducer from './features/Token/tokenSlice';
+import usersSlice from './features/Users/usersSlice';
 
 const rootReducer = combineReducers({
   users: usersSlice,
-  posts: postsReducer,
   token: tokenReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['posts'],
+  whitelist: ['token'],
   // blacklist: ['posts'],
 };
 

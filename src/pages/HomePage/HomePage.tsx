@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect } from "react";
 import { FormComponent } from "../../components/Form";
 import { List } from "../../components/List";
 import { Card } from "../../components/Card";
-import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersStatusLoading } from "../../features/Users/usersSlice";
+import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UserType } from "../../type/User";
  

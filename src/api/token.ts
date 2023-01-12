@@ -1,4 +1,4 @@
-import { client } from '../utils/axiosClientABZ';
+import { client } from '../utils/axiosClient';
 
 export type TokenResponse = {
   success: boolean,

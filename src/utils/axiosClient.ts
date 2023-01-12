@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'https://jsonplaceholder.typicode.com';
+const baseURL = 'https://frontend-test-assignment-api.abz.agency/api/v1';
 
 const instance = axios.create({
   baseURL,
@@ -15,7 +15,7 @@ export const client = {
 
     // eslint-disable-next-line no-console
     console.log('get', baseURL + url);
-
+    
     return response.data;
   },
 
