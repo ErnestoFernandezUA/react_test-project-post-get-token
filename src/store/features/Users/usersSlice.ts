@@ -79,7 +79,7 @@ export const getUsersAsync = createAsyncThunk(
     if (!link_to_next_page
       && page === undefined
       && count === undefined) {
-      console.log('no params in getUsersAsync');
+      // console.log('no params in getUsersAsync');
 
       return {
         count: null,
@@ -105,7 +105,7 @@ export const getUsersAsync = createAsyncThunk(
             return response.json(); 
           })
           .then(function(data) {
-            console.log('response', data);
+            // console.log('response', data);
     
             if(data.success) { 
               // process success response 
@@ -115,11 +115,11 @@ export const getUsersAsync = createAsyncThunk(
             } 
           }))
   
-      console.log('getUsersAsync', response);
+      // console.log('getUsersAsync', response);
   
       return response;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
 
       rejectWithValue(error);
     }
@@ -135,10 +135,10 @@ export const postUserAsync = createAsyncThunk(
     user,
     delay = 1000,
   }: any) => {
-    console.log('postUserAsync');
+    // console.log('postUserAsync');
     const token = localStorage.getItem('token') || '';
 
-    console.log('user', user);
+    // console.log('user', user);
 
     var formData = new FormData(); 
   // file from input type='file' 
@@ -163,13 +163,13 @@ export const postUserAsync = createAsyncThunk(
         return response.json(); 
       })
       .then(function(data) { 
-        console.log('data', data); 
+        // console.log('data', data); 
         
         if(data.success) { 
         // process success response 
         } else { 
           if (data.message === 'Invalid token. Try to get a new one by the method GET api/v1/token.') {
-            console.log('message:', data.message);
+            // console.log('message:', data.message);
 
             const token = rootLoader()
               .then((data) => localStorage.setItem('token', data = ''))
@@ -181,10 +181,10 @@ export const postUserAsync = createAsyncThunk(
       } }) 
       .catch(function(error) { 
         // proccess network errors 
-        console.log('error post', error);
+        // console.log('error post', error);
       }));
 
-    console.log('postUserAsync', response);
+    // console.log('postUserAsync', response);
 
     return response;
   },
@@ -198,7 +198,7 @@ export const getPositionsAsync = createAsyncThunk(
       return response.json(); 
     }) 
     .then(function(data) { 
-      console.log(data); 
+      // console.log(data); 
       // process success response 
     })
 
@@ -266,13 +266,13 @@ const usersSlice = createSlice({
       .addCase(postUserAsync.fulfilled, (state, action) => {  
         state.statusLoading = 'idle';
 
-        console.log('postUserAsync action.payload', action.payload);
+        // console.log('postUserAsync action.payload', action.payload);
         // state.storage.push(action.payload);
       })
       .addCase(postUserAsync.rejected, (state) => {
         state.statusLoading = 'failed';
 
-        console.log('postUserAsync.rejected');
+        // console.log('postUserAsync.rejected');
 
 
       })

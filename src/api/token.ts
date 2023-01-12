@@ -6,5 +6,3 @@ export type TokenResponse = {
 }
 
 export const getToken = () => client.get<TokenResponse>(`/token`);
-
-

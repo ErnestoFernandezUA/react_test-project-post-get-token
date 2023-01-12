@@ -20,7 +20,7 @@ export const HomePage: FunctionComponent = () => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
 
-        console.log('setTimeout dispatch(addPayload)');
+        // console.log('setTimeout dispatch(addPayload)');
         dispatch(addPayload());
       }
     }, 50)

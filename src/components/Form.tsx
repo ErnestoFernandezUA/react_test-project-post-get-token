@@ -21,7 +21,7 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
         return response.json(); 
       }) 
       .then(function(data) { 
-        console.log(data.positions); 
+        // console.log(data.positions); 
         // process success response 
         setPositions(data.positions);
       })
@@ -50,7 +50,7 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
     fetchPositions()
   }, [dispatch]);
 
-  console.log(positions);
+  // console.log(positions);
 
   const postHandler = () => {
     // var formData = new FormData();

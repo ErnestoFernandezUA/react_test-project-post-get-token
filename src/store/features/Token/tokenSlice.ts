@@ -14,6 +14,7 @@ export interface TokenState {
   storage: string | null;
   requestId: string | null;
   timeRefresh: string | null;
+  
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
@@ -31,18 +32,19 @@ export const getTokenAsync = createAsyncThunk(
   async (_, { rejectWithValue, getState, requestId }) => {
     const state = getState() as RootState;
 
+    console.log('requestId = ', state.token.requestId, requestId);
+    
     if (requestId === state.token.requestId) {
-
+      console.log('getTokenAsync');
+      const response: TokenResponse = await getToken();
+  
+      console.log('getTokenAsync response', response);
+  
+      return response;
     } else {
       // nothing to do 
     }
 
-    console.log('getTokenAsync');
-    const response: TokenResponse = await getToken();
-
-    console.log('getTokenAsync response', response);
-
-    return response;
   },
 );
 
@@ -75,15 +77,26 @@ const tokenSlice = createSlice({
       .addCase(getTokenAsync.pending, (
         state: TokenState,
         { meta: { requestId },
-            
       }
       ) => {
+        console.log('getTokenAsync.pending', requestId);
         state.statusLoading = 'loading';
-        state.requestId = requestId;
+
+        if (!state.requestId) {
+          state.requestId = requestId;
+        }
       })
-      .addCase(getTokenAsync.fulfilled, (state, action: PayloadAction<TokenResponse>) => {
-        state.storage = action.payload.token;
+      .addCase(getTokenAsync.fulfilled, (state, action: PayloadAction<TokenResponse | undefined>) => {
+        if (action.payload) {
+          state.storage = action.payload.token;
+        }
+
         state.statusLoading = 'idle';
+        // state.requestId = null;
+
+        const timeRefresh = new Date()
+        console.log(timeRefresh);
+        
       })
       .addCase(getTokenAsync.rejected, (state) => {
         state.statusLoading = 'failed';
