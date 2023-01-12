@@ -4,10 +4,12 @@ import { useAppDispatch, useAppSelector } from './store/hooks';
 import './App.scss';
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage/HomePage';
-import { getTokenAsync, setToken } from './store/features/Token/tokenSlice';
+import { getTokenAsync, selectIsTokenExpired, setToken } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
 import { Container } from './components/Container';
 import { Wrapper } from './components/Wrapper';
+
+localStorage.clear()
 
 export const router = createHashRouter([
   {
@@ -30,6 +32,9 @@ export const router = createHashRouter([
 
 function App() {
   const dispatch = useAppDispatch();
+
+  console.log('App/ token is expired? ', useAppSelector(selectIsTokenExpired));
+
   useEffect(() => {
     dispatch(getTokenAsync())
 

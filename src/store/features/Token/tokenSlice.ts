@@ -9,12 +9,15 @@ import {
   RootState,
 } from '../..';
 import { useAppDispatch } from '../../hooks';
+import { isTokenExpired } from './isTokenExpired';
+
+const DURATION_TOKEN_ACTIVE = 40; // min
 
 export interface TokenState {
   storage: string | null;
   requestId: string | null;
-  timeRefresh: string | null;
-  
+  setAt: number | null;
+  // isExpired: (value: Date, state: TokenState) => boolean; 
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
@@ -22,23 +25,34 @@ export interface TokenState {
 const initialState: TokenState = {
   storage: null,
   requestId: null,
-  timeRefresh: null,
+  setAt: null,
+  // isExpired: (value = new Date(), state: TokenState) => {
+  //   if (!state.timeRefresh) {
+  //     return Number(value) - Number(state.timeRefresh) + 40000 > 0;
+  //   }
+
+  //   return true;
+  // },
   statusLoading: 'idle',
   error: null,
 };
 
 export const getTokenAsync = createAsyncThunk(
   'token/fetchToken',
-  async (_, { rejectWithValue, getState, requestId }) => {
+  async (_, { rejectWithValue, getState, requestId, dispatch }) => {
+    console.log('getTokenAsync/');
     const state = getState() as RootState;
 
-    console.log('requestId = ', state.token.requestId, requestId);
-    
+    console.log('getTokenAsync/ requestId = ', state.token.requestId, requestId);
+    const currentTime = Date.now();
+
+
+
+
     if (requestId === state.token.requestId) {
-      console.log('getTokenAsync');
       const response: TokenResponse = await getToken();
   
-      console.log('getTokenAsync response', response);
+      console.log('getTokenAsync/ response', response);
   
       return response;
     } else {
@@ -79,7 +93,7 @@ const tokenSlice = createSlice({
         { meta: { requestId },
       }
       ) => {
-        console.log('getTokenAsync.pending', requestId);
+        console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
 
         if (!state.requestId) {
@@ -92,10 +106,8 @@ const tokenSlice = createSlice({
         }
 
         state.statusLoading = 'idle';
-        // state.requestId = null;
-
-        const timeRefresh = new Date()
-        console.log(timeRefresh);
+        state.requestId = null;
+        state.setAt = Date.now()
         
       })
       .addCase(getTokenAsync.rejected, (state) => {
@@ -115,3 +127,4 @@ export const {
 export const selectToken = (state: RootState) => state.token.storage;
 export const selectTokenStatusLoading = (state: RootState) => state.token.statusLoading;
 export const selectTokenError = (state: RootState) => state.token.error;
+export const selectIsTokenExpired = (state: RootState) => isTokenExpired(state, DURATION_TOKEN_ACTIVE);
