@@ -9,7 +9,7 @@ import {
   RootState,
 } from '../..';
 import { useAppDispatch } from '../../hooks';
-import { isTokenExpired } from './isTokenExpired';
+import { isTokenActive } from './isTokenActive';
 
 const DURATION_TOKEN_ACTIVE = 40; // min
 
@@ -43,13 +43,12 @@ export const getTokenAsync = createAsyncThunk(
     console.log('getTokenAsync/');
     const state = getState() as RootState;
 
-    console.log('getTokenAsync/ requestId = ', state.token.requestId, requestId);
-    const currentTime = Date.now();
+    // console.log('getTokenAsync/ requestId = ', state.token.requestId, requestId);
 
+    const isActive = isTokenActive(state.token.setAt, DURATION_TOKEN_ACTIVE);
+    // console.log('getTokenAsync/ isTokenActive: ', isActive);
 
-
-
-    if (requestId === state.token.requestId) {
+    if (requestId === state.token.requestId && !isActive) {
       const response: TokenResponse = await getToken();
   
       console.log('getTokenAsync/ response', response);
@@ -57,8 +56,8 @@ export const getTokenAsync = createAsyncThunk(
       return response;
     } else {
       // nothing to do 
+      console.log('getTokenAsync/ token is active and it shouldnt reload');
     }
-
   },
 );
 
@@ -127,4 +126,4 @@ export const {
 export const selectToken = (state: RootState) => state.token.storage;
 export const selectTokenStatusLoading = (state: RootState) => state.token.statusLoading;
 export const selectTokenError = (state: RootState) => state.token.error;
-export const selectIsTokenExpired = (state: RootState) => isTokenExpired(state, DURATION_TOKEN_ACTIVE);
+export const selectIsTokenExpired = (state: RootState) => isTokenActive(state.token.setAt, DURATION_TOKEN_ACTIVE);

@@ -9,7 +9,7 @@ import { getUsersAsync } from './store/features/Users/usersSlice';
 import { Container } from './components/Container';
 import { Wrapper } from './components/Wrapper';
 
-localStorage.clear()
+// localStorage.clear();
 
 export const router = createHashRouter([
   {
@@ -28,12 +28,10 @@ export const router = createHashRouter([
   },
 ]);
 
-// localStorage.clear();
-
 function App() {
   const dispatch = useAppDispatch();
 
-  console.log('App/ token is expired? ', useAppSelector(selectIsTokenExpired));
+  console.log('App/ is token active? ', useAppSelector(selectIsTokenExpired));
 
   useEffect(() => {
     dispatch(getTokenAsync())
