@@ -10,7 +10,7 @@ import {
 } from '../..';
 import { isTokenActive } from './isTokenActive';
 
-const DURATION_TOKEN_ACTIVE = 40; // min
+const TOKEN_ACTIVE_DURATION = 40; // min
 
 export interface TokenState {
   storage: string | null;
@@ -31,23 +31,23 @@ const initialState: TokenState = {
 export const getTokenAsync = createAsyncThunk(
   'token/fetchToken',
   async (_, { rejectWithValue, getState, requestId, dispatch }) => {
-    console.log('getTokenAsync/');
+    // console.log('getTokenAsync/');
     const state = getState() as RootState;
 
     // console.log('getTokenAsync/ requestId = ', state.token.requestId, requestId);
 
-    const isActive = isTokenActive(state.token.setAt, DURATION_TOKEN_ACTIVE);
+    const isActive = isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);
     // console.log('getTokenAsync/ isTokenActive: ', isActive);
 
     if (requestId === state.token.currentRequestId && !isActive) {
       const response: TokenResponse = await getToken();
   
-      console.log('getTokenAsync/ response', response);
+      // console.log('getTokenAsync/ response', response);
   
       return response;
     } else {
       // nothing to do 
-      console.log('getTokenAsync/ token is active and it shouldnt reload');
+      // console.log('getTokenAsync/ token is active and it shouldnt reload');
     }
   },
 );
@@ -83,7 +83,7 @@ const tokenSlice = createSlice({
         { meta: { requestId },
       }
       ) => {
-        console.log('getTokenAsync.pending/', requestId);
+        // console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
 
         if (!state.currentRequestId) {
@@ -116,4 +116,4 @@ export const {
 export const selectToken = (state: RootState) => state.token.storage;
 export const selectTokenStatusLoading = (state: RootState) => state.token.statusLoading;
 export const selectTokenError = (state: RootState) => state.token.error;
-export const selectIsTokenExpired = (state: RootState) => isTokenActive(state.token.setAt, DURATION_TOKEN_ACTIVE);
+export const selectIsTokenExpired = (state: RootState) => isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);

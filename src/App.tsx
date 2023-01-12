@@ -31,8 +31,6 @@ export const router = createHashRouter([
 function App() {
   const dispatch = useAppDispatch();
 
-  console.log('App/ is token active? ', useAppSelector(selectIsTokenExpired));
-
   useEffect(() => {
     dispatch(getTokenAsync())
 
@@ -52,7 +50,7 @@ function App() {
         </Wrapper>
 
         <Wrapper>
-          <Outlet/>     
+          <Outlet/>
         </Wrapper>
       </Container>
     </div>
