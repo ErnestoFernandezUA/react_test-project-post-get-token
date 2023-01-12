@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from './store/hooks';
 import './App.scss';
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage/HomePage';
-import { getTokenAsync, selectIsTokenExpired, setToken } from './store/features/Token/tokenSlice';
+import { getTokenAsync } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
 import { Container } from './components/Container';
 import { Wrapper } from './components/Wrapper';
@@ -33,15 +33,11 @@ function App() {
 
   useEffect(() => {
     dispatch(getTokenAsync())
-
-    dispatch(getUsersAsync({ page: 1,count: 6}));
-
+    dispatch(getUsersAsync({ page: 1, count: 6 }));
   }, [dispatch])
 
   return (
     <div className="App">
-      <button onClick={() => dispatch(getTokenAsync())}>get token</button>
-
       <Container>
         <Wrapper>
           <header>

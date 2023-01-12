@@ -9,6 +9,9 @@ import {
   RootState,
 } from '../../index';
 import { UserType } from '../../../type/User';
+import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
+
+const DELAY_OF_WAITING = 3000;
 
 export interface UsersState {
   storage: UserType[];
@@ -16,7 +19,7 @@ export interface UsersState {
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 
-  next_url: string | null;
+  link_to_next_page: string | null;
   page: number | null;
   total_pages: number | null;
   positions: string[];
@@ -28,81 +31,36 @@ const initialState: UsersState = {
   statusLoading: 'idle',
   error: null,
 
-  next_url: null,
+  link_to_next_page: null,
   page: null,
   total_pages: null,
   positions: []
 };
 
-type GetUsersParams = {
-  link_to_next_page?: string | null;
-  page?: number;
-  count?: number;
-  delay?: number;
-}
-
-type GetUsersResponse = {
-  count: number | null;
-  links: {
-    next_url: string | null;
-    prev_url: string | null;
-  },
-  page: number | null;
-  success: boolean;
-  total_pages: number | null;
-  total_users: number | null;
-  users: UserType[];
-}
-
-type PostUserResponse = {
-  success: boolean;
-  user_id: number;
-  message: string;
-  fails?: {
-    name: string[],
-    email: string[],
-    phone: string[],
-    position_id: string[],
-    photo: string[],
-  } 
-}
-
 export const getUsersAsync = createAsyncThunk(
   'users/fetchUsers',
   async ({
-    link_to_next_page,
-    page,
-    count,
-    delay = 3000,
+    link_to_next_page = null,
+    page = 1,
+    count = 6,
+    delay = DELAY_OF_WAITING,
   }:GetUsersParams,
   { rejectWithValue }) => {
-    if (!link_to_next_page
-      && page === undefined
-      && count === undefined) {
-      // console.log('no params in getUsersAsync');
-
-      return {
-        count: null,
-        links: {
-          next_url: null,
-          prev_url: null,
-        },
-        page: null,
-        success: true,
-        total_pages: null,
-        total_users: null,
-        users: [],
-      };
-    }
-
+  console.log('getUsersAsync/');
     try {
+
+      // const response = await getUsersPage(page, count, link_to_next_page)
       const response = new Promise(resolve => setTimeout(resolve, delay))
-        .then(() => fetch(
-          link_to_next_page
-          ? link_to_next_page 
-          : `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
+        .then(() => 
+        // fetch(
+        //   link_to_next_page
+        //   ? link_to_next_page 
+        //   : `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
+          getUsersPage(link_to_next_page, page, count)
           .then(function(response) {
-            return response.json(); 
+            console.log('getUsersAsync/ response', response);
+
+            return response; 
           })
           .then(function(data) {
             // console.log('response', data);
@@ -127,7 +85,6 @@ export const getUsersAsync = createAsyncThunk(
 );
 
 // reqex validation
-
 
 export const postUserAsync = createAsyncThunk(
   'users/postUser',
@@ -241,19 +198,25 @@ const usersSlice = createSlice({
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(getUsersAsync.fulfilled, (state, action) => {
-        const {
-          users,
-          links: { next_url },
-          total_pages,
-          page,
-        } = action.payload as GetUsersResponse;
-
-        state.payload.push(...users);
-        state.statusLoading = 'idle';
-        state.next_url = next_url;
-        state.total_pages = total_pages;
-        state.page = page;
+      .addCase(getUsersAsync.fulfilled,
+        (state, 
+        action:PayloadAction<GetUsersResponse | undefined,
+        string, {arg: GetUsersParams; requestId: string; requestStatus: "fulfilled";}, never>
+    ) => {
+        if (action.payload) {
+          const {
+            users,
+            links: { next_url },
+            total_pages,
+            page,
+          } = action.payload;
+  
+          state.payload.push(...users);
+          state.statusLoading = 'idle';
+          state.link_to_next_page = next_url;
+          state.total_pages = total_pages;
+          state.page = page;
+        }
       })
       .addCase(getUsersAsync.rejected, (state) => {
         state.statusLoading = 'failed';
@@ -293,5 +256,5 @@ export const selectUsers = (state: RootState) => state.users.storage;
 export const selectPayloadUsers = (state: RootState) => state.users.payload;
 export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
 export const selectUsersError = (state: RootState) => state.users.error;
-export const selectLinkToNext = (state: RootState) => state.users.next_url;
+export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
 export const selectIsLastPage = (state: RootState) => state.users.page === state.users.total_pages;

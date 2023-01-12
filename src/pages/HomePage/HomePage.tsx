@@ -51,7 +51,7 @@ export const HomePage: FunctionComponent = () => {
       {!isLastPage && 
         <button 
           onClick={() => 
-            dispatch(getUsersAsync({ link_to_next_page }))}
+            dispatch(getUsersAsync({link_to_next_page}))}
         >
           Show More
         </button>
