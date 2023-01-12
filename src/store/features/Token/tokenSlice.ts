@@ -8,31 +8,22 @@ import { getToken, TokenResponse } from '../../../api/token';
 import {
   RootState,
 } from '../..';
-import { useAppDispatch } from '../../hooks';
 import { isTokenActive } from './isTokenActive';
 
 const DURATION_TOKEN_ACTIVE = 40; // min
 
 export interface TokenState {
   storage: string | null;
-  requestId: string | null;
+  currentRequestId: string | null;
   setAt: number | null;
-  // isExpired: (value: Date, state: TokenState) => boolean; 
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
 
 const initialState: TokenState = {
   storage: null,
-  requestId: null,
+  currentRequestId: null,
   setAt: null,
-  // isExpired: (value = new Date(), state: TokenState) => {
-  //   if (!state.timeRefresh) {
-  //     return Number(value) - Number(state.timeRefresh) + 40000 > 0;
-  //   }
-
-  //   return true;
-  // },
   statusLoading: 'idle',
   error: null,
 };
@@ -48,7 +39,7 @@ export const getTokenAsync = createAsyncThunk(
     const isActive = isTokenActive(state.token.setAt, DURATION_TOKEN_ACTIVE);
     // console.log('getTokenAsync/ isTokenActive: ', isActive);
 
-    if (requestId === state.token.requestId && !isActive) {
+    if (requestId === state.token.currentRequestId && !isActive) {
       const response: TokenResponse = await getToken();
   
       console.log('getTokenAsync/ response', response);
@@ -95,19 +86,18 @@ const tokenSlice = createSlice({
         console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
 
-        if (!state.requestId) {
-          state.requestId = requestId;
+        if (!state.currentRequestId) {
+          state.currentRequestId = requestId;
         }
       })
       .addCase(getTokenAsync.fulfilled, (state, action: PayloadAction<TokenResponse | undefined>) => {
         if (action.payload) {
           state.storage = action.payload.token;
+          state.setAt = Date.now();
         }
 
         state.statusLoading = 'idle';
-        state.requestId = null;
-        state.setAt = Date.now()
-        
+        state.currentRequestId = null;
       })
       .addCase(getTokenAsync.rejected, (state) => {
         state.statusLoading = 'failed';
