@@ -26,24 +26,6 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
         setPositions(data.positions);
       })
 
-      // var formData = new FormData(); 
-      // // file from input type='file' 
-      // var fileField = document.querySelector('input[type="file"]'); formData.append('position_id', 2); 
-      // formData.append('name', 'Jhon'); 
-      // formData.append('email', 'Jhon@gmail.com'); 
-      // formData.append('phone', '+380955388485'); 
-      // formData.append('photo', fileField.files[0]);
-      // fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
-      // { method: 'POST', 
-      // body: formData, 
-      // headers: { 
-      //   'Token': token, 
-      //   // get token with GET api/v1/token method 
-      // }, 
-      // }) 
-      // .then(function(response) { return response.json(); }) .then(function(data) { console.log(data); if(data.success) { // process success response } else { // proccess server errors } }) .catch(function(error) { // proccess network errors });
-
-  
       return response;
     }
     
@@ -51,6 +33,8 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
   }, [dispatch]);
 
   // console.log(positions);
+
+  const onChange = (e: any) => {}
 
   const postHandler = () => {
     // var formData = new FormData();
@@ -64,8 +48,8 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
     // formData.append('photo', fileField.files[0]);
     dispatch(postUserAsync({
       user: {
-        name: 'lebovsky',
-        email: 'senior@frontend.dev',
+        name: 'pep',
+        email: 'd@d.dev',
         phone: '+3808888888',
         photo: undefined,
         id: 1,
@@ -76,6 +60,14 @@ export const FormComponent: FunctionComponent<FormComponentProps> = () => {
   return (
     <>
       {/* <input type="text" /> */}
+      <label htmlFor="name">
+        <input
+          id="name"
+          type="text" 
+          onChange={(e: any) => onChange(e.target.value)}  
+        />
+      </label>
+
       <button
         onClick={() => postHandler()}
       >

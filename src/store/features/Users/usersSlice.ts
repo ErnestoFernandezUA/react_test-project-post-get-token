@@ -20,7 +20,7 @@ export interface UsersState {
   error: unknown;
 
   link_to_next_page: string | null;
-  page: number | null;
+  current_page: number | null;
   total_pages: number | null;
   positions: string[];
 }
@@ -32,7 +32,7 @@ const initialState: UsersState = {
   error: null,
 
   link_to_next_page: null,
-  page: null,
+  current_page: null,
   total_pages: null,
   positions: []
 };
@@ -209,7 +209,7 @@ const usersSlice = createSlice({
           state.statusLoading = 'idle';
           state.link_to_next_page = next_url;
           state.total_pages = total_pages;
-          state.page = page;
+          state.current_page = page;
         }
       })
       .addCase(getUsersAsync.rejected, (state) => {
@@ -251,4 +251,4 @@ export const selectPayloadUsers = (state: RootState) => state.users.payload;
 export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
 export const selectUsersError = (state: RootState) => state.users.error;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
-export const selectIsLastPage = (state: RootState) => state.users.page === state.users.total_pages;
+export const selectIsLastPage = (state: RootState) => state.users.current_page === state.users.total_pages;
