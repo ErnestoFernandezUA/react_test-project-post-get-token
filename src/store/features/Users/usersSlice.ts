@@ -48,14 +48,8 @@ export const getUsersAsync = createAsyncThunk(
   { rejectWithValue }) => {
   console.log('getUsersAsync/');
     try {
-
-      // const response = await getUsersPage(page, count, link_to_next_page)
       const response = new Promise(resolve => setTimeout(resolve, delay))
         .then(() => 
-        // fetch(
-        //   link_to_next_page
-        //   ? link_to_next_page 
-        //   : `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=${count}`)
           getUsersPage(link_to_next_page, page, count)
           .then(function(response) {
             console.log('getUsersAsync/ response', response);
