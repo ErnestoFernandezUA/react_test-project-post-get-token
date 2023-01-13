@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FunctionComponent, useEffect } from "react";
-import { FormComponent } from "../../components/Form";
+import { Form } from "../../components/Form";
 import { List } from "../../components/List";
 import { Card } from "../../components/Card";
 import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
@@ -34,7 +34,7 @@ export const HomePage: FunctionComponent = () => {
     <div className="HomePage">
       <h2>HomePage</h2>
 
-      <List>
+      {/* <List>
         {users.map((user: UserType) => (
           <Card key={user.id} user={user} />
         ))} 
@@ -46,18 +46,19 @@ export const HomePage: FunctionComponent = () => {
         {payloadUsers.map((user: UserType) => (
           <Card key={user.id} user={user} />
         ))}
-      </List>
+      </List> */}
 
-      {!isLastPage && 
+      <div ref={divRef}></div>
+      {/* {!isLastPage && 
         <button 
           onClick={() => 
             dispatch(getUsersAsync({link_to_next_page}))}
         >
           Show More
         </button>
-      }
-      <div ref={divRef}></div>
-      <FormComponent />
+      } */}
+
+      <Form />
     </div>
   );
 }

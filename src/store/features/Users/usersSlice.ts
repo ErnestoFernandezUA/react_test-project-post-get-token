@@ -10,6 +10,7 @@ import {
 } from '../../index';
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
+import { getPositions } from '../../../api/position';
 
 const DELAY_OF_WAITING = 3000;
 
@@ -47,6 +48,7 @@ export const getUsersAsync = createAsyncThunk(
   }:GetUsersParams,
   { rejectWithValue }) => {
   console.log('getUsersAsync/');
+
     try {
       const response = new Promise(resolve => setTimeout(resolve, delay))
         .then(() => 
@@ -143,17 +145,21 @@ export const postUserAsync = createAsyncThunk(
 
 export const getPositionsAsync = createAsyncThunk(
   'users/getPositions',
-  async () => {
-    const response = fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
-    .then(function(response) { 
-      return response.json(); 
-    }) 
-    .then(function(data) { 
-      // console.log(data); 
-      // process success response 
-    })
-
-    return response;
+  async (_, { rejectWithValue }) => {
+    getPositions()
+      .then(function(response) {
+        console.log('users/getPositions:', response);
+        
+        return response; 
+      }) 
+      .then(function(data) { 
+        if (data.success) {
+          return data.positions;
+        } else {
+          rejectWithValue('no positions on server');
+        }
+      }
+    )
   }
 );
 
@@ -228,10 +234,23 @@ const usersSlice = createSlice({
       })
       .addCase(postUserAsync.rejected, (state) => {
         state.statusLoading = 'failed';
-
         // console.log('postUserAsync.rejected');
+      })
 
+      .addCase(getPositionsAsync.pending, (
+        state: UsersState,
+      ) => {
+        state.statusLoading = 'loading';
+      })
+      .addCase(getPositionsAsync.fulfilled, (state, action) => {  
+        state.statusLoading = 'idle';
 
+        // console.log('postUserAsync action.payload', action.payload);
+        // state.storage.push(action.payload);
+      })
+      .addCase(getPositionsAsync.rejected, (state) => {
+        state.statusLoading = 'failed';
+        // console.log('postUserAsync.rejected');
       })
 
   },
