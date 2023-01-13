@@ -32,8 +32,6 @@ export const HomePage: FunctionComponent = () => {
 
   return (
     <div className="HomePage">
-      <h2>HomePage</h2>
-
       {/* <List>
         {users.map((user: UserType) => (
           <Card key={user.id} user={user} />
@@ -46,10 +44,10 @@ export const HomePage: FunctionComponent = () => {
         {payloadUsers.map((user: UserType) => (
           <Card key={user.id} user={user} />
         ))}
-      </List> */}
+      </List>
 
       <div ref={divRef}></div>
-      {/* {!isLastPage && 
+      {!isLastPage && 
         <button 
           onClick={() => 
             dispatch(getUsersAsync({link_to_next_page}))}

@@ -12,7 +12,7 @@ import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 import { getPositions } from '../../../api/position';
 
-const DELAY_OF_WAITING = 3000;
+const DELAY_OF_WAITING = 5000;
 
 export interface UsersState {
   storage: UserType[];
@@ -47,34 +47,12 @@ export const getUsersAsync = createAsyncThunk(
     delay = DELAY_OF_WAITING,
   }:GetUsersParams,
   { rejectWithValue }) => {
-  // console.log('getUsersAsync/');
-
     try {
-      const response = new Promise(resolve => setTimeout(resolve, delay))
-        .then(() => 
-          getUsersPage(link_to_next_page, page, count)
-          .then(function(response) {
-            console.log('getUsersAsync/ response', response);
-
-            return response; 
-          })
-          .then(function(data) {
-            // console.log('response', data);
-    
-            if(data.success) { 
-              // process success response 
-              return data;
-            } else { 
-              // proccess server errors 
-            } 
-          }))
-  
-      // console.log('getUsersAsync', response);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      const response = await getUsersPage(link_to_next_page, page, count);
   
       return response;
     } catch (error) {
-      // console.log(error);
-
       rejectWithValue(error);
     }
   },
@@ -147,7 +125,7 @@ const usersSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addUser: (state: UsersState, action: PayloadAction<UserType[]>) => {
+    addUsers: (state: UsersState, action: PayloadAction<UserType[]>) => {
       state.storage.push(...action.payload);
     },
     addPayload: (state: UsersState) => {
@@ -183,7 +161,7 @@ const usersSlice = createSlice({
         action:PayloadAction<GetUsersResponse | undefined,
         string, {arg: GetUsersParams; requestId: string; requestStatus: "fulfilled";}, never>
     ) => {
-        if (action.payload) {
+        if (action.payload && action.payload.success) {
           const {
             users,
             links: { next_url },
@@ -223,7 +201,7 @@ const usersSlice = createSlice({
 
 export default usersSlice.reducer;
 export const {
-  addUser,
+  addUsers,
   addPayload,
   setStatus,
   setError,
