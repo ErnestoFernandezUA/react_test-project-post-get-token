@@ -47,7 +47,7 @@ export const getUsersAsync = createAsyncThunk(
     delay = DELAY_OF_WAITING,
   }:GetUsersParams,
   { rejectWithValue }) => {
-  console.log('getUsersAsync/');
+  // console.log('getUsersAsync/');
 
     try {
       const response = new Promise(resolve => setTimeout(resolve, delay))
