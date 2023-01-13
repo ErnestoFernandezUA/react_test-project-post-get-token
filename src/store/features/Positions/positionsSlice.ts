@@ -4,11 +4,8 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
-import {
-  RootState,
-} from '../../index';
-import { GetUsersParams, GetUsersResponse } from '../../../api/users.get';
-import { getPositions, PositionsResponse } from '../../../api/position';
+import { RootState } from '../../index';
+import { getPositions } from '../../../api/position';
 import { Position } from '../../../type/Position';
 
 export interface PositionsState {
@@ -43,20 +40,20 @@ const positionsSlice = createSlice({
     addPositions: (state: PositionsState, action: PayloadAction<Position[]>) => {
       state.storage.push(...action.payload);
     },
-    setStatus: (
+    setPositionsStatus: (
       state: PositionsState,
       action: PayloadAction<'idle' | 'loading' | 'failed'>,
     ) => {
       state.statusLoading = action.payload;
     },
-    setError: (
+    setPositionsError: (
       state: PositionsState,
       action: PayloadAction<unknown>,
     ) => {
       state.error = action.payload;
       state.statusLoading = 'failed';
     },
-    resetState: (state: PositionsState) => {
+    resetPositionsState: (state: PositionsState) => {
       state = initialState;
     }
   },
@@ -80,21 +77,17 @@ const positionsSlice = createSlice({
       })
       .addCase(getPositionsAsync.rejected, (state) => {
         state.statusLoading = 'failed';
-        // console.log('postUserAsync.rejected');
       })
   },
 });
 
 export default positionsSlice.reducer;
 export const {
-  setStatus,
-  setError,
-  resetState,
+  setPositionsStatus,
+  setPositionsError,
+  resetPositionsState,
 } = positionsSlice.actions;
 
-// export const selectUsers = (state: RootState) => state.users.storage;
-// export const selectPayloadUsers = (state: RootState) => state.users.payload;
-// export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
-// export const selectUsersError = (state: RootState) => state.users.error;
-// export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
-// export const selectIsLastPage = (state: RootState) => state.users.current_page === state.users.total_pages;
+export const selectPositions = (state: RootState) => state.positions.storage;
+export const selectPositionsStatusLoading = (state: RootState) => state.positions.statusLoading;
+export const selectPositionsError = (state: RootState) => state.positions.error;

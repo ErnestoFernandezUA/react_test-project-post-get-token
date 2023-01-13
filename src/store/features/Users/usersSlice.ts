@@ -3,14 +3,13 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { rootLoader } from '../../../helpers/rootLoader';
 // eslint-disable-next-line import/no-cycle
 import {
   RootState,
 } from '../../index';
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
-import { getPositions } from '../../../api/position';
+import { getTokenAsync } from '../Token/tokenSlice';
 
 const DELAY_OF_WAITING = 5000;
 
@@ -18,7 +17,7 @@ export interface UsersState {
   storage: UserType[];
   payload: UserType[];
   statusLoading: 'idle' | 'loading' | 'failed';
-  error: unknown;
+  error: string | null;
 
   link_to_next_page: string | null;
   current_page: number | null;
@@ -63,22 +62,48 @@ export const getUsersAsync = createAsyncThunk(
 export const postUserAsync = createAsyncThunk(
   'users/postUser',
   async ({
-    user,
+    user: {
+      name,
+      email,
+      phone,
+      images,
+      position_id,
+    },
     delay = 1000,
-  }: any) => {
-    // console.log('postUserAsync');
-    const token = localStorage.getItem('token') || '';
+  }: any,
+  { dispatch, getState, rejectWithValue }) => {
+    console.log('postUserAsync');
+    
+    try {
 
-    // console.log('user', user);
+      const state = getState() as RootState;
+      await new Promise(resolve => setTimeout(resolve, delay));
+      await dispatch(getTokenAsync());
 
-    var formData = new FormData(); 
+      const formData = new FormData();
+      formData.append('position_id', position_id); 
+      formData.append('name', name); 
+      formData.append('email', email); 
+      formData.append('phone', phone); 
+      formData.append('photo', images[0]); 
+
+      const response = await 
+    } catch (error) {
+      rejectWithValue(error);
+    }
+
+
+    dispatch(getTokenAsync());
+
+    const formData = new FormData(); 
   // file from input type='file' 
   // var fileField = document.querySelector('input[type="file"]'); 
-    formData.append('position_id', '2'); 
-    formData.append('name', 'Jhon'); 
-    formData.append('email', 'jhon@gmail.com'); 
-    formData.append('phone', '+380955388485'); 
-  // formData.append('photo', fileField.files[0]);
+    formData.append('position_id', position_id); 
+    formData.append('name', name); 
+    formData.append('email', email); 
+    formData.append('phone', phone); 
+    formData.append('photo', images[0]);
+    const state = getState() as RootState;
 
     const response = new Promise(resolve => setTimeout(resolve, delay))
       .then(() => fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
@@ -86,28 +111,23 @@ export const postUserAsync = createAsyncThunk(
           method: 'POST', 
           body: formData, 
           headers: { 
-            'Token': token,
+            'Token': String(state.token.storage),
           }, 
         }
       ) 
       .then(function(response) { 
+        console.log('response', response);
+
         return response.json(); 
       })
       .then(function(data) { 
-        // console.log('data', data); 
+        console.log('data', data); 
         
         if(data.success) { 
         // process success response 
         } else { 
           if (data.message === 'Invalid token. Try to get a new one by the method GET api/v1/token.') {
             // console.log('message:', data.message);
-
-            const token = rootLoader()
-              .then((data) => localStorage.setItem('token', data = ''))
-              .then(() => postUserAsync({
-                user,
-                delay,
-              }))
           }
       } }) 
       .catch(function(error) { 
@@ -138,13 +158,6 @@ const usersSlice = createSlice({
     ) => {
       state.statusLoading = action.payload;
     },
-    setError: (
-      state: UsersState,
-      action: PayloadAction<unknown>,
-    ) => {
-      state.error = action.payload;
-      state.statusLoading = 'failed';
-    },
     resetState: (state: UsersState) => {
       state = initialState;
     }
@@ -169,13 +182,13 @@ const usersSlice = createSlice({
             page,
           } = action.payload;
 
-          console.log('getUsersAsync.fulfilled', action.payload);
-  
           state.payload.push(...users);
           state.statusLoading = 'idle';
           state.link_to_next_page = next_url;
           state.total_pages = total_pages;
           state.current_page = page;
+        } else {
+          state.error = 'getUsersAsync.fulfilled/ response.success = false';
         }
       })
       .addCase(getUsersAsync.rejected, (state) => {
@@ -204,7 +217,6 @@ export const {
   addUsers,
   addPayload,
   setStatus,
-  setError,
   resetState,
 } = usersSlice.actions;
 
@@ -214,3 +226,4 @@ export const selectUsersStatusLoading = (state: RootState) => state.users.status
 export const selectUsersError = (state: RootState) => state.users.error;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
 export const selectIsLastPage = (state: RootState) => state.users.current_page === state.users.total_pages;
+
