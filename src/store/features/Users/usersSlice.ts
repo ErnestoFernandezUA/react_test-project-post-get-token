@@ -11,6 +11,7 @@ import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 import { getTokenAsync } from '../Token/tokenSlice';
 import { postUser } from '../../../api/users.post';
+import axios from 'axios';
 
 const DELAY_OF_WAITING = 5000;
 
@@ -89,15 +90,25 @@ export const postUserAsync = createAsyncThunk(
       
       console.log(formData);
 
-      const response = await postUser({
-        method: 'POST', 
-        body: formData, 
+      const response = await postUser(
+        {body: formData, 
         headers: { 
           'Token': String(state.token.storage),
-        }, 
-      });
+        }}, 
+      );
+      // const response = await axios({
+      //   url: 'https://frontend-test-assignment-api.abz.agency/api/v1/users',
+      //   method: 'POST',
+      //   headers: {
+      //     'Token': String(state.token.storage),
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/json',
+      //     // 'Authorization': 'Bearer ' + credentials.t
+      //   },
+      //   data: formData,
+      // })
 
-      console.log('postUserAsync/', response);
+      console.log('postUserAsync/ response', response);
 
       return response;
     } catch (error) {

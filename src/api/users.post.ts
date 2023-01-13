@@ -16,7 +16,7 @@ export type PostUserResponse = {
 
 
 export const postUser = (data: any) => {
-  console.log(data);
+  console.log('postUser:', data);
 
   return client.post(`/users`, data);
 };
