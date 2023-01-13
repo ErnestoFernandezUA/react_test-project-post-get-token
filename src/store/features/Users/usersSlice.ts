@@ -143,26 +143,6 @@ export const postUserAsync = createAsyncThunk(
   },
 );
 
-export const getPositionsAsync = createAsyncThunk(
-  'users/getPositions',
-  async (_, { rejectWithValue }) => {
-    getPositions()
-      .then(function(response) {
-        console.log('users/getPositions:', response);
-        
-        return response; 
-      }) 
-      .then(function(data) { 
-        if (data.success) {
-          return data.positions;
-        } else {
-          rejectWithValue('no positions on server');
-        }
-      }
-    )
-  }
-);
-
 const usersSlice = createSlice({
   name: 'user',
   initialState,
@@ -199,7 +179,7 @@ const usersSlice = createSlice({
         state.statusLoading = 'loading';
       })
       .addCase(getUsersAsync.fulfilled,
-        (state, 
+        (state: UsersState, 
         action:PayloadAction<GetUsersResponse | undefined,
         string, {arg: GetUsersParams; requestId: string; requestStatus: "fulfilled";}, never>
     ) => {

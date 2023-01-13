@@ -28,9 +28,8 @@ export const getPositionsAsync = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getPositions();
-      console.log('getPositionsAsync/', response);
 
-      return response.positions;
+      return response;
     } catch (error) {
       rejectWithValue(error)
     }
@@ -63,25 +62,26 @@ const positionsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPositionsAsync.pending, (
-        state: PositionsState,
+      .addCase(getPositionsAsync.pending,
+        (state: PositionsState,
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(getPositionsAsync.fulfilled, (
-        state, 
+      .addCase(getPositionsAsync.fulfilled,
+        (state, 
         action,
         ) => {  
         state.statusLoading = 'idle';
 
-        console.log('getPositionsAsync.fulfilled/ action.payload', action.payload);
-        // state.storage.push(...action.payload);
+        if (action.payload && action.payload.success) {
+          // always overwriting previous storage 
+          state.storage = action.payload.positions;
+        }
       })
       .addCase(getPositionsAsync.rejected, (state) => {
         state.statusLoading = 'failed';
         // console.log('postUserAsync.rejected');
       })
-
   },
 });
 

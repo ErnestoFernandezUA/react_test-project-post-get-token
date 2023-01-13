@@ -1,11 +1,11 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
-import { getPositionsAsync, postUserAsync } from "../../store/features/Users/usersSlice";
+import { getPositionsAsync } from "../../store/features/Positions/positionsSlice";
+import { postUserAsync } from "../../store/features/Users/usersSlice";
 import { useAppDispatch } from "../../store/hooks";
 
 import './From.scss';
 
 interface FormProps {
-  
 }
  
 export const Form: FunctionComponent<FormProps> = () => {
