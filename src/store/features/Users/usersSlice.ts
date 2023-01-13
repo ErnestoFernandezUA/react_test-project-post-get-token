@@ -210,6 +210,8 @@ const usersSlice = createSlice({
             total_pages,
             page,
           } = action.payload;
+
+          console.log('getUsersAsync.fulfilled', action.payload);
   
           state.payload.push(...users);
           state.statusLoading = 'idle';
@@ -236,23 +238,6 @@ const usersSlice = createSlice({
         state.statusLoading = 'failed';
         // console.log('postUserAsync.rejected');
       })
-
-      .addCase(getPositionsAsync.pending, (
-        state: UsersState,
-      ) => {
-        state.statusLoading = 'loading';
-      })
-      .addCase(getPositionsAsync.fulfilled, (state, action) => {  
-        state.statusLoading = 'idle';
-
-        // console.log('postUserAsync action.payload', action.payload);
-        // state.storage.push(action.payload);
-      })
-      .addCase(getPositionsAsync.rejected, (state) => {
-        state.statusLoading = 'failed';
-        // console.log('postUserAsync.rejected');
-      })
-
   },
 });
 

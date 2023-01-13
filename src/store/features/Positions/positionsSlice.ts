@@ -8,7 +8,7 @@ import {
   RootState,
 } from '../../index';
 import { GetUsersParams, GetUsersResponse } from '../../../api/users.get';
-import { getPositions } from '../../../api/position';
+import { getPositions, PositionsResponse } from '../../../api/position';
 import { Position } from '../../../type/Position';
 
 export interface PositionsState {
@@ -68,7 +68,10 @@ const positionsSlice = createSlice({
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(getPositionsAsync.fulfilled, (state, action) => {  
+      .addCase(getPositionsAsync.fulfilled, (
+        state, 
+        action,
+        ) => {  
         state.statusLoading = 'idle';
 
         console.log('getPositionsAsync.fulfilled/ action.payload', action.payload);
