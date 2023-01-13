@@ -10,6 +10,7 @@ import {
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 import { getTokenAsync } from '../Token/tokenSlice';
+import { postUser } from '../../../api/users.post';
 
 const DELAY_OF_WAITING = 5000;
 
@@ -75,7 +76,6 @@ export const postUserAsync = createAsyncThunk(
     console.log('postUserAsync');
     
     try {
-
       const state = getState() as RootState;
       await new Promise(resolve => setTimeout(resolve, delay));
       await dispatch(getTokenAsync());
@@ -85,59 +85,71 @@ export const postUserAsync = createAsyncThunk(
       formData.append('name', name); 
       formData.append('email', email); 
       formData.append('phone', phone); 
-      formData.append('photo', images[0]); 
+      formData.append('photo', images[0]);
+      
+      console.log(formData);
 
-      const response = await 
+      const response = await postUser({
+        method: 'POST', 
+        body: formData, 
+        headers: { 
+          'Token': String(state.token.storage),
+        }, 
+      });
+
+      console.log('postUserAsync/', response);
+
+      return response;
     } catch (error) {
       rejectWithValue(error);
     }
 
 
-    dispatch(getTokenAsync());
+  //   dispatch(getTokenAsync());
 
-    const formData = new FormData(); 
-  // file from input type='file' 
-  // var fileField = document.querySelector('input[type="file"]'); 
-    formData.append('position_id', position_id); 
-    formData.append('name', name); 
-    formData.append('email', email); 
-    formData.append('phone', phone); 
-    formData.append('photo', images[0]);
-    const state = getState() as RootState;
+  //   const formData = new FormData(); 
+  // // file from input type='file' 
+  // // var fileField = document.querySelector('input[type="file"]'); 
+  //   formData.append('position_id', position_id); 
+  //   formData.append('name', name); 
+  //   formData.append('email', email); 
+  //   formData.append('phone', phone); 
+  //   formData.append('photo', images[0]);
+  //   const state = getState() as RootState;
 
-    const response = new Promise(resolve => setTimeout(resolve, delay))
-      .then(() => fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
-        {
-          method: 'POST', 
-          body: formData, 
-          headers: { 
-            'Token': String(state.token.storage),
-          }, 
-        }
-      ) 
-      .then(function(response) { 
-        console.log('response', response);
+  //   const response = new Promise(resolve => setTimeout(resolve, delay))
+  //     .then(() => fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
+  //       {
+  //         method: 'POST', 
+  //         body: formData, 
+  //         headers: { 
+  //           'Token': String(state.token.storage),
+  //         }, 
+  //       }
+  //     ) 
+  //     .then(function(response) { 
+  //       console.log('response', response);
 
-        return response.json(); 
-      })
-      .then(function(data) { 
-        console.log('data', data); 
+  //       return response.json(); 
+  //     })
+  //     .then(function(data) { 
+  //       console.log('data', data); 
         
-        if(data.success) { 
-        // process success response 
-        } else { 
-          if (data.message === 'Invalid token. Try to get a new one by the method GET api/v1/token.') {
-            // console.log('message:', data.message);
-          }
-      } }) 
-      .catch(function(error) { 
-        // proccess network errors 
-        // console.log('error post', error);
-      }));
+  //       if(data.success) { 
+  //       // process success response 
+  //       } else { 
+  //         if (data.message === 'Invalid token. Try to get a new one by the method GET api/v1/token.') {
+  //           // console.log('message:', data.message);
+  //         }
+  //     } }) 
+  //     .catch(function(error) { 
+  //       // proccess network errors 
+  //       // console.log('error post', error);
+  //     }));
 
-    // console.log('postUserAsync', response);
+  //   // console.log('postUserAsync', response);
 
-    return response;
+  //   return response;
   },
 );
 

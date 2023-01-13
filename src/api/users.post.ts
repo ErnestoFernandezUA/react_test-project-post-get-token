@@ -13,3 +13,10 @@ export type PostUserResponse = {
     photo: string[],
   } 
 }
+
+
+export const postUser = (data: any) => {
+  console.log(data);
+
+  return client.post(`/users`, data);
+};
