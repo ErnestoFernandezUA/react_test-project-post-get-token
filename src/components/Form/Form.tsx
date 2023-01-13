@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { selectPositions } from "../../store/features/Positions/positionsSlice";
-import { postUserAsync } from "../../store/features/Users/usersSlice";
+import { postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import './From.scss';
@@ -13,13 +13,18 @@ interface FormProps {
 export const Form: FunctionComponent<FormProps> = () => {
   const dispatch = useAppDispatch();
   const positions = useAppSelector(selectPositions);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [position_id, setPositionId] = useState('');
+  const fails = useAppSelector(selectPostFails);
+
+  console.log('Form/ fails = ', fails);
+
+  const [name, setName] = useState('Tom');
+  const [email, setEmail] = useState('tom@valid.et');
+  const [phone, setPhone] = useState('+380955388485');
+  const [position_id, setPositionId] = useState('1');
   const [images, setImages] = useState<any[]>();
   const [isUploading, setIsUploading] = useState(false);
   const inputRef = useRef<any | null>();
+
   useEffect(() => {
   }, [dispatch]);
 
@@ -132,9 +137,10 @@ export const Form: FunctionComponent<FormProps> = () => {
         />
       </label>
 
-      <label>
+      <label htmlFor="positions">
         positions:&nbsp;
         <select
+          id="positions"
           value={position_id}
           onChange={(e) => setPositionId(e.target.value)}
         >

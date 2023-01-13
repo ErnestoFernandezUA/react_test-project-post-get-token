@@ -1,4 +1,3 @@
-import { UserType } from '../type/User';
 import { client } from '../utils/axiosClient';
 
 export type PostUserResponse = {
@@ -15,8 +14,4 @@ export type PostUserResponse = {
 }
 
 
-export const postUser = (data: any) => {
-  console.log('postUser:', data);
-
-  return client.post(`/users`, data);
-};
+export const postUser = (data: any) => client.post(`/users`, data);

@@ -10,7 +10,7 @@ import {
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 import { getTokenAsync } from '../Token/tokenSlice';
-import { postUser } from '../../../api/users.post';
+import { postUser, PostUserResponse } from '../../../api/users.post';
 import axios from 'axios';
 
 const DELAY_OF_WAITING = 5000;
@@ -25,6 +25,14 @@ export interface UsersState {
   current_page: number | null;
   total_pages: number | null;
   positions: string[];
+
+  fails: {
+    name: string[] | null;
+    email: string[] | null;
+    phone: string[] | null;
+    images: string[] | null;
+    position_id: string[] | null;
+  }
 }
 
 const initialState: UsersState = {
@@ -36,7 +44,15 @@ const initialState: UsersState = {
   link_to_next_page: null,
   current_page: null,
   total_pages: null,
-  positions: []
+  positions: [],
+
+  fails: {
+    name: null,
+    email: null,
+    phone: null,
+    images: null,
+    position_id: null,
+  }
 };
 
 export const getUsersAsync = createAsyncThunk(
@@ -74,12 +90,12 @@ export const postUserAsync = createAsyncThunk(
     delay = 1000,
   }: any,
   { dispatch, getState, rejectWithValue }) => {
-    console.log('postUserAsync');
+    console.log('postUserAsync', position_id);
     
     try {
       const state = getState() as RootState;
-      await new Promise(resolve => setTimeout(resolve, delay));
-      await dispatch(getTokenAsync());
+      // await new Promise(resolve => setTimeout(resolve, delay));
+      // await dispatch(getTokenAsync());
 
       const formData = new FormData();
       formData.append('position_id', position_id); 
@@ -88,14 +104,17 @@ export const postUserAsync = createAsyncThunk(
       formData.append('phone', phone); 
       formData.append('photo', images[0]);
       
-      console.log(formData);
+      // 1 - not work
+      // console.log(formData);
 
-      const response = await postUser(
-        {body: formData, 
-        headers: { 
-          'Token': String(state.token.storage),
-        }}, 
-      );
+      // const response = await postUser(
+      //   {body: formData, 
+      //   headers: { 
+      //     'Token': String(state.token.storage),
+      //   }}, 
+      // );
+
+      // 2 - not work
       // const response = await axios({
       //   url: 'https://frontend-test-assignment-api.abz.agency/api/v1/users',
       //   method: 'POST',
@@ -108,59 +127,23 @@ export const postUserAsync = createAsyncThunk(
       //   data: formData,
       // })
 
-      console.log('postUserAsync/ response', response);
+      // 3 - work but fetch
+      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
+        {
+          method: 'POST', 
+          body: formData, 
+          headers: { 
+            'Token': String(state.token.storage),
+          }, 
+        }
+      ).then((res) => res.json());
+
+      // console.log('postUserAsync/ response', response);
 
       return response;
     } catch (error) {
       rejectWithValue(error);
     }
-
-
-  //   dispatch(getTokenAsync());
-
-  //   const formData = new FormData(); 
-  // // file from input type='file' 
-  // // var fileField = document.querySelector('input[type="file"]'); 
-  //   formData.append('position_id', position_id); 
-  //   formData.append('name', name); 
-  //   formData.append('email', email); 
-  //   formData.append('phone', phone); 
-  //   formData.append('photo', images[0]);
-  //   const state = getState() as RootState;
-
-  //   const response = new Promise(resolve => setTimeout(resolve, delay))
-  //     .then(() => fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
-  //       {
-  //         method: 'POST', 
-  //         body: formData, 
-  //         headers: { 
-  //           'Token': String(state.token.storage),
-  //         }, 
-  //       }
-  //     ) 
-  //     .then(function(response) { 
-  //       console.log('response', response);
-
-  //       return response.json(); 
-  //     })
-  //     .then(function(data) { 
-  //       console.log('data', data); 
-        
-  //       if(data.success) { 
-  //       // process success response 
-  //       } else { 
-  //         if (data.message === 'Invalid token. Try to get a new one by the method GET api/v1/token.') {
-  //           // console.log('message:', data.message);
-  //         }
-  //     } }) 
-  //     .catch(function(error) { 
-  //       // proccess network errors 
-  //       // console.log('error post', error);
-  //     }));
-
-  //   // console.log('postUserAsync', response);
-
-  //   return response;
   },
 );
 
@@ -222,11 +205,24 @@ const usersSlice = createSlice({
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(postUserAsync.fulfilled, (state, action) => {  
+      .addCase(postUserAsync.fulfilled, (state, action:PayloadAction<PostUserResponse, string, {
+        arg: any;
+        requestId: string;
+        requestStatus: "fulfilled";
+    }, never>) => {  
         state.statusLoading = 'idle';
 
-        // console.log('postUserAsync action.payload', action.payload);
+        console.log('postUserAsync.fulfilled/ action.payload', action.payload);
         // state.storage.push(action.payload);
+        if (!action.payload) {
+          return;
+        }
+
+        if (action.payload.success) {
+          console.log(action.payload.message);
+        } else {
+          state.fails = { ...state.fails, ...action.payload.fails};
+        }
       })
       .addCase(postUserAsync.rejected, (state) => {
         state.statusLoading = 'failed';
@@ -249,4 +245,5 @@ export const selectUsersStatusLoading = (state: RootState) => state.users.status
 export const selectUsersError = (state: RootState) => state.users.error;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
 export const selectIsLastPage = (state: RootState) => state.users.current_page === state.users.total_pages;
+export const selectPostFails = (state: RootState) => state.users.fails;
 

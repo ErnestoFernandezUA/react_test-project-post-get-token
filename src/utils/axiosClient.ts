@@ -22,6 +22,9 @@ export const client = {
   async post<T>(url: string, data: FetchData) {
     const response = await instance.post<T>(url, data);
 
+    // eslint-disable-next-line no-console
+    console.log('post', baseURL + url, data);
+
     return response.data;
   },
 

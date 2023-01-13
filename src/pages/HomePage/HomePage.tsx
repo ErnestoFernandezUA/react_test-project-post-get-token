@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect } from "react";
 import { Form } from "../../components/Form";
 import { List } from "../../components/List";
 import { Card } from "../../components/Card";
-import { addPayload, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersError, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
+import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersError, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UserType } from "../../type/User";
  
@@ -34,7 +34,7 @@ export const HomePage: FunctionComponent = () => {
   return (
     <div className="HomePage">
         {error && <p>{error}</p>}
-      {/* <List>
+      <List>
         {users.map((user: UserType) => (
           <Card key={user.id} user={user} />
         ))} 
@@ -56,7 +56,7 @@ export const HomePage: FunctionComponent = () => {
         >
           Show More
         </button>
-      } */}
+      }
 
       <Form />
     </div>
