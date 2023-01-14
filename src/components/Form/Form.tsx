@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { selectPositions } from "../../store/features/Positions/positionsSlice";
-import { postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
+import { getUsersAsync, postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import './From.scss';
@@ -79,29 +79,12 @@ export const Form: FunctionComponent<FormProps> = () => {
           position_id,
         }
       }));
+      await dispatch(getUsersAsync({ page: 1, count: 6 }));
     } catch (error) {
       
     } finally {
       setIsUploading(false);
     }
-    // var formData = new FormData();
-    // // file from input type='file' 
-    // var fileField = document.querySelector('input[type="file"]');
-
-    // // formData.append('position_id', 2); 
-    // formData.append('name', 'Jhon'); 
-    // formData.append('email', 'Jhon@gmail.com'); 
-    // formData.append('phone', '+380955388485'); 
-    // formData.append('photo', fileField.files[0]);
-    dispatch(postUserAsync({
-      user: {
-        name: 'pep',
-        email: 'd@d.dev',
-        phone: '+3808888888',
-        photo: undefined,
-        id: 1,
-      }
-    }));
   };
 
   return (
@@ -115,6 +98,9 @@ export const Form: FunctionComponent<FormProps> = () => {
           value={name}
           onChange={(e: any) => setName(e.target.value)}  
         />
+        {fails.name && fails.name.map(e => (
+          <p key={e}>{e}</p>
+        ))}
       </label>
       
       <label htmlFor="email">
@@ -125,6 +111,9 @@ export const Form: FunctionComponent<FormProps> = () => {
           value={email}
           onChange={(e: any) => setEmail(e.target.value)}
         />
+        {fails.email && fails.email.map(e => (
+          <p key={e}>{e}</p>
+        ))}
       </label>
 
       <label htmlFor="phone">
@@ -135,6 +124,9 @@ export const Form: FunctionComponent<FormProps> = () => {
           value={phone}
           onChange={(e: any) => setPhone(e.target.value)}  
         />
+        {fails.phone && fails.phone.map(e => (
+          <p key={e}>{e}</p>
+        ))}
       </label>
 
       <label htmlFor="positions">
@@ -148,6 +140,9 @@ export const Form: FunctionComponent<FormProps> = () => {
             <option key={p.id} value={p.id}>{p.name}</option>
           ))}
         </select>
+        {fails.position_id && fails.position_id.map(e => (
+          <p key={e}>{e}</p>
+        ))}
       </label>
 
 
@@ -164,6 +159,9 @@ export const Form: FunctionComponent<FormProps> = () => {
             disabled={isUploading}
           />
         </div>
+        {fails.images && fails.images.map(e => (
+          <p key={e}>{e}</p>
+        ))}
       </label>
       
       {images?.length ? (

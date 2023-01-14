@@ -6,9 +6,10 @@ import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage/HomePage';
 import { getTokenAsync } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
-import { Container } from './components/Container';
-import { Wrapper } from './components/Wrapper';
+import { Container } from './components/Container/Container';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
+import { Wrapper } from './components/Wrapper/Wrapper';
+import { Header } from './components/Header';
 
 // localStorage.clear();
 
@@ -40,13 +41,9 @@ function App() {
 
   return (
     <div className="App">
-      <Container>
-        <Wrapper>
-          <header>
-            Header
-          </header>
-        </Wrapper>
+      <Header />
 
+      <Container>
         <Wrapper>
           <Outlet/>
         </Wrapper>
