@@ -2,11 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
 
 :root {
   /* Typography */
@@ -21,8 +17,7 @@
   --lh-h1: 40px;
 
   /* Other */
-  --radii: 4px;
-
+  
 
   --yellow: #F4E041;
   --blue: #00BDD3;
@@ -37,8 +32,10 @@
   --button-disabled-bg: #B4B4B4;
   --button-disabled-color: rgba(255, 255, 255, 0.87);
   --button-br: 80px;
+  --button-radii: 4px;
   
   --field-border-enabled: #D0CFCF;
+  --field-radii: 4px;
   --field-helper-text: #7E7E7E;
   --field-border-error: rgba(203, 61, 64, 1);
   --error-color: #CB3D40;
@@ -46,5 +43,13 @@
 
 body {
   background-color: var(--bg-color);
+}
+
+* {
+  font-family: var(--family);
+  font-size: var(--fs-md);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
