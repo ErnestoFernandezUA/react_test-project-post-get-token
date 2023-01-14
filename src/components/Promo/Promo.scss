@@ -21,28 +21,25 @@
     line-height: var(--lh-h1);
     max-width: 350px;
     text-align: center;
-    
-    @media(min-width: 768px){
-      max-width: 450px;
-    }
   }
 
   & p {
     padding-top: 21px;
     padding-bottom: 36px;
     max-width: 329px;
-
-    @media(min-width: 768px){
-      max-width: 381x;
-    }
-  }
-
-  @media(min-width: 360px){
   }
 
   @media(min-width: 768px){
     padding-top: 149px;
     background-image: url('./../../images/promo-768.png');
+
+    & h1 {
+      max-width: 450px;
+    }
+
+    & p {
+      max-width: 381px;
+    }
   }
   
   @media(min-width: 1024px){

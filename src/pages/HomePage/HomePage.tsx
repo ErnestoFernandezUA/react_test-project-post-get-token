@@ -36,7 +36,7 @@ export const HomePage: FunctionComponent = () => {
 
   return (
     <Container>
-      <div className="HomePage">
+      <main className="HomePage">
         <Promo />
 
         <Wrapper>
@@ -67,7 +67,7 @@ export const HomePage: FunctionComponent = () => {
 
         <Form />
       </Wrapper>
-      </div>
+      </main>
   </Container>
   );
 }

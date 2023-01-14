@@ -43,8 +43,9 @@ function App() {
     <div className="App">
       <Header />
 
-      <Outlet/>
-   
+      <main>
+        <Outlet/>
+      </main>
     </div>
   );
 }
