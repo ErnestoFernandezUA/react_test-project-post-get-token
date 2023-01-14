@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { FunctionComponent, useEffect } from "react";
 import { Form } from "../../components/Form";
 import { List } from "../../components/List/List";
-import { Card } from "../../components/Card";
+import { Card } from "../../components/Card/Card";
 import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersError, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UserType } from "../../type/User";

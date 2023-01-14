@@ -2,8 +2,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap');
 
-
-
 :root {
   /* Typography */
   --family: 'Nunito Sans', sans-serif;
@@ -17,8 +15,6 @@
   --lh-h1: 40px;
 
   /* Other */
-  
-
   --yellow: #F4E041;
   --blue: #00BDD3;
   --light-grey: #F8F8F8;
@@ -40,6 +36,8 @@
   --field-helper-text: #7E7E7E;
   --field-border-error: rgba(203, 61, 64, 1);
   --error-color: #CB3D40;
+
+  --card-br: 10px;
 }
 
 body {

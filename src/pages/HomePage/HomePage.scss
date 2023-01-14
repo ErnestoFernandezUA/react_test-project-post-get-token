@@ -2,9 +2,14 @@
 
   &__title {
     padding: 140px 0 50px;
-    font-size: calc(--fs-h1);
-    font-weight: calc(--fw-normal);
-    color: calc(--black);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-normal);
+    color: var(--black);
     text-align: center;
+    margin: 0 auto;
+
+    @media(max-width: 768px) {
+      width: 320px;
+    }
   }
 }
