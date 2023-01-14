@@ -6,6 +6,9 @@ import { Card } from "../../components/Card";
 import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersError, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UserType } from "../../type/User";
+import { Promo } from "../../components/Promo/Promo";
+import { Container } from "../../components/Container";
+import { Wrapper } from "../../components/Wrapper/Wrapper";
  
 export const HomePage: FunctionComponent = () => {
   const divRef = useRef<any>(null);
@@ -32,33 +35,39 @@ export const HomePage: FunctionComponent = () => {
   }, [users.length, payloadUsers, dispatch])
 
   return (
-    <div className="HomePage">
-        {error && <p>{error}</p>}
-      <List>
-        {users.map((user: UserType) => (
-          <Card key={user.id} user={user} />
-        ))} 
-      </List>
+    <Container>
+      <div className="HomePage">
+        <Promo />
 
-      {(isLoading === 'loading') && <>Loading .....</>}
-      
-      <List>
-        {payloadUsers.map((user: UserType) => (
-          <Card key={user.id} user={user} />
-        ))}
-      </List>
+        <Wrapper>
+          {error && <p>{error}</p>}
+        <List>
+          {users.map((user: UserType) => (
+            <Card key={user.id} user={user} />
+          ))} 
+        </List>
 
-      <div ref={divRef}></div>
-      {!isLastPage && 
-        <button 
-          onClick={() => 
-            dispatch(getUsersAsync({link_to_next_page}))}
-        >
-          Show More
-        </button>
-      }
+        {(isLoading === 'loading') && <>Loading .....</>}
+        
+        <List>
+          {payloadUsers.map((user: UserType) => (
+            <Card key={user.id} user={user} />
+          ))}
+        </List>
 
-      <Form />
-    </div>
+        <div ref={divRef}></div>
+        {!isLastPage && 
+          <button 
+            onClick={() => 
+              dispatch(getUsersAsync({link_to_next_page}))}
+          >
+            Show More
+          </button>
+        }
+
+        <Form />
+      </Wrapper>
+      </div>
+  </Container>
   );
 }

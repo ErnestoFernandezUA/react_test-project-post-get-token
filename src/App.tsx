@@ -43,11 +43,8 @@ function App() {
     <div className="App">
       <Header />
 
-      <Container>
-        <Wrapper>
-          <Outlet/>
-        </Wrapper>
-      </Container>
+      <Outlet/>
+   
     </div>
   );
 }
