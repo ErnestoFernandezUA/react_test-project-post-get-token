@@ -28,11 +28,11 @@ export const Card: FunctionComponent<UserProps> = ({ user: {
 }}) => {
   return (
     <div className="Card"> 
-      <img src={photo} alt={photo} />
-      <p>{name}</p>
-      <p>{position}</p>
-      <p>{email}</p>
-      <p>{phone}</p>
+      <img className="Card__photo" src={photo} alt={photo} />
+      <p className="Card__name">{name}</p>
+      <p className="Card__position">{position}</p>
+      <p className="Card__email">{email}</p>
+      <p className="Card__phone">{phone}</p>
     </div>
   );
 }

@@ -1,5 +1,28 @@
 .Card {
+  height: 254px; 
   background-color: var(--white);
+  color: var(--black);
   border-radius: var(--card-br);
-  
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--fs-md);
+  line-height: var(--lh-md);
+
+  &__photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    margin-bottom: 20px;
+  }
+
+  &__name {
+    margin-bottom: 20px; 
+  }
+
+  &__position {
+
+  }
 }
