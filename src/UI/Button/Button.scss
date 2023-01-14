@@ -1,0 +1,34 @@
+.Button {
+  display: inline-block;
+  height: 34px;
+  width: 100px;
+  font-size: var(--fs-md);
+  border-radius: var(--button-br);
+  color: var(--button-color);
+  background-color: var(--button-primary-bg);
+  cursor: pointer;
+  
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+  }
+
+  &:hover {
+    background-color: var(--button-hover-bg);
+  }
+
+  &--disabled, &--disabled:hover {
+    color: var(--button-disabled-color);
+    background-color: var(--button-disabled-bg);
+  }
+}
