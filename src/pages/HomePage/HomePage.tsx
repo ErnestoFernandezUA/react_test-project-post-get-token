@@ -11,6 +11,7 @@ import { Container } from "../../components/Container";
 import { Wrapper } from "../../components/Wrapper/Wrapper";
 
 import './HomePage.scss';
+import Button from "../../UI/Button/Button";
  
 export const HomePage: FunctionComponent = () => {
   const divRef = useRef<any>(null);
@@ -64,13 +65,15 @@ export const HomePage: FunctionComponent = () => {
             </List>
 
             <div ref={divRef}></div>
+
             {!isLastPage && 
-              <button 
+              <Button
+                className="HomePage__button 1112 2131212 HomePage__button--go"
                 onClick={() => 
                   dispatch(getUsersAsync({link_to_next_page}))}
               >
                 Show More
-              </button>
+              </Button>
             }
 
             <Form />

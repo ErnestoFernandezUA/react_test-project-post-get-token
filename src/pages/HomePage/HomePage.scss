@@ -11,5 +11,12 @@
     @media(max-width: 768px) {
       width: 320px;
     }
+
+  }
+
+  &__button {
+    &--go {
+      border: 10px solid red;
+    }
   }
 }

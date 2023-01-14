@@ -26,7 +26,7 @@ export const Header: FunctionComponent<HeaderProps> = () => {
               >
                 Users
               </Button>
-              <Button className="Header__button">Sign in</Button>
+              <Button className="Header__button buttonHome uyiuyiu">Sign in</Button>
             </div>
           </div>
         </Wrapper>
