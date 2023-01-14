@@ -18,7 +18,6 @@ export const Promo: FunctionComponent<PromoProps> = () => {
         
         <Button>Sign up</Button>  
       </div>
-
     </Container>
   );
 }

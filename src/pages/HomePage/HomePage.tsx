@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { FunctionComponent, useEffect } from "react";
 import { Form } from "../../components/Form";
-import { List } from "../../components/List";
+import { List } from "../../components/List/List";
 import { Card } from "../../components/Card";
 import { addPayload, getUsersAsync, selectIsLastPage, selectLinkToNext, selectPayloadUsers, selectUsers, selectUsersError, selectUsersStatusLoading } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -9,6 +9,8 @@ import { UserType } from "../../type/User";
 import { Promo } from "../../components/Promo/Promo";
 import { Container } from "../../components/Container";
 import { Wrapper } from "../../components/Wrapper/Wrapper";
+
+import './HomePage.scss';
  
 export const HomePage: FunctionComponent = () => {
   const divRef = useRef<any>(null);
@@ -35,39 +37,46 @@ export const HomePage: FunctionComponent = () => {
   }, [users.length, payloadUsers, dispatch])
 
   return (
-    <Container>
-      <main className="HomePage">
+    <main className="HomePage">
+      <section>
         <Promo />
+      </section>
 
-        <Wrapper>
-          {error && <p>{error}</p>}
-        <List>
-          {users.map((user: UserType) => (
-            <Card key={user.id} user={user} />
-          ))} 
-        </List>
+      <section>
+        <Container>
+          <Wrapper>
+            <h2 className="HomePage__title">Working with GET request</h2>
 
-        {(isLoading === 'loading') && <>Loading .....</>}
-        
-        <List>
-          {payloadUsers.map((user: UserType) => (
-            <Card key={user.id} user={user} />
-          ))}
-        </List>
+            {error && <p>{error}</p>}
 
-        <div ref={divRef}></div>
-        {!isLastPage && 
-          <button 
-            onClick={() => 
-              dispatch(getUsersAsync({link_to_next_page}))}
-          >
-            Show More
-          </button>
-        }
+            <List>
+              {users.map((user: UserType) => (
+                <Card key={user.id} user={user} />
+              ))} 
+            </List>
 
-        <Form />
-      </Wrapper>
-      </main>
-  </Container>
+            {(isLoading === 'loading') && <>Loading .....</>}
+            
+            <List>
+              {payloadUsers.map((user: UserType) => (
+                <Card key={user.id} user={user} />
+              ))}
+            </List>
+
+            <div ref={divRef}></div>
+            {!isLastPage && 
+              <button 
+                onClick={() => 
+                  dispatch(getUsersAsync({link_to_next_page}))}
+              >
+                Show More
+              </button>
+            }
+
+            <Form />
+          </Wrapper>
+        </Container>
+      </section>
+    </main>
   );
 }
