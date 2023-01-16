@@ -9,7 +9,7 @@
   color: var(--white);
   background-image: url('./../../images/promo-360.png');
   padding: 100px 16px 0;
-  font-weight: 300;
+  font-weight: 300; // not 400 as figma
   text-align: center;
 
   display: flex;
@@ -18,9 +18,11 @@
 
   & h1 {
     font-size: var(--fs-h1);
+    font-weight: var(--fs-normal);
     line-height: var(--lh-h1);
     max-width: 350px;
     text-align: center;
+
   }
 
   & p {

@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { selectPositions } from "../../store/features/Positions/positionsSlice";
 import { getUsersAsync, postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { Input } from "../../UI/Input";
 
 import './From.scss';
 const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
@@ -15,7 +16,7 @@ export const Form: FunctionComponent<FormProps> = () => {
   const positions = useAppSelector(selectPositions);
   const fails = useAppSelector(selectPostFails);
 
-  console.log('Form/ fails = ', fails);
+  // console.log('Form/ fails = ', fails);
 
   const [name, setName] = useState('Tom');
   const [email, setEmail] = useState('tom@valid.et');
@@ -89,6 +90,16 @@ export const Form: FunctionComponent<FormProps> = () => {
 
   return (
     <div className="Form">
+      <Input 
+        label="label"
+        type="text"
+        value={name}
+        helper="helper"
+        error={['error']}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+
       {/* <input type="text" /> */}
       <label htmlFor="name">
         name:&nbsp;

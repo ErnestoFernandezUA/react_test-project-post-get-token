@@ -55,7 +55,7 @@ export const HomePage: FunctionComponent = () => {
 
             {error && <p>{error}</p>}
 
-            <List>
+            {/* <List>
               {users.map((user: UserType) => (
                 <Card key={user.id} user={user} maxWidthContent= {maxWidthContent}/>
               ))} 
@@ -71,21 +71,25 @@ export const HomePage: FunctionComponent = () => {
                   maxWidthContent= {maxWidthContent}
                 />
               ))}
-            </List>
+            </List> */}
 
             <div ref={divRef}></div>
 
-            {!isLastPage && 
-              <Button
-                className="HomePage__button"
-                onClick={() => {
-                  console.log('click');
-                  dispatch(getUsersAsync({link_to_next_page}));
-                }}
-              >
-                Show More
-              </Button>
-            }
+            <div className="HomePage__button-container">
+              {!isLastPage && 
+                <Button
+                  className="HomePage__button"
+                  onClick={() => {
+                    console.log('click');
+                    dispatch(getUsersAsync({link_to_next_page}));
+                  }}
+                >
+                  Show More
+                </Button>
+              }
+            </div>
+
+            <h2 className="HomePage__title">Working with POST request</h2>
 
             <Form />
           </Wrapper>
