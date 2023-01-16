@@ -3,14 +3,12 @@
   position: relative;
   padding: 6px 0 15px;  
   overflow: hidden;
-  // border: 1px solid red;
   cursor: pointer;
   box-sizing: border-box;
 
-  // @media(max-width: 412px) {
-  //   max-width: 380px;
-  //   border: 1px solid red;
-  // }
+  @media(min-width: 412px) {
+    max-width: 380px;
+  }
 
   &__label {
     margin: 0;

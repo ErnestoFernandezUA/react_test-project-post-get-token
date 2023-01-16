@@ -98,6 +98,7 @@ export const Form: FunctionComponent<FormProps> = () => {
         error={['Error']}
         onChange={(e) => setName(e.target.value)}
         backgroundColor="#E5E5E5"
+        className="Form__input-name"
       />
       <Input 
         label="Name"
@@ -108,7 +109,6 @@ export const Form: FunctionComponent<FormProps> = () => {
         onChange={(e) => setName(e.target.value)}
         backgroundColor="#E5E5E5"
       />
-
 
       {/* <input type="text" /> */}
       <label htmlFor="name">

@@ -6,11 +6,12 @@ interface InputProps {
   label: string;
   type: 'text' | 'password';
   value: string;
-  helper: string;
+  helper?: string;
   error: string[];
-  onChange: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
   backgroundColor?: string;
   errorColor?: string;
+  className?: string;
 }
  
 export const Input: FunctionComponent<InputProps> = ({
@@ -22,6 +23,7 @@ export const Input: FunctionComponent<InputProps> = ({
   onChange = () => console.log('no input onChange function'),
   backgroundColor = 'white',
   errorColor = 'red',
+  className,
 }) => {
   console.log(value);
 
@@ -36,7 +38,10 @@ export const Input: FunctionComponent<InputProps> = ({
   };
 
   return (  
-    <div className="Input" style={styleInput}>
+    <div 
+      className={classNames('Input', className)} 
+      style={styleInput}
+    >
       <label htmlFor="input">
         {value && (
           <p
