@@ -10,7 +10,9 @@
   align-items: center;
   font-size: var(--fs-md);
   line-height: var(--lh-md);
-
+  overflow: hidden;
+  text-align: center;
+  
   &__photo {
     width: 70px;
     height: 70px;
@@ -19,10 +21,28 @@
   }
 
   &__name {
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
   }
-
+  
   &__position {
-
+  }
+  
+  &__email {
+  }
+  
+  &__phone {
+    
+  }
+  
+  &__email, &__name {
+    overflow: hidden;
+    // text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+    // text-decoration-thickness: auto;
+    // text-size-adjust: 100%;
   }
 }

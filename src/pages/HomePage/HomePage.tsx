@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useRef, useState } from "react";
 import { FunctionComponent, useEffect } from "react";
 import { Form } from "../../components/Form";
 import { List } from "../../components/List/List";
@@ -12,6 +12,7 @@ import { Wrapper } from "../../components/Wrapper/Wrapper";
 
 import './HomePage.scss';
 import Button from "../../UI/Button/Button";
+import { widthContentColumns } from "../../helpers/widthContentColumns";
  
 export const HomePage: FunctionComponent = () => {
   const divRef = useRef<any>(null);
@@ -23,11 +24,15 @@ export const HomePage: FunctionComponent = () => {
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersError);
 
+  const [maxWidthContent, setMaxWidthContent] = useState('200px')
+  
+  useEffect(() => {
+    setMaxWidthContent(`${widthContentColumns()}px`)
+  }, [])
+
   useEffect(() => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
-
-        // console.log('setTimeout dispatch(addPayload)');
         dispatch(addPayload());
       }
     }, 50)
@@ -52,7 +57,7 @@ export const HomePage: FunctionComponent = () => {
 
             <List>
               {users.map((user: UserType) => (
-                <Card key={user.id} user={user} />
+                <Card key={user.id} user={user} maxWidthContent= {maxWidthContent}/>
               ))} 
             </List>
 
@@ -60,7 +65,11 @@ export const HomePage: FunctionComponent = () => {
             
             <List>
               {payloadUsers.map((user: UserType) => (
-                <Card key={user.id} user={user} />
+                <Card 
+                  key={user.id} 
+                  user={user} 
+                  maxWidthContent= {maxWidthContent}
+                />
               ))}
             </List>
 
@@ -68,9 +77,11 @@ export const HomePage: FunctionComponent = () => {
 
             {!isLastPage && 
               <Button
-                className="HomePage__button 1112 2131212 HomePage__button--go"
-                onClick={() => 
-                  dispatch(getUsersAsync({link_to_next_page}))}
+                className="HomePage__button"
+                onClick={() => {
+                  console.log('click');
+                  dispatch(getUsersAsync({link_to_next_page}));
+                }}
               >
                 Show More
               </Button>

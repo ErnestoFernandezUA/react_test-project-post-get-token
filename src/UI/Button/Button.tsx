@@ -31,6 +31,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         { 'Button--disabled': disabled },
         className,
       )}
+      onClick={onClick}
     >
     
       <div className="Button__container">
