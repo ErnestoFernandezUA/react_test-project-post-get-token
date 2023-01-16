@@ -36,7 +36,7 @@
   
   &__email, &__name {
     overflow: hidden;
-    // text-overflow: ellipsis;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-direction: normal;
