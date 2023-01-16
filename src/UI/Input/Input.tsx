@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { FunctionComponent } from "react";
 import './Input.scss';
 
@@ -8,27 +9,54 @@ interface InputProps {
   helper: string;
   error: string[];
   onChange: (...args: any[]) => any;
+  backgroundColor?: string;
+  errorColor?: string;
 }
  
 export const Input: FunctionComponent<InputProps> = ({
   label, 
-  type, 
+  type = 'text', 
   value, 
   helper, 
   error,
   onChange = () => console.log('no input onChange function'),
+  backgroundColor = 'white',
+  errorColor = 'red',
 }) => {
+  console.log(value);
+
+  const styleInput = {
+    backgroundColor: backgroundColor,
+  };
+  const styleLabel = {
+    backgroundColor: backgroundColor,
+  };
+  const styleInput__input = {
+    backgroundColor: backgroundColor,
+  };
+
   return (  
-    <div>
-      <label className="Input__label" htmlFor="input">
-        
+    <div className="Input" style={styleInput}>
+      <label htmlFor="input">
+        {value && (
+          <p
+            className="Input__label" 
+            style={styleLabel}
+          >
+            {label}
+          </p>
+        )}
 
         <input 
+          id="input"
           type={type} 
           value={value}
           onChange={onChange}
-          className="Input__input"
+          className={classNames('Input__input',
+          {'Input__input--error': error.length > 0}
+          )}
           placeholder={label}
+          style={styleInput__input}
         />
       </label>
       {error.length ? (

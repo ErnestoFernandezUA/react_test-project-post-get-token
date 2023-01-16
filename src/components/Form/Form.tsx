@@ -91,12 +91,22 @@ export const Form: FunctionComponent<FormProps> = () => {
   return (
     <div className="Form">
       <Input 
-        label="label"
+        label="Name"
         type="text"
         value={name}
         helper="helper"
-        error={['error']}
+        error={['Error']}
         onChange={(e) => setName(e.target.value)}
+        backgroundColor="#E5E5E5"
+      />
+      <Input 
+        label="Name"
+        type="text"
+        value={name}
+        helper="helper"
+        error={['Error']}
+        onChange={(e) => setName(e.target.value)}
+        backgroundColor="#E5E5E5"
       />
 
 
@@ -114,6 +124,7 @@ export const Form: FunctionComponent<FormProps> = () => {
         ))}
       </label>
       
+            
       <label htmlFor="email">
         email:&nbsp;
         <input

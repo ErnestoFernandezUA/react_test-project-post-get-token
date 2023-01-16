@@ -2,6 +2,7 @@
   background-color: var(--white);
   position: fixed;
   width: 100%;
+  z-index: 9999;
   
   &__container{
     height: 60px;
