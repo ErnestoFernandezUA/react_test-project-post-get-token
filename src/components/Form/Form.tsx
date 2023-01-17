@@ -1,14 +1,19 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectPositions } from "../../store/features/Positions/positionsSlice";
-import { getUsersAsync, postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
-import { variablesCss } from "../../style/variables";
-import { Input } from "../../UI/Input";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectPositions } from '../../store/features/Positions/positionsSlice';
+import { getUsersAsync, postUserAsync, selectPostFails } from '../../store/features/Users/usersSlice';
+import { variablesCss } from '../../style/variables';
+import { Input } from '../../UI/Input';
 
 import './From.scss';
-import { widthImportErrors } from "../../helpers/widthContentColumns";
+import { widthImportErrors } from '../../helpers/widthContentColumns';
 
-const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
+// const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
 
 export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -36,41 +41,45 @@ export const Form: FunctionComponent = () => {
     inputRef.current.click();
   };
 
-  const handleUpload1 = async () => {
-    setIsUploading(true);
-    try {
-      // const formData = new FormData();
-      // formData.append('Image', images[0]);
+  // const handleUpload1 = async () => {
+  //   setIsUploading(true);
+  //   try {
+  //     // const formData = new FormData();
+  //     // formData.append('Image', images[0]);
 
-      // const res = await fetch(UPLOAD_URL, {
-      //   method: "POST",
-      //   body: formData
-      // });
+  //     // const res = await fetch(UPLOAD_URL, {
+  //     //   method: "POST",
+  //     //   body: formData
+  //     // });
 
-      // const data = await res.json();
-      // console.log(data);
+  //     // const data = await res.json();
+  //     // console.log(data);
 
-      // const { data: { message } } = await axios.post(UPLOAD_URL, formData);
-      // alert(message);
-      
-      // setImages(undefined);
-      // inputRef.current.value = "";
+  //     // const { data: { message } } = await axios.post(UPLOAD_URL, formData);
+  //     // alert(message);
 
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsUploading(false);
-    }
+  //     // setImages(undefined);
+  //     // inputRef.current.value = "";
 
-  };
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsUploading(false);
+  //   }
+
+  // };
 
   const handleUpload = async () => {
     setIsUploading(true);
 
     try {
-      console.log('handleUpload', 
-        { user: { name, email, phone, images, position_id }},
-      );
+      // eslint-disable-next-line no-console
+      console.log('handleUpload',
+        {
+          user: {
+            name, email, phone, images, position_id,
+          },
+        });
 
       dispatch(postUserAsync({
         user: {
@@ -79,11 +88,11 @@ export const Form: FunctionComponent = () => {
           phone,
           images,
           position_id,
-        }
+        },
       }));
       await dispatch(getUsersAsync({ page: 1, count: 6 }));
+    // eslint-disable-next-line no-empty
     } catch (error) {
-      
     } finally {
       setIsUploading(false);
     }
@@ -91,25 +100,25 @@ export const Form: FunctionComponent = () => {
 
   return (
     <div className="Form">
-      <Input 
+      <Input
         label="Your name"
         type="text"
         value={name}
         // helper="Your name"
         errors={fails.name}
         onChange={(e) => setName(e.target.value)}
-        backgroundColor={variablesCss["--bg-color"]}
+        backgroundColor={variablesCss['--bg-color']}
         className="Form__input-name"
         maxWidthErrors={maxWidthErrors}
       />
-      <Input 
+      <Input
         label="Email"
         type="text"
         value={name}
         // helper="Email"
         errors={['Error1', 'Error2dsdfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 'Error3']}
         onChange={(e) => setName(e.target.value)}
-        backgroundColor={variablesCss["--bg-color"]}
+        backgroundColor={variablesCss['--bg-color']}
         className="Form__input-email"
         maxWidthErrors={maxWidthErrors}
       />
@@ -120,19 +129,17 @@ export const Form: FunctionComponent = () => {
           id="name"
           type="text"
           value={name}
-          onChange={(e: any) => setName(e.target.value)}  
+          onChange={(e: any) => setName(e.target.value)}
         />
         {fails.name && fails.name.map(e => (
           <p key={e}>{e}</p>
         ))}
       </label>
-      
-            
       <label htmlFor="email">
         email:&nbsp;
         <input
           id="email"
-          type="text" 
+          type="text"
           value={email}
           onChange={(e: any) => setEmail(e.target.value)}
         />
@@ -147,7 +154,7 @@ export const Form: FunctionComponent = () => {
           id="phone"
           type="text"
           value={phone}
-          onChange={(e: any) => setPhone(e.target.value)}  
+          onChange={(e: any) => setPhone(e.target.value)}
         />
         {fails.phone && fails.phone.map(e => (
           <p key={e}>{e}</p>
@@ -170,11 +177,11 @@ export const Form: FunctionComponent = () => {
         ))}
       </label>
 
-
       <label htmlFor="file">
         <div style={{
-          visibility: "hidden",
-        }}>
+          visibility: 'hidden',
+        }}
+        >
           <input
             type="file"
             onChange={(e: any) => setImages(e.target.files)}
@@ -188,24 +195,31 @@ export const Form: FunctionComponent = () => {
           <p key={e}>{e}</p>
         ))}
       </label>
-      
+
       {images?.length ? (
         <>
           <div className="img-preview">
-            {Array.from(images).map((image, index) => (
-              <img alt="" src={URL.createObjectURL(image)} key={index}/>
+            {Array.from(images).map((image) => (
+              <img alt={image} src={URL.createObjectURL(image)} key={image} />
             ))}
           </div>
           <div className="action-buttons">
-            <button onClick={handleClick} disabled={isUploading}>Change</button>
+            <button
+              type="button"
+              onClick={handleClick}
+              disabled={isUploading}
+            >
+              Change
+            </button>
             {/* <button onClick={handleUpload} disabled={isUploading}>Upload</button> */}
           </div>
         </>
       ) : (
-        <button onClick={handleClick}>Chose Images</button>
+        <button type="button" onClick={handleClick}>Chose Images</button>
       )}
 
       <button
+        type="button"
         onClick={() => handleUpload()}
         disabled={isUploading}
       >
@@ -213,5 +227,4 @@ export const Form: FunctionComponent = () => {
       </button>
     </div>
   );
-}
- 
+};

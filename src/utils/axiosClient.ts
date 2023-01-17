@@ -15,7 +15,7 @@ export const client = {
 
     // eslint-disable-next-line no-console
     console.log('get', baseURL + url);
-    
+
     return response.data;
   },
 

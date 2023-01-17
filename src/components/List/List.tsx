@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import './List.scss';
 
 export const List: FunctionComponent<{ children: any }> = ({ children }) => {
@@ -7,4 +7,4 @@ export const List: FunctionComponent<{ children: any }> = ({ children }) => {
       {children}
     </div>
   );
-}
+};

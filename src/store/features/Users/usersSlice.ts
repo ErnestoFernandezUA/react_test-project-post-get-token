@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-param-reassign */
 import {
   createAsyncThunk,
   createSlice,
@@ -9,9 +11,12 @@ import {
 } from '../../index';
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
-import { getTokenAsync } from '../Token/tokenSlice';
-import { postUser, PostUserResponse } from '../../../api/users.post';
-import axios from 'axios';
+// import { getTokenAsync } from '../Token/tokenSlice';
+import {
+  postUser,
+  // PostUserResponse,
+} from '../../../api/users.post';
+// import axios from 'axios';
 
 const DELAY_OF_WAITING = 5000;
 
@@ -52,7 +57,7 @@ const initialState: UsersState = {
     phone: null,
     images: null,
     position_id: null,
-  }
+  },
 };
 
 export const getUsersAsync = createAsyncThunk(
@@ -67,7 +72,7 @@ export const getUsersAsync = createAsyncThunk(
     try {
       await new Promise(resolve => setTimeout(resolve, delay));
       const response = await getUsersPage(link_to_next_page, page, count);
-  
+
       return response;
     } catch (error) {
       rejectWithValue(error);
@@ -87,34 +92,43 @@ export const postUserAsync = createAsyncThunk(
       images,
       position_id,
     },
-    delay = 1000,
+    // delay = 1000,
   }: any,
-  { dispatch, getState, rejectWithValue }) => {
+  {
+    // dispatch,
+    getState,
+    rejectWithValue,
+  }) => {
+    // eslint-disable-next-line no-console
     console.log('postUserAsync', position_id);
-    
+
     try {
       const state = getState() as RootState;
+
+      // eslint-disable-next-line no-console
       console.log('state.token.storage', state.token.storage);
       // await new Promise(resolve => setTimeout(resolve, delay));
       // await dispatch(getTokenAsync());
 
       const formData = new FormData();
-      formData.append('position_id', position_id); 
-      formData.append('name', name); 
-      formData.append('email', email); 
-      formData.append('phone', phone); 
+
+      formData.append('position_id', position_id);
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('phone', phone);
       formData.append('photo', images[0]);
-      
+
       // 1 - not work
+      // eslint-disable-next-line no-console
       console.log(formData);
 
       const response = await postUser(
         {
-          body: formData, 
-          headers: { 
-            'Token': String(state.token.storage),
+          body: formData,
+          headers: {
+            Token: String(state.token.storage),
           },
-        }, 
+        },
       );
 
       // 2 - not work
@@ -131,16 +145,17 @@ export const postUserAsync = createAsyncThunk(
       // })
 
       // 3 - work but fetch
-      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
+      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users',
       //   {
-      //     method: 'POST', 
-      //     body: formData, 
-      //     headers: { 
+      //     method: 'POST',
+      //     body: formData,
+      //     headers: {
       //       'Token': String(state.token.storage),
-      //     }, 
+      //     },
       //   }
       // ).then((res) => res.json());
 
+      // eslint-disable-next-line no-console
       console.log('postUserAsync/ response', response);
 
       return response;
@@ -167,9 +182,9 @@ const usersSlice = createSlice({
     ) => {
       state.statusLoading = action.payload;
     },
-    resetState: (state: UsersState) => {
-      state = initialState;
-    }
+    resetState: () => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -179,27 +194,28 @@ const usersSlice = createSlice({
         state.statusLoading = 'loading';
       })
       .addCase(getUsersAsync.fulfilled,
-        (state: UsersState, 
-        action:PayloadAction<GetUsersResponse | undefined,
-        string, {arg: GetUsersParams; requestId: string; requestStatus: "fulfilled";}, never>
-    ) => {
-        if (action.payload && action.payload.success) {
-          const {
-            users,
-            links: { next_url },
-            total_pages,
-            page,
-          } = action.payload;
+        (
+          state: UsersState,
+          action:PayloadAction<GetUsersResponse | undefined,
+          string, {arg: GetUsersParams; requestId: string; requestStatus: 'fulfilled';}, never>,
+        ) => {
+          if (action.payload && action.payload.success) {
+            const {
+              users,
+              links: { next_url },
+              total_pages,
+              page,
+            } = action.payload;
 
-          state.payload.push(...users);
-          state.statusLoading = 'idle';
-          state.link_to_next_page = next_url;
-          state.total_pages = total_pages;
-          state.current_page = page;
-        } else {
-          state.error = 'getUsersAsync.fulfilled/ response.success = false';
-        }
-      })
+            state.payload.push(...users);
+            state.statusLoading = 'idle';
+            state.link_to_next_page = next_url;
+            state.total_pages = total_pages;
+            state.current_page = page;
+          } else {
+            state.error = 'getUsersAsync.fulfilled/ response.success = false';
+          }
+        })
       .addCase(getUsersAsync.rejected, (state) => {
         state.statusLoading = 'failed';
       })
@@ -208,18 +224,22 @@ const usersSlice = createSlice({
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(postUserAsync.fulfilled, (state, action
-    //     :PayloadAction<PostUserResponse, string, {
-    //     arg: any;
-    //     requestId: string;
-    //     requestStatus: "fulfilled";
-    // }, never>
-    ) => {  
+      .addCase(postUserAsync.fulfilled, (
+        state,
+        action,
+        //     :PayloadAction<PostUserResponse, string, {
+        //     arg: any;
+        //     requestId: string;
+        //     requestStatus: "fulfilled";
+        // }, never>
+      ) => {
         state.statusLoading = 'idle';
 
+        // eslint-disable-next-line no-console
         console.log('postUserAsync.fulfilled/ action.payload', action.payload);
         // state.storage.push(action.payload);
         if (!action.payload) {
+          // eslint-disable-next-line no-useless-return
           return;
         }
 
@@ -232,7 +252,7 @@ const usersSlice = createSlice({
       .addCase(postUserAsync.rejected, (state) => {
         state.statusLoading = 'failed';
         // console.log('postUserAsync.rejected');
-      })
+      });
   },
 });
 
@@ -249,6 +269,6 @@ export const selectPayloadUsers = (state: RootState) => state.users.payload;
 export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
 export const selectUsersError = (state: RootState) => state.users.error;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
-export const selectIsLastPage = (state: RootState) => state.users.current_page === state.users.total_pages;
+export const selectIsLastPage
+= (state: RootState) => state.users.current_page === state.users.total_pages;
 export const selectPostFails = (state: RootState) => state.users.fails;
-

@@ -6,4 +6,4 @@ export interface PositionsResponse {
   positions: Position[];
 }
 
-export const getPositions = () => client.get<PositionsResponse>(`/positions`);
+export const getPositions = () => client.get<PositionsResponse>('/positions');

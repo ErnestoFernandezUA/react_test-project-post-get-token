@@ -1,5 +1,5 @@
+import React, { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { RouterProvider } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import { router } from './App';
 import './style/index.css';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 
 root.render(

@@ -1,9 +1,9 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
-import { Container } from "../Container";
-import { Wrapper } from "../Wrapper/Wrapper";
-import { Button } from "../../UI/Button/Button";
-import Logo from '../../images/logo.svg'
+import { Container } from '../Container';
+import { Wrapper } from '../Wrapper/Wrapper';
+import { Button } from '../../UI/Button/Button';
+import Logo from '../../images/logo.svg';
 
 import './Header.scss';
 
@@ -32,4 +32,4 @@ export const Header: FunctionComponent = () => {
       </Container>
     </header>
   );
-}
+};

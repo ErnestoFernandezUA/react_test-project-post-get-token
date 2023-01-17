@@ -1,7 +1,7 @@
-import { FunctionComponent } from "react";
-import { Container } from "../Container";
-import { Form } from "../Form";
-import { Wrapper } from "../Wrapper/Wrapper";
+import React, { FunctionComponent } from 'react';
+import { Container } from '../Container';
+import { Form } from '../Form';
+import { Wrapper } from '../Wrapper/Wrapper';
 
 import './SectionPost.scss';
 
@@ -17,5 +17,4 @@ export const SectionPost: FunctionComponent = () => {
       </Container>
     </section>
   );
-}
- 
+};

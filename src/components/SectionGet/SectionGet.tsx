@@ -1,7 +1,12 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { widthContentColumns } from "../../helpers/widthContentColumns";
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { widthContentColumns } from '../../helpers/widthContentColumns';
 import {
   addPayload,
   getUsersAsync,
@@ -10,14 +15,14 @@ import {
   selectPayloadUsers,
   selectUsers,
   selectUsersError,
-  selectUsersStatusLoading
-} from "../../store/features/Users/usersSlice";
-import { Card } from "../Card";
-import { Container } from "../Container";
-import { Wrapper } from "../Wrapper/Wrapper";
-import { List } from "../List";
-import { Button } from "../../UI/Button/Button";
-import { UserType } from "../../type/User";
+  selectUsersStatusLoading,
+} from '../../store/features/Users/usersSlice';
+import { Card } from '../Card';
+import { Container } from '../Container';
+import { Wrapper } from '../Wrapper/Wrapper';
+import { List } from '../List';
+import { Button } from '../../UI/Button/Button';
+import { UserType } from '../../type/User';
 
 import './SectionGet.scss';
 
@@ -32,22 +37,22 @@ export const SectionGet: FunctionComponent = () => {
   const error = useAppSelector(selectUsersError);
 
   const [maxWidthContent, setMaxWidthContent] = useState('200px');
-  
+
   useEffect(() => {
-    setMaxWidthContent(`${widthContentColumns()}px`)
-  }, [])
+    setMaxWidthContent(`${widthContentColumns()}px`);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
         dispatch(addPayload());
       }
-    }, 5000)
+    }, 5000);
 
     if (divRef.current !== null) {
       divRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [users.length, payloadUsers, dispatch])
+  }, [users.length, payloadUsers, dispatch]);
 
   return (
     <section>
@@ -59,36 +64,37 @@ export const SectionGet: FunctionComponent = () => {
 
           <List>
             {users.map((user: UserType) => (
-              <Card 
+              <Card
                 key={user.id}
-                user={user} 
-                maxWidthContent= {maxWidthContent}/>
-            ))} 
+                user={user}
+                maxWidthContent={maxWidthContent}
+              />
+            ))}
           </List>
 
           {/* distance between List1 - List2 */}
 
           {(isLoading === 'loading') && <>Loading .....</>}
-          
+
           <List>
             {payloadUsers.map((user: UserType) => (
-              <Card 
-                key={user.id} 
-                user={user} 
-                maxWidthContent= {maxWidthContent}
+              <Card
+                key={user.id}
+                user={user}
+                maxWidthContent={maxWidthContent}
               />
             ))}
           </List>
 
           <div className="SectionGet__button-container">
-            {!isLastPage && 
+            {!isLastPage && (
               <Button
-                onClick={() => dispatch(getUsersAsync({link_to_next_page}))}
+                onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
                 width={120}
               >
                 Show More
               </Button>
-            }
+            )}
           </div>
 
           <div ref={divRef}></div>
@@ -96,5 +102,4 @@ export const SectionGet: FunctionComponent = () => {
       </Container>
     </section>
   );
-}
- 
+};

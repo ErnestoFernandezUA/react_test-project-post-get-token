@@ -3,7 +3,7 @@ const App = {
   tablet: 768,
   desktop: 1024,
   fullscreen: 1170,
-}
+};
 
 export function widthContentColumns() {
   const width = window.innerWidth;
@@ -36,6 +36,7 @@ export function widthContentColumns() {
 export function widthImportErrors() {
   const width = window.innerWidth;
 
+  // eslint-disable-next-line no-console
   console.log('width', width);
 
   // Input mobile (<768) + window paddings 16px: width-32 (<412px)

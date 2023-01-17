@@ -3,12 +3,12 @@ export const isTokenActive = (timeOfLastSet: number | null, activeDuration: numb
 
   if (timeOfLastSet) {
     // console.log('selectTokenIsExpired/ last change:', timeOfLastSet);
+    // eslint-disable-next-line no-console
     console.log('selectTokenIsExpired/ time from last:',
-     Math.floor((currentTime - timeOfLastSet) / 1000 / 60), 'min,',
-     'is token active? ', currentTime - timeOfLastSet < activeDuration * 60 *1000,
-     );
+      Math.floor((currentTime - timeOfLastSet) / 1000 / 60), 'min,',
+      'is token active? ', currentTime - timeOfLastSet < activeDuration * 60 * 1000);
 
-    return currentTime - timeOfLastSet < activeDuration * 60 * 1000 ;
+    return currentTime - timeOfLastSet < activeDuration * 60 * 1000;
   }
 
   return false;

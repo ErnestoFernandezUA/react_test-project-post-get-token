@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import {
   configureStore,
   ThunkAction,
@@ -15,8 +16,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import positionsSlice from './features/Positions/positionsSlice';
 
+import positionsSlice from './features/Positions/positionsSlice';
 import tokenReducer from './features/Token/tokenSlice';
 import usersSlice from './features/Users/usersSlice';
 

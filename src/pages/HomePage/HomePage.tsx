@@ -1,11 +1,11 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
-import { SectionPromo } from "../../components/SectionPromo/SectionPromo";
-import { SectionGet } from "../../components/SectionGet";
-import { SectionPost } from "../../components/SectionPost";
+import { SectionPromo } from '../../components/SectionPromo/SectionPromo';
+import { SectionGet } from '../../components/SectionGet';
+import { SectionPost } from '../../components/SectionPost';
 
 import './HomePage.scss';
- 
+
 export const HomePage: FunctionComponent = () => {
   return (
     <main className="HomePage">
@@ -14,4 +14,4 @@ export const HomePage: FunctionComponent = () => {
       <SectionPost />
     </main>
   );
-}
+};

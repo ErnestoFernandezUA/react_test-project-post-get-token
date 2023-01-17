@@ -15,7 +15,7 @@ export const variablesCss = {
   '--bg-color': '#E5E5E5',
   '--white': '#FFFFFF',
   '--black': 'rgba(0, 0, 0, 0.87)',
-  
+
   /* UI */
   '--button-color': 'rgba(0, 0, 0, 0.87)',
   '--button-primary-bg': '#F4E041',
@@ -24,7 +24,7 @@ export const variablesCss = {
   '--button-disabled-color': 'rgba(255, 255, 255, 0.87)',
   '--button-br': '80px',
   '--button-radii': '4px',
-  
+
   '--field-border-enabled': '#D0CFCF',
   '--field-radii': 4,
   '--field-helper-text': '#7E7E7E',
@@ -32,4 +32,4 @@ export const variablesCss = {
   '--error-color': '#CB3D40',
 
   '--card-br': 10,
-}
+};

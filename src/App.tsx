@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createHashRouter, Outlet } from 'react-router-dom';
 
 import { useAppDispatch } from './store/hooks';
@@ -11,23 +11,6 @@ import { NotFound } from './pages/NotFound';
 
 // localStorage.clear();
 
-export const router = createHashRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <NotFound />,
-    id: "App",
-    children: [
-      {
-        path: "/",
-        element: <HomePage />,
-        id: "homepage",
-        errorElement: <>Error on Homepage</>,
-      },
-    ],
-  },
-]);
-
 function App() {
   const dispatch = useAppDispatch();
 
@@ -35,15 +18,32 @@ function App() {
     dispatch(getTokenAsync());
     dispatch(getUsersAsync({ page: 1, count: 6 }));
     dispatch(getPositionsAsync());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <>
       <Header />
 
       <main>
-        <Outlet/>
+        <Outlet />
       </main>
     </>
   );
 }
+
+export const router = createHashRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />,
+    id: 'App',
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+        id: 'homepage',
+        errorElement: <>Error on Homepage</>,
+      },
+    ],
+  },
+]);

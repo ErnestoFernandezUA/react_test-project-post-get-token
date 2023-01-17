@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
+import classNames from 'classnames';
 import './Input.scss';
 
 interface InputProps {
@@ -13,57 +13,58 @@ interface InputProps {
   className?: string;
   maxWidthErrors: number;
 }
- 
+
 export const Input: FunctionComponent<InputProps> = ({
-  label, 
-  type = 'text', 
-  value, 
-  helper, 
+  label,
+  type = 'text',
+  value,
+  helper,
   errors,
+  // eslint-disable-next-line no-console
   onChange = () => console.log('no input onChange function'),
   backgroundColor = 'white',
   className,
   maxWidthErrors,
 }) => {
   const styleInput = {
-    backgroundColor: backgroundColor,
+    backgroundColor,
   };
   const styleLabel = {
-    backgroundColor: backgroundColor,
+    backgroundColor,
   };
   const styleInput__input = {
-    backgroundColor: backgroundColor,
+    backgroundColor,
   };
   const styleError = {
     width: maxWidthErrors,
     border: '1px solid green',
-    
-  }
+  };
 
+  // eslint-disable-next-line no-console
   console.log('maxWidthErrors', maxWidthErrors);
+
   return (
-    <div 
-      className={classNames('Input', className)} 
+    <div
+      className={classNames('Input', className)}
       style={styleInput}
     >
       <label htmlFor="input">
         {value && (
           <p
-            className="Input__label" 
+            className="Input__label"
             style={styleLabel}
           >
             {label}
           </p>
         )}
 
-        <input 
+        <input
           id="input"
-          type={type} 
+          type={type}
           value={value}
           onChange={onChange}
           className={classNames('Input__input',
-            {'Input__input--error': errors?.length }
-            )}
+            { 'Input__input--error': errors?.length })}
           placeholder={label}
           style={styleInput__input}
         />
@@ -87,5 +88,4 @@ export const Input: FunctionComponent<InputProps> = ({
 
     </div>
   );
-}
- 
+};

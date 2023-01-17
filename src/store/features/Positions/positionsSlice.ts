@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   createAsyncThunk,
   createSlice,
@@ -23,14 +24,16 @@ const initialState: PositionsState = {
 export const getPositionsAsync = createAsyncThunk(
   'users/getPositions',
   async (_, { rejectWithValue }) => {
-    try {
-      const response = await getPositions();
+    let response;
 
-      return response;
+    try {
+      response = await getPositions();
     } catch (error) {
-      rejectWithValue(error)
+      rejectWithValue(error);
     }
-  }
+
+    return response;
+  },
 );
 
 const positionsSlice = createSlice({
@@ -53,31 +56,28 @@ const positionsSlice = createSlice({
       state.error = action.payload;
       state.statusLoading = 'failed';
     },
-    resetPositionsState: (state: PositionsState) => {
-      state = initialState;
-    }
+    resetPositionsState: () => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getPositionsAsync.pending,
-        (state: PositionsState,
-      ) => {
-        state.statusLoading = 'loading';
-      })
+        (state: PositionsState) => {
+          state.statusLoading = 'loading';
+        })
       .addCase(getPositionsAsync.fulfilled,
-        (state, 
-        action,
-        ) => {  
-        state.statusLoading = 'idle';
+        (state, action) => {
+          state.statusLoading = 'idle';
 
-        if (action.payload && action.payload.success) {
-          // always overwriting previous storage 
-          state.storage = action.payload.positions;
-        }
-      })
+          if (action.payload && action.payload.success) {
+            // always overwriting previous storage
+            state.storage = action.payload.positions;
+          }
+        })
       .addCase(getPositionsAsync.rejected, (state) => {
         state.statusLoading = 'failed';
-      })
+      });
   },
 });
 

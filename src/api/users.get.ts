@@ -6,7 +6,7 @@ export type GetUsersParams = {
   page?: number;
   count?: number;
   delay?: number;
-}
+};
 
 export type GetUsersResponse = {
   count: number | null;
@@ -19,10 +19,12 @@ export type GetUsersResponse = {
   total_pages: number | null;
   total_users: number | null;
   users: UserType[];
-}
+};
 
-export const getAllUsers = () => client.get(`/users`);
+export const getAllUsers = () => client.get('/users');
 export const getUserById = (userId: number) => client.get(`/users/${userId}`);
-export const getUsersPage = (link: string | null, page: number, count: number) => client.get<GetUsersResponse>(
-  link ? link : `/users?page=${page}&count=${count}`
-);
+export const getUsersPage = (
+  link: string | null,
+  page: number,
+  count: number,
+) => client.get<GetUsersResponse>(link || `/users?page=${page}&count=${count}`);

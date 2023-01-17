@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-param-reassign */
 import {
   createAsyncThunk,
   createSlice,
@@ -30,7 +32,12 @@ const initialState: TokenState = {
 
 export const getTokenAsync = createAsyncThunk(
   'token/fetchToken',
-  async (_, { rejectWithValue, getState, requestId, dispatch }) => {
+  async (_, {
+    // rejectWithValue,
+    getState,
+    requestId,
+    // dispatch,
+  }) => {
     // console.log('getTokenAsync/');
     const state = getState() as RootState;
 
@@ -41,14 +48,15 @@ export const getTokenAsync = createAsyncThunk(
 
     if (requestId === state.token.currentRequestId && !isActive) {
       const response: TokenResponse = await getToken();
-  
+
       // console.log('getTokenAsync/ response', response);
-  
+
       return response;
-    } else {
-      // nothing to do 
-      // console.log('getTokenAsync/ token is active and it shouldnt reload');
     }
+    // nothing to do
+    // console.log('getTokenAsync/ token is active and it shouldnt reload');
+
+    // return null;
   },
 );
 
@@ -72,16 +80,15 @@ const tokenSlice = createSlice({
       state.error = action.payload;
       state.statusLoading = 'failed';
     },
-    resetToken: (state: TokenState) => {
-      state = initialState;
-    }
+    resetToken: () => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getTokenAsync.pending, (
         state: TokenState,
-        { meta: { requestId },
-      }
+        { meta: { requestId } },
       ) => {
         // console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
@@ -90,15 +97,16 @@ const tokenSlice = createSlice({
           state.currentRequestId = requestId;
         }
       })
-      .addCase(getTokenAsync.fulfilled, (state, action: PayloadAction<TokenResponse | undefined>) => {
-        if (action.payload) {
-          state.storage = action.payload.token;
-          state.setAt = Date.now();
-        }
+      .addCase(getTokenAsync.fulfilled,
+        (state, action: PayloadAction<TokenResponse | undefined>) => {
+          if (action.payload) {
+            state.storage = action.payload.token;
+            state.setAt = Date.now();
+          }
 
-        state.statusLoading = 'idle';
-        state.currentRequestId = null;
-      })
+          state.statusLoading = 'idle';
+          state.currentRequestId = null;
+        })
       .addCase(getTokenAsync.rejected, (state) => {
         state.statusLoading = 'failed';
       });
@@ -116,4 +124,5 @@ export const {
 export const selectToken = (state: RootState) => state.token.storage;
 export const selectTokenStatusLoading = (state: RootState) => state.token.statusLoading;
 export const selectTokenError = (state: RootState) => state.token.error;
-export const selectIsTokenExpired = (state: RootState) => isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);
+export const selectIsTokenExpired
+= (state: RootState) => isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);

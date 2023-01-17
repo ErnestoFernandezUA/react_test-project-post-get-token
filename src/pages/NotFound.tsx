@@ -1,9 +1,9 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
 export const NotFound: FunctionComponent = () => {
   return (
     <div>
-      This page doesn't exist.
+      This page doesn&apos;t exist.
     </div>
   );
-} 
+};

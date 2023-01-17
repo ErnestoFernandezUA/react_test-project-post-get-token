@@ -10,8 +10,7 @@ export type PostUserResponse = {
     phone: string[],
     position_id: string[],
     photo: string[],
-  } 
-}
+  },
+};
 
-
-export const postUser = (data: any) => client.post(`/users`, data);
+export const postUser = (data: any) => client.post('/users', data);
