@@ -1,0 +1,7 @@
+@import './../../style/mixins.scss';
+
+.SectionPost {
+  &__title {
+    @include title-of-section
+  }
+}

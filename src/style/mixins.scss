@@ -1,0 +1,12 @@
+@mixin title-of-section {
+  padding: 140px 0 50px; // case 144 is mistake?
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-normal);
+  color: var(--black);
+  text-align: center;
+  margin: 0 auto;
+
+  @media(max-width: 768px) {
+    width: 320px;
+  }
+}
