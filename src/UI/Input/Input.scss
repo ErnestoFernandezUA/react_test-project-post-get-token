@@ -1,13 +1,15 @@
 .Input {
   width: 100%;
+  display: block;
+  // max-width: calc(100%);
   position: relative;
+  // overflow: hidden;
   padding: 6px 0 15px;  
-  overflow: hidden;
-  cursor: pointer;
   box-sizing: border-box;
+  cursor: pointer;
 
-  @media(min-width: 412px) {
-    max-width: 380px;
+  @media(min-width: 450px) {
+    // max-width: 380px;
   }
 
   &__label {
@@ -40,25 +42,39 @@
 
     &:focus, &:active {
       border: 1px solid var(--field-border-enabled);
-    }
-
-    
+    }   
   }
 
   &__helpers {
 
   }
 
+  &__error-container {
+    border: 1px solid red;
+    position: absolute;
+    z-index: 5000;
+    top: 62px;
+    // max-width: 380px;
+  }
+
   &__error {
     margin: 0;
     box-sizing: border-box;
     font-size: var(--fs-sm);
+    line-height: var(--lh-sm);
     color: var(--error-color);
-    position: absolute;
-    bottom: -2px;
-    left: 14px;
+    // bottom: -2px;
+    // left: 14px;
     background-color: transparent;
-    padding: 0 3px;
+    padding: 0 16px;
     cursor: pointer;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
   }
 }

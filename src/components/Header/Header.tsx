@@ -1,15 +1,13 @@
 import { FunctionComponent } from "react";
+
 import { Container } from "../Container";
 import { Wrapper } from "../Wrapper/Wrapper";
-import './Header.scss';
+import { Button } from "../../UI/Button/Button";
 import Logo from '../../images/logo.svg'
-import Button from "../../UI/Button/Button";
 
-interface HeaderProps {
-  
-}
- 
-export const Header: FunctionComponent<HeaderProps> = () => {
+import './Header.scss';
+
+export const Header: FunctionComponent = () => {
   return (
     <header className="Header">
       <Container>
@@ -26,7 +24,8 @@ export const Header: FunctionComponent<HeaderProps> = () => {
               >
                 Users
               </Button>
-              <Button className="Header__button buttonHome uyiuyiu">Sign in</Button>
+
+              <Button className="Header__button">Sign in</Button>
             </div>
           </div>
         </Wrapper>

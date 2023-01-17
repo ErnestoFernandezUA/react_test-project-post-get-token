@@ -94,6 +94,7 @@ export const postUserAsync = createAsyncThunk(
     
     try {
       const state = getState() as RootState;
+      console.log('state.token.storage', state.token.storage);
       // await new Promise(resolve => setTimeout(resolve, delay));
       // await dispatch(getTokenAsync());
 
@@ -105,14 +106,16 @@ export const postUserAsync = createAsyncThunk(
       formData.append('photo', images[0]);
       
       // 1 - not work
-      // console.log(formData);
+      console.log(formData);
 
-      // const response = await postUser(
-      //   {body: formData, 
-      //   headers: { 
-      //     'Token': String(state.token.storage),
-      //   }}, 
-      // );
+      const response = await postUser(
+        {
+          body: formData, 
+          headers: { 
+            'Token': String(state.token.storage),
+          },
+        }, 
+      );
 
       // 2 - not work
       // const response = await axios({
@@ -128,17 +131,17 @@ export const postUserAsync = createAsyncThunk(
       // })
 
       // 3 - work but fetch
-      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
-        {
-          method: 'POST', 
-          body: formData, 
-          headers: { 
-            'Token': String(state.token.storage),
-          }, 
-        }
-      ).then((res) => res.json());
+      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', 
+      //   {
+      //     method: 'POST', 
+      //     body: formData, 
+      //     headers: { 
+      //       'Token': String(state.token.storage),
+      //     }, 
+      //   }
+      // ).then((res) => res.json());
 
-      // console.log('postUserAsync/ response', response);
+      console.log('postUserAsync/ response', response);
 
       return response;
     } catch (error) {
@@ -205,11 +208,13 @@ const usersSlice = createSlice({
       ) => {
         state.statusLoading = 'loading';
       })
-      .addCase(postUserAsync.fulfilled, (state, action:PayloadAction<PostUserResponse, string, {
-        arg: any;
-        requestId: string;
-        requestStatus: "fulfilled";
-    }, never>) => {  
+      .addCase(postUserAsync.fulfilled, (state, action
+    //     :PayloadAction<PostUserResponse, string, {
+    //     arg: any;
+    //     requestId: string;
+    //     requestStatus: "fulfilled";
+    // }, never>
+    ) => {  
         state.statusLoading = 'idle';
 
         console.log('postUserAsync.fulfilled/ action.payload', action.payload);
@@ -218,11 +223,11 @@ const usersSlice = createSlice({
           return;
         }
 
-        if (action.payload.success) {
-          console.log(action.payload.message);
-        } else {
-          state.fails = { ...state.fails, ...action.payload.fails};
-        }
+        // if (action.payload.success) {
+        //   console.log(action.payload.message);
+        // } else {
+        //   state.fails = { ...state.fails, ...action.payload.fails};
+        // }
       })
       .addCase(postUserAsync.rejected, (state) => {
         state.statusLoading = 'failed';

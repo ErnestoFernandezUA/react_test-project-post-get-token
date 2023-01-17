@@ -7,17 +7,22 @@
   &__container{
     height: 60px;
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    
+    // @media (min-width: 380px) {
+      // }
   }
-  
+    
   &__logo {
   }
-
+    
   &__nav {
+    // border: 1px solid red;
   }
   
   &__button {
-    margin-left: 10px;
+    margin-left: 5px;
   }
 }

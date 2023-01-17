@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
-import { createHashRouter, Outlet } from 'react-router-dom'
+import { useEffect } from 'react';
+import { createHashRouter, Outlet } from 'react-router-dom';
+
 import { useAppDispatch } from './store/hooks';
-import './App.scss';
-import { NotFound } from './pages/NotFound';
-import { HomePage } from './pages/HomePage/HomePage';
 import { getTokenAsync } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
-import { Container } from './components/Container/Container';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
-import { Wrapper } from './components/Wrapper/Wrapper';
 import { Header } from './components/Header';
+import { HomePage } from './pages/HomePage/HomePage';
+import { NotFound } from './pages/NotFound';
 
 // localStorage.clear();
 
@@ -40,14 +38,12 @@ function App() {
   }, [dispatch])
 
   return (
-    <div className="App">
+    <>
       <Header />
 
       <main>
         <Outlet/>
       </main>
-    </div>
+    </>
   );
 }
-
-export default App;

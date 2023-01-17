@@ -1,30 +1,24 @@
 import classNames from "classnames";
-import { FunctionComponent, memo, useEffect, useRef } from "react";
+import { FunctionComponent } from "react";
 import './Button.scss';
 
 type AnyFunction = (...args: any[]) => any;
 
 interface ButtonProps {
-  className?: string;
+  className?: string; // External className for position
   disabled?: boolean;
   children?: any;
   onClick?: AnyFunction;
+  width?: number;
 }
  
-const Button: FunctionComponent<ButtonProps> = ({
+export const Button: FunctionComponent<ButtonProps> = ({
   className, 
   disabled = false, 
   children = '', 
-  onClick = () => console.log('no onClick function'), 
+  onClick = () => console.log('no onClick function'),
+  width,
 }) => {
-  // let { current } = useRef<string[] | null>();
-
-  // useEffect(() => {
-  //   if (className) {current = className.trim().split(' ')};
-  // }, [])
-
-  // console.log(current);
-
   return (
     <div
       className={classNames('Button',
@@ -32,6 +26,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         className,
       )}
       onClick={onClick}
+      style={{ width }}
     >
     
       <div className="Button__container">
@@ -40,5 +35,3 @@ const Button: FunctionComponent<ButtonProps> = ({
     </div>
   );
 }
- 
-export default Button;

@@ -7,11 +7,11 @@ interface InputProps {
   type: 'text' | 'password';
   value: string;
   helper?: string;
-  error: string[];
+  errors: string[] | null;
   onChange?: (...args: any[]) => any;
   backgroundColor?: string;
-  errorColor?: string;
   className?: string;
+  maxWidthErrors: number;
 }
  
 export const Input: FunctionComponent<InputProps> = ({
@@ -19,14 +19,12 @@ export const Input: FunctionComponent<InputProps> = ({
   type = 'text', 
   value, 
   helper, 
-  error,
+  errors,
   onChange = () => console.log('no input onChange function'),
   backgroundColor = 'white',
-  errorColor = 'red',
   className,
+  maxWidthErrors,
 }) => {
-  console.log(value);
-
   const styleInput = {
     backgroundColor: backgroundColor,
   };
@@ -36,8 +34,14 @@ export const Input: FunctionComponent<InputProps> = ({
   const styleInput__input = {
     backgroundColor: backgroundColor,
   };
+  const styleError = {
+    width: maxWidthErrors,
+    border: '1px solid green',
+    
+  }
 
-  return (  
+  console.log('maxWidthErrors', maxWidthErrors);
+  return (
     <div 
       className={classNames('Input', className)} 
       style={styleInput}
@@ -58,17 +62,29 @@ export const Input: FunctionComponent<InputProps> = ({
           value={value}
           onChange={onChange}
           className={classNames('Input__input',
-          {'Input__input--error': error.length > 0}
-          )}
+            {'Input__input--error': errors?.length }
+            )}
           placeholder={label}
           style={styleInput__input}
         />
       </label>
-      {error.length ? (
-        <p className="Input__error">{error[0]}</p>
+
+      {errors?.length ? (
+        <div className="Input__error-container">
+          {errors.map((e: string) => (
+            <div
+              key={e}
+              className="Input__error"
+              style={styleError}
+            >
+              {e}
+            </div>
+          ))}
+        </div>
       ) : (
         <p className="Input__helpers">{helper}</p>
       )}
+
     </div>
   );
 }

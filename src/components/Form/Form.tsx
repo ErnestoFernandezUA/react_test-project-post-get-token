@@ -1,17 +1,16 @@
-import axios from "axios";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectPositions } from "../../store/features/Positions/positionsSlice";
 import { getUsersAsync, postUserAsync, selectPostFails } from "../../store/features/Users/usersSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { variablesCss } from "../../style/variables";
 import { Input } from "../../UI/Input";
 
 import './From.scss';
+import { widthImportErrors } from "../../helpers/widthContentColumns";
+
 const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
 
-interface FormProps {
-}
- 
-export const Form: FunctionComponent<FormProps> = () => {
+export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
   const positions = useAppSelector(selectPositions);
   const fails = useAppSelector(selectPostFails);
@@ -25,8 +24,10 @@ export const Form: FunctionComponent<FormProps> = () => {
   const [images, setImages] = useState<any[]>();
   const [isUploading, setIsUploading] = useState(false);
   const inputRef = useRef<any | null>();
+  const [maxWidthErrors, setMaxWidthErrors] = useState(328);
 
   useEffect(() => {
+    setMaxWidthErrors(widthImportErrors());
   }, [dispatch]);
 
   // console.log(positions);
@@ -91,26 +92,28 @@ export const Form: FunctionComponent<FormProps> = () => {
   return (
     <div className="Form">
       <Input 
-        label="Name"
+        label="Your name"
         type="text"
         value={name}
-        helper="helper"
-        error={['Error']}
+        // helper="Your name"
+        errors={fails.name}
         onChange={(e) => setName(e.target.value)}
-        backgroundColor="#E5E5E5"
+        backgroundColor={variablesCss["--bg-color"]}
         className="Form__input-name"
+        maxWidthErrors={maxWidthErrors}
       />
       <Input 
-        label="Name"
+        label="Email"
         type="text"
         value={name}
-        helper="helper"
-        error={['Error']}
+        // helper="Email"
+        errors={['Error1', 'Error2dsdfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 'Error3']}
         onChange={(e) => setName(e.target.value)}
-        backgroundColor="#E5E5E5"
+        backgroundColor={variablesCss["--bg-color"]}
+        className="Form__input-email"
+        maxWidthErrors={maxWidthErrors}
       />
 
-      {/* <input type="text" /> */}
       <label htmlFor="name">
         name:&nbsp;
         <input
