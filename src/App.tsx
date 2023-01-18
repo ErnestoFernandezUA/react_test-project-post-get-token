@@ -35,6 +35,8 @@ function App() {
       }}
       >
         {window.innerWidth}
+        x
+        {window.innerHeight}
       </div>
 
       <main>

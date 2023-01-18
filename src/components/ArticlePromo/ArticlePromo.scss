@@ -1,7 +1,4 @@
 .Promo {
-  &__content {
-  }
-  
   &__poster {
     width: 100%;
     min-width: 360px;
@@ -36,9 +33,6 @@
     font-weight: var(--fw-normal);
     line-height: var(--lh-md);
     padding-bottom: 32px;
-  }
-
-  &__button {
   }
 
   @media(min-width: 768px){
