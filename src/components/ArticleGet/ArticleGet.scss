@@ -1,9 +1,10 @@
 @import './../../style/mixins.scss';
 
 .ArticleGet {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+  // min-height: 100vh;
+  // display: flex;
+  // align-items: center;
+  // display: none;
 
 
   &__content {
@@ -22,8 +23,10 @@
     padding-bottom: 50px;
   }
 
-  @media(min-width: 768px) {
+  @media(min-width: 1024px) {
     min-height: 0;
+    display: block;
+    align-items: initial;
 
     &__button-container {
       padding-top: 50px;

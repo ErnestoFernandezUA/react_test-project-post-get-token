@@ -54,13 +54,15 @@ export const ArticleGet: FunctionComponent = () => {
     }
   }, [users.length, payloadUsers, dispatch]);
 
+  // eslint-disable-next-line no-console
+  console.log('document.documentElement.clientWidth', document.documentElement.clientWidth);
+
   return (
     <article className="ArticleGet">
       <Container>
         <Wrapper>
           <div className="ArticleGet__content">
             <h2 className="ArticleGet__title">Working with GET request</h2>
-
             {error && <p>{error}</p>}
 
             {/* <List>
