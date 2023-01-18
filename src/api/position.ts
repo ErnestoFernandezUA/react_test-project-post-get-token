@@ -1,9 +1,9 @@
-import { Position } from '../type/Position';
+import { PositionType } from '../type/Position';
 import { client } from '../utils/axiosClient';
 
 export interface PositionsResponse {
   success: boolean;
-  positions: Position[];
+  positions: PositionType[];
 }
 
 export const getPositions = () => client.get<PositionsResponse>('/positions');

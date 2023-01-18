@@ -1,9 +1,4 @@
-const App = {
-  mobile: 360,
-  tablet: 768,
-  desktop: 1024,
-  fullscreen: 1170,
-};
+import { breakpoint } from '../style/breakpoints';
 
 export function widthContentColumns() {
   const width = window.innerWidth;
@@ -15,15 +10,15 @@ export function widthContentColumns() {
   // and padding card 20x2
 
   switch (true) {
-    case (width > App.fullscreen):
+    case (width > breakpoint.fullscreen):
       // console.log('>1170');
       return (1170 - 58) / 3 - 40;
 
-    case (width > App.desktop):
+    case (width > breakpoint.desktop):
       // console.log('>1024');
       return (width - 120 - 58) / 3 - 40;
 
-    case (width > App.tablet):
+    case (width > breakpoint.tablet):
       // console.log('>768');
       return (width - 64 - 16) / 2 - 40;
 

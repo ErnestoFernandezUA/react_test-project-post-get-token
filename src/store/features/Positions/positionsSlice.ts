@@ -7,10 +7,10 @@ import {
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../../index';
 import { getPositions } from '../../../api/position';
-import { Position } from '../../../type/Position';
+import { PositionType } from '../../../type/Position';
 
 export interface PositionsState {
-  storage: Position[];
+  storage: PositionType[];
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
@@ -40,7 +40,7 @@ const positionsSlice = createSlice({
   name: 'positions',
   initialState,
   reducers: {
-    addPositions: (state: PositionsState, action: PayloadAction<Position[]>) => {
+    addPositions: (state: PositionsState, action: PayloadAction<PositionType[]>) => {
       state.storage.push(...action.payload);
     },
     setPositionsStatus: (

@@ -2,11 +2,11 @@ import React, {
   FunctionComponent,
   useEffect,
   useRef,
-  // useState,
+  useState,
 } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-// import { widthContentColumns } from '../../helpers/widthContentColumns';
+import { widthContentColumns } from '../../helpers/widthContentColumns';
 import {
   addPayload,
   getUsersAsync,
@@ -17,12 +17,12 @@ import {
   selectUsersError,
   selectUsersStatusLoading,
 } from '../../store/features/Users/usersSlice';
-// import { Card } from '../Card';
+import { Card } from '../Card';
 import { Container } from '../Container';
 import { Wrapper } from '../Wrapper/Wrapper';
-// import { List } from '../List';
+import { List } from '../List';
 import { Button } from '../../UI/Button/Button';
-// import { UserType } from '../../type/User';
+import { UserType } from '../../type/User';
 
 import './ArticleGet.scss';
 
@@ -36,10 +36,10 @@ export const ArticleGet: FunctionComponent = () => {
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersError);
 
-  // const [maxWidthContent, setMaxWidthContent] = useState('200px');
+  const [maxWidthContent, setMaxWidthContent] = useState('200px');
 
   useEffect(() => {
-    // setMaxWidthContent(`${widthContentColumns()}px`);
+    setMaxWidthContent(`${widthContentColumns()}px`);
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export const ArticleGet: FunctionComponent = () => {
             <h2 className="ArticleGet__title">Working with GET request</h2>
             {error && <p>{error}</p>}
 
-            {/* <List>
+            <List>
               {users.map((user: UserType) => (
                 <Card
                   key={user.id}
@@ -73,13 +73,13 @@ export const ArticleGet: FunctionComponent = () => {
                   maxWidthContent={maxWidthContent}
                 />
               ))}
-            </List> */}
+            </List>
 
             {/* distance between List1 - List2 */}
 
             {(isLoading === 'loading') && <>Loading .....</>}
 
-            {/* <List>
+            <List>
               {payloadUsers.map((user: UserType) => (
                 <Card
                   key={user.id}
@@ -87,7 +87,7 @@ export const ArticleGet: FunctionComponent = () => {
                   maxWidthContent={maxWidthContent}
                 />
               ))}
-            </List> */}
+            </List>
 
             <div className="ArticleGet__button-container">
               {!isLastPage && (
