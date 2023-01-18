@@ -1,13 +1,13 @@
 .Wrapper {
   width: 100%;
   margin: 0 auto;
-  padding: 0 16px;
-  min-width: 360px;
+  padding: 0 15px;
   box-sizing: border-box;
+  border: 1px solid transparent;
 
-  @media(min-width: 360px){
-    padding: 0 16px;
-  }
+  // @media(min-width: 360px){
+  //   padding: 0 16px;
+  // }
 
   @media(min-width: 768px){
     padding: 0 32px; 

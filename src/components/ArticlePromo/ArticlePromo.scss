@@ -1,0 +1,64 @@
+.Promo {
+  &__content {
+  }
+  
+  &__poster {
+    width: 100%;
+    min-width: 360px;
+    height: 100vh;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: var(--white);
+    background-image: url('./../../images/promo-360.png');
+    font-weight: 300; // not 400 as figma
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+  }
+
+  & h1 {
+    margin: 0 auto;
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-normal);
+    line-height: var(--lh-h1);
+    max-width: 350px;
+    text-align: center;
+  }
+
+  & p {
+    margin: 0 auto;
+    padding-top: 21px;
+    max-width: 328px;
+    font-size: var(--fs-md);
+    font-weight: var(--fw-normal);
+    line-height: var(--lh-md);
+    padding-bottom: 32px;
+  }
+
+  &__button {
+  }
+
+  @media(min-width: 768px){
+    &__poster {
+      background-image: url('./../../images/promo-768.png');
+    }
+
+    & h1 {
+      max-width: 450px;
+    }
+
+    & p {
+      max-width: 381px;
+      padding-bottom: 36px;
+    }
+  }
+  
+  @media(min-width: 1024px){
+    &__poster {
+      background-image: url('./../../images/promo-1024.png');
+    }
+  }
+}

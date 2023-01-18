@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from 'react';
 
-import { SectionPromo } from '../../components/SectionPromo/SectionPromo';
-import { SectionGet } from '../../components/SectionGet';
-import { SectionPost } from '../../components/SectionPost';
+import { ArticlePromo } from '../../components/ArticlePromo/ArticlePromo';
+// import { ArticleGet } from '../../components/ArticleGet';
+// import { ArticlePost } from '../../components/ArticlePost';
 
 import './HomePage.scss';
 
 export const HomePage: FunctionComponent = () => {
   return (
-    <main className="HomePage">
-      <SectionPromo />
-      <SectionGet />
-      <SectionPost />
-    </main>
+    <section className="HomePage">
+      <ArticlePromo />
+      {/* <ArticleGet /> */}
+      {/* <ArticlePost /> */}
+    </section>
   );
 };

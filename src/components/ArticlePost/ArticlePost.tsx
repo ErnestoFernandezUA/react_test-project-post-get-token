@@ -3,18 +3,18 @@ import { Container } from '../Container';
 import { Form } from '../Form';
 import { Wrapper } from '../Wrapper/Wrapper';
 
-import './SectionPost.scss';
+import './ArticlePost.scss';
 
-export const SectionPost: FunctionComponent = () => {
+export const ArticlePost: FunctionComponent = () => {
   return (
-    <section className="SectionPost">
+    <article className="ArticlePost">
       <Container>
         <Wrapper>
-          <h2 className="SectionPost__title">Working with POST request</h2>
+          <h2 className="ArticlePost__title">Working with POST request</h2>
 
           <Form />
         </Wrapper>
       </Container>
-    </section>
+    </article>
   );
 };

@@ -1,6 +1,6 @@
 @import './../../style/mixins.scss';
 
-.SectionGet {
+.ArticleGet {
   &__title {
     @include title-of-section;
   }

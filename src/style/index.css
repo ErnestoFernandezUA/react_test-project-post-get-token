@@ -42,12 +42,13 @@
 
 body {
   background-color: var(--bg-color);
+  /* min-width: 360px; */
 }
 
 * {
+  box-sizing: border-box;
   font-family: var(--family);
   font-size: var(--fs-md);
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }

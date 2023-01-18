@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import { createHashRouter, Outlet } from 'react-router-dom';
+import {
+  createHashRouter,
+  Outlet,
+} from 'react-router-dom';
 
 import { useAppDispatch } from './store/hooks';
 import { getTokenAsync } from './store/features/Token/tokenSlice';
@@ -24,6 +27,16 @@ function App() {
     <>
       <Header />
 
+      <div style={{
+        position: 'fixed',
+        top: '70px',
+        left: '20px',
+        zIndex: 9999,
+      }}
+      >
+        {window.innerWidth}
+      </div>
+
       <main>
         <Outlet />
       </main>
@@ -43,6 +56,12 @@ export const router = createHashRouter([
         element: <HomePage />,
         id: 'homepage',
         errorElement: <>Error on Homepage</>,
+      },
+      {
+        path: '/admin',
+        element: <>AdminPage</>,
+        id: 'admin-page',
+        errorElement: <>Error on AdminPage</>,
       },
     ],
   },

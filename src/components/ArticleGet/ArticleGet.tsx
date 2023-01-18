@@ -24,9 +24,9 @@ import { List } from '../List';
 import { Button } from '../../UI/Button/Button';
 import { UserType } from '../../type/User';
 
-import './SectionGet.scss';
+import './ArticleGet.scss';
 
-export const SectionGet: FunctionComponent = () => {
+export const ArticleGet: FunctionComponent = () => {
   const divRef = useRef<any>(null);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
@@ -55,10 +55,10 @@ export const SectionGet: FunctionComponent = () => {
   }, [users.length, payloadUsers, dispatch]);
 
   return (
-    <section>
+    <article className="ArticleGet">
       <Container>
         <Wrapper>
-          <h2 className="SectionGet__title">Working with GET request</h2>
+          <h2 className="ArticleGet__title">Working with GET request</h2>
 
           {error && <p>{error}</p>}
 
@@ -86,7 +86,7 @@ export const SectionGet: FunctionComponent = () => {
             ))}
           </List>
 
-          <div className="SectionGet__button-container">
+          <div className="ArticleGet__button-container">
             {!isLastPage && (
               <Button
                 onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
@@ -100,6 +100,6 @@ export const SectionGet: FunctionComponent = () => {
           <div ref={divRef}></div>
         </Wrapper>
       </Container>
-    </section>
+    </article>
   );
 };

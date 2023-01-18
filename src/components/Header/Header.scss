@@ -1,18 +1,21 @@
 .Header {
   background-color: var(--white);
   position: fixed;
+  top: 0;
+  right: 0;
+
   width: 100%;
   z-index: 9999;
   
   &__container{
+    min-width: 328px;
     height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
-    // @media (min-width: 380px) {
-      // }
+    flex-wrap: nowrap;
+    // border: 1px solid red;
   }
     
   &__logo {
