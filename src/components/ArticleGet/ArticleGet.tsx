@@ -48,6 +48,9 @@ export const ArticleGet: FunctionComponent = () => {
 
   const [maxWidthContent, setMaxWidthContent] = useState('160px');
 
+  // eslint-disable-next-line no-console
+  console.log(maxWidthContent);
+
   useEffect(() => {
     setMaxWidthContent(`${widthContentColumns()}px`);
   }, []);
@@ -63,9 +66,6 @@ export const ArticleGet: FunctionComponent = () => {
       divRef.current.scrollIntoView({ behavior: 'smooth' }); // use react-scroll
     }
   }, [users.length, payloadUsers, dispatch]);
-
-  // eslint-disable-next-line no-console
-  // console.log(maxWidthContent);
 
   return (
     <article className={classNames('ArticleGet',
@@ -99,7 +99,7 @@ export const ArticleGet: FunctionComponent = () => {
               {(isLoading === 'loading') && <>Loading .....</>}
 
               <div className="ArticleGet__button-container">
-                {!isLastPage && (
+                {(!users.length || !isLastPage) && (
                   <Button
                     onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
                     width={120}

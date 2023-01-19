@@ -4,14 +4,14 @@ import './Card.scss';
 
 interface UserProps {
   user: UserType;
-  maxWidthContent: string;
+  maxWidthContent?: string;
 }
 
 export const Card: FunctionComponent<UserProps> = ({
   user: {
     name, email, photo, phone, position,
   },
-  maxWidthContent,
+  maxWidthContent = '',
 }) => {
   const style = {
     maxWidth: maxWidthContent,

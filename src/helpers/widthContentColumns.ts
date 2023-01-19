@@ -1,12 +1,15 @@
 import { breakpoint } from '../style/breakpoints';
 
 export function widthContentColumns() {
-  const width = window.innerWidth;
+  const width = window.innerWidth; // with scroll
 
-  // > 1170: padding 0, gap 29x2
-  // > 1024: padding 60x2, gap 29x2
-  // > 768: padding 32x2, gap 16
-  // > 360: padding 16x2
+  // eslint-disable-next-line no-console
+  console.log(width);
+
+  // > 1170: padding 0, gap 29x2, scroll 17
+  // > 1024: padding 60x2, gap 29x2, scroll 17
+  // > 768: padding 32x2, gap 16, scroll 17
+  // > 360: padding 16x2, scroll 17
   // and padding card 20x2
 
   switch (true) {
@@ -24,7 +27,7 @@ export function widthContentColumns() {
 
     default:
       // console.log('<768');
-      return width - 32 - 40;
+      return width - 32 - 40 - 17;
   }
 }
 

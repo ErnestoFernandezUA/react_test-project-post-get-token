@@ -92,7 +92,7 @@ export const postUserAsync = createAsyncThunk(
       images,
       position_id,
     },
-    // delay = 1000,
+    delay = 1000,
   }: any,
   {
     // dispatch,
@@ -107,7 +107,7 @@ export const postUserAsync = createAsyncThunk(
 
       // eslint-disable-next-line no-console
       console.log('state.token.storage', state.token.storage);
-      // await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolve, delay));
       // await dispatch(getTokenAsync());
 
       const formData = new FormData();
