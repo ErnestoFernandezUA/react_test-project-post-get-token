@@ -9,8 +9,8 @@ import {
   // scroller,
 } from 'react-scroll';
 
-import { Container } from '../Container';
-import { Wrapper } from '../Wrapper/Wrapper';
+// import { Container } from '../Container';
+// import { Wrapper } from '../Wrapper/Wrapper';
 import { Button } from '../../UI/Button/Button';
 import Logo from '../../images/logo.svg';
 
@@ -23,32 +23,32 @@ export const Header: FunctionComponent = () => {
 
   return (
     <header className="Header">
-      <Container>
-        <Wrapper>
-          <div className="Header__container">
-            <div
-              className="Header__logo"
+
+      {/* <Wrapper> */}
+      <div className="Header__container">
+        <div
+          className="Header__logo"
+        >
+          <button type="button" onClick={scrollToTop}>
+            <img src={Logo} alt="Logo" />
+          </button>
+        </div>
+
+        <div className="Header__nav">
+          <Link activeClass="active" to="Get-Component" spy smooth duration={500}>
+            <Button
+              className="Header__button"
+              disabled={false}
             >
-              <button type="button" onClick={scrollToTop}>
-                <img src={Logo} alt="Logo" />
-              </button>
-            </div>
+              Users
+            </Button>
+          </Link>
 
-            <div className="Header__nav">
-              <Link activeClass="active" to="Get-Component" spy smooth duration={500}>
-                <Button
-                  className="Header__button"
-                  disabled={false}
-                >
-                  Users
-                </Button>
-              </Link>
+          <Button className="Header__button">Sign in</Button>
+        </div>
+      </div>
+      {/* </Wrapper> */}
 
-              <Button className="Header__button">Sign in</Button>
-            </div>
-          </div>
-        </Wrapper>
-      </Container>
     </header>
   );
 };
