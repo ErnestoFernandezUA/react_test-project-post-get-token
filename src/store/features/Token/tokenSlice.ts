@@ -36,36 +36,18 @@ export const getTokenAsync = createAsyncThunk(
     rejectWithValue,
     getState,
     requestId,
-    // dispatch,
   }) => {
-    // eslint-disable-next-line no-console
-    console.log('getTokenAsync/');
     try {
       const state = getState() as RootState;
 
-      // eslint-disable-next-line no-console
-      console.log('getTokenAsync/ requestId = ', state.token.currentRequestId, requestId);
-
       const isActive = isTokenActive(state.token.timeOfLastSet, TOKEN_ACTIVE_DURATION);
 
-      // eslint-disable-next-line no-console
-      console.log('getTokenAsync/ isTokenActive: ', isActive);
-
       if (requestId === state.token.currentRequestId && !isActive) {
-        // eslint-disable-next-line no-console
-        console.log('getTokenAsync/ start get token');
-
         const response: TokenResponse = await getToken();
-
-        // eslint-disable-next-line no-console
-        console.log('getTokenAsync/ response', response);
 
         return response;
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('getTokenAsync// error', error);
-
       rejectWithValue(error);
     }
   },
@@ -101,9 +83,8 @@ const tokenSlice = createSlice({
         state: TokenState,
         { meta: { requestId } },
       ) => {
-        // eslint-disable-next-line no-console
-        console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
+        state.error = null;
 
         if (!state.currentRequestId) {
           state.currentRequestId = requestId;
@@ -119,8 +100,9 @@ const tokenSlice = createSlice({
           state.statusLoading = 'idle';
           state.currentRequestId = null;
         })
-      .addCase(getTokenAsync.rejected, (state) => {
+      .addCase(getTokenAsync.rejected, (state, action) => {
         state.statusLoading = 'failed';
+        state.error = action.payload;
       });
   },
 });
