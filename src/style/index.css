@@ -51,9 +51,5 @@
 
 body {
   background-color: var(--bg-color);
-  /* min-width: 370px; */
-  /* overflow-x: hidden; */
-  overflow-y: hidden;
-  /* overflow: scroll; */
 }
 

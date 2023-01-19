@@ -45,9 +45,7 @@ function App() {
         zIndex: 9999,
       }}
       >
-        {window.innerWidth}
-        x
-        {window.innerHeight}
+        {`window.innerWidth ${window.innerWidth} x window.innerHeight ${window.innerHeight}`}
       </div>
 
       <main>
