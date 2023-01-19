@@ -20,18 +20,18 @@ function App() {
   const dispatch = useAppDispatch();
   const screen = useAppSelector(selectScreen);
 
-  // eslint-disable-next-line no-console
-  console.log(screen);
-
   useEffect(() => {
     dispatch(setScreen(getTypeScreen()));
     dispatch(getTokenAsync());
+    dispatch(getPositionsAsync());
+  }, []);
 
-    if (screen && screen !== 'mobile' && screen !== 'tablet') {
+  useEffect(() => {
+    if (screen
+      && screen !== 'mobile'
+      && screen !== 'tablet') {
       dispatch(getUsersAsync({ page: 1, count: 6 }));
     }
-
-    dispatch(getPositionsAsync());
   }, [dispatch, screen]);
 
   return (
