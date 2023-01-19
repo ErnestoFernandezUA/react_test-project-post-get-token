@@ -1,36 +1,36 @@
 .Header {
-  // border: 1px solid red;
   background-color: var(--white);
   position: fixed;
   top: 0;
   right: 0;
-
   width: 100%;
+  
   z-index: 9999;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04);
   
   &__container{
-    padding: 0 15px;
-    // min-width: 328px;
-    height: 58px;
+    background-color: red;
+    height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
+    gap: 0.2rem;
   }
     
   &__logo button {
     border: none;
     background-color: inherit;
+    transform: translateY(3px);
+    background-color: white;
   }
     
   &__nav {
     display: flex;
-    gap: 1rem;
-  }
-  
-  &__button {
-    // margin-left: 5px;
+    gap: 0.2rem;
+
+    @media(min-width: 768px){
+      gap: 1rem; 
+    }
   }
 }
