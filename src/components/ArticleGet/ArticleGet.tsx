@@ -28,8 +28,8 @@ import {
   selectUsersStatusLoading,
 } from '../../store/features/Users/usersSlice';
 import { Card } from '../Card';
-import { Container } from '../Container';
-import { Wrapper } from '../Wrapper/Wrapper';
+import { Container } from '../DeletedContainer';
+import { Wrapper } from '../DeletedWrapper/Wrapper';
 import { List } from '../List';
 import { Button } from '../../UI/Button/Button';
 import { UserType } from '../../type/User';

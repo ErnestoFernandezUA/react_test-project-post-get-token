@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { Container } from '../Container';
+import { Container } from '../DeletedContainer';
 import { Form } from '../Form';
-import { Wrapper } from '../Wrapper/Wrapper';
+import { Wrapper } from '../DeletedWrapper/Wrapper';
 
 import './ArticlePost.scss';
 
