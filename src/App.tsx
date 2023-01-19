@@ -5,32 +5,34 @@ import {
 } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { getTokenAsync, resetToken, selectToken } from './store/features/Token/tokenSlice';
-// import { getUsersAsync } from './store/features/Users/usersSlice';
-// import { getPositionsAsync } from './store/features/Positions/positionsSlice';
+import { getTokenAsync } from './store/features/Token/tokenSlice';
+import { getUsersAsync } from './store/features/Users/usersSlice';
+import { getPositionsAsync } from './store/features/Positions/positionsSlice';
 import { Header } from './components/Header';
 import { HomePage } from './pages/HomePage/HomePage';
 import { NotFound } from './pages/NotFound';
-import { setScreen } from './store/features/Options/optionsSlice';
+import { selectScreen, setScreen } from './store/features/Options/optionsSlice';
 import { getTypeScreen } from './helpers/getTypeScreen';
 
 localStorage.clear();
 
 function App() {
   const dispatch = useAppDispatch();
-  const token = useAppSelector(selectToken);
+  const screen = useAppSelector(selectScreen);
 
   // eslint-disable-next-line no-console
-  console.log('App// token: ', token);
+  console.log(screen);
 
   useEffect(() => {
-    dispatch(resetToken());
-    dispatch(getTokenAsync());
-    // dispatch(getUsersAsync({ page: 1, count: 6 }));
-    // dispatch(getPositionsAsync());
-
     dispatch(setScreen(getTypeScreen()));
-  }, [dispatch]);
+    dispatch(getTokenAsync());
+
+    if (screen && screen !== 'mobile' && screen !== 'tablet') {
+      dispatch(getUsersAsync({ page: 1, count: 6 }));
+    }
+
+    dispatch(getPositionsAsync());
+  }, [dispatch, screen]);
 
   return (
     <>
