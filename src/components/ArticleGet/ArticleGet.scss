@@ -1,14 +1,13 @@
 @import './../../style/mixins.scss';
 
 .ArticleGet {
-  // min-height: 100vh;
-  // display: flex;
-  // align-items: center;
-  // display: none;
-
+  &--start {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
 
   &__content {
-    // border: 1px solid red;
   }
 
   &__title {

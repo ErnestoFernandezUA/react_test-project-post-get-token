@@ -4,6 +4,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import {
+  // Link,
+  // DirectLink,
+  Element,
+  // Events,
+  // animateScroll as scroll,
+  // scrollSpy,
+  // scroller,
+} from 'react-scroll';
+import classNames from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { widthContentColumns } from '../../helpers/widthContentColumns';
@@ -36,7 +46,7 @@ export const ArticleGet: FunctionComponent = () => {
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersError);
 
-  const [maxWidthContent, setMaxWidthContent] = useState('200px');
+  const [maxWidthContent, setMaxWidthContent] = useState('160px');
 
   useEffect(() => {
     setMaxWidthContent(`${widthContentColumns()}px`);
@@ -47,63 +57,63 @@ export const ArticleGet: FunctionComponent = () => {
       if (payloadUsers.length > 0) {
         dispatch(addPayload());
       }
-    }, 5000);
+    }, 1000);
 
     if (divRef.current !== null) {
-      divRef.current.scrollIntoView({ behavior: 'smooth' });
+      divRef.current.scrollIntoView({ behavior: 'smooth' }); // use react-scroll
     }
   }, [users.length, payloadUsers, dispatch]);
 
   // eslint-disable-next-line no-console
-  console.log('document.documentElement.clientWidth', document.documentElement.clientWidth);
+  console.log(maxWidthContent);
 
   return (
-    <article className="ArticleGet">
-      <Container>
-        <Wrapper>
-          <div className="ArticleGet__content">
-            <h2 className="ArticleGet__title">Working with GET request</h2>
-            {error && <p>{error}</p>}
+    <article className={classNames('ArticleGet',
+      { 'ArticleGet--start': !users.length })}
+    >
+      <Element name="Get-Component">
+        <Container>
+          <Wrapper>
+            <div className="ArticleGet__content">
+              <h2 className="ArticleGet__title">Working with GET request</h2>
+              {error && <p>{error}</p>}
 
-            <List>
-              {users.map((user: UserType) => (
-                <Card
-                  key={user.id}
-                  user={user}
-                  maxWidthContent={maxWidthContent}
-                />
-              ))}
-            </List>
+              <List>
+                {users.map((user: UserType) => (
+                  <Card
+                    key={user.id}
+                    user={user}
+                    maxWidthContent={maxWidthContent}
+                  />
+                ))}
 
-            {/* distance between List1 - List2 */}
+                {payloadUsers.map((user: UserType) => (
+                  <Card
+                    key={user.id}
+                    user={user}
+                    maxWidthContent={maxWidthContent}
+                  />
+                ))}
+              </List>
 
-            {(isLoading === 'loading') && <>Loading .....</>}
+              {(isLoading === 'loading') && <>Loading .....</>}
 
-            <List>
-              {payloadUsers.map((user: UserType) => (
-                <Card
-                  key={user.id}
-                  user={user}
-                  maxWidthContent={maxWidthContent}
-                />
-              ))}
-            </List>
+              <div className="ArticleGet__button-container">
+                {!isLastPage && (
+                  <Button
+                    onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+                    width={120}
+                  >
+                    Show More
+                  </Button>
+                )}
+              </div>
 
-            <div className="ArticleGet__button-container">
-              {!isLastPage && (
-                <Button
-                  onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
-                  width={120}
-                >
-                  Show More
-                </Button>
-              )}
+              {/* <div ref={divRef}></div> */}
             </div>
-
-            {/* <div ref={divRef}></div> */}
-          </div>
-        </Wrapper>
-      </Container>
+          </Wrapper>
+        </Container>
+      </Element>
     </article>
   );
 };

@@ -1,5 +1,7 @@
 .Promo {
+  
   &__poster {
+    min-height: 500px;
     width: 100%;
     min-width: 360px;
     height: 100vh;
@@ -17,7 +19,7 @@
   }
 
   & h1 {
-    margin: 0 auto;
+    margin: 40px auto 0;
     font-size: var(--fs-h1);
     font-weight: var(--fw-normal);
     line-height: var(--lh-h1);

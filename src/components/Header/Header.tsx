@@ -1,4 +1,13 @@
 import React, { FunctionComponent } from 'react';
+import {
+  Link,
+  // DirectLink,
+  // Element,
+  // Events,
+  animateScroll as scroll,
+  // scrollSpy,
+  // scroller,
+} from 'react-scroll';
 
 import { Container } from '../Container';
 import { Wrapper } from '../Wrapper/Wrapper';
@@ -8,22 +17,32 @@ import Logo from '../../images/logo.svg';
 import './Header.scss';
 
 export const Header: FunctionComponent = () => {
+  const scrollToTop = () => {
+    scroll.scrollToTop();
+  };
+
   return (
     <header className="Header">
       <Container>
         <Wrapper>
           <div className="Header__container">
-            <div className="Header__logo">
-              <img src={Logo} alt="Logo" />
+            <div
+              className="Header__logo"
+            >
+              <button type="button" onClick={scrollToTop}>
+                <img src={Logo} alt="Logo" />
+              </button>
             </div>
 
             <div className="Header__nav">
-              <Button
-                className="Header__button"
-                disabled={false}
-              >
-                Users
-              </Button>
+              <Link activeClass="active" to="Get-Component" spy smooth duration={500}>
+                <Button
+                  className="Header__button"
+                  disabled={false}
+                >
+                  Users
+                </Button>
+              </Link>
 
               <Button className="Header__button">Sign in</Button>
             </div>

@@ -11,6 +11,8 @@ import { getPositionsAsync } from './store/features/Positions/positionsSlice';
 import { Header } from './components/Header';
 import { HomePage } from './pages/HomePage/HomePage';
 import { NotFound } from './pages/NotFound';
+import { setScreen } from './store/features/Options/optionsSlice';
+import { getTypeScreen } from './helpers/getTypeScreen';
 
 // localStorage.clear();
 
@@ -21,6 +23,8 @@ function App() {
     dispatch(getTokenAsync());
     dispatch(getUsersAsync({ page: 1, count: 6 }));
     dispatch(getPositionsAsync());
+
+    dispatch(setScreen(getTypeScreen()));
   }, [dispatch]);
 
   return (
@@ -58,12 +62,6 @@ export const router = createHashRouter([
         element: <HomePage />,
         id: 'homepage',
         errorElement: <>Error on Homepage</>,
-      },
-      {
-        path: '/admin',
-        element: <>AdminPage</>,
-        id: 'admin-page',
-        errorElement: <>Error on AdminPage</>,
       },
     ],
   },

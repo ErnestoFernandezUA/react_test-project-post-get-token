@@ -20,11 +20,13 @@ import storage from 'redux-persist/lib/storage';
 import positionsSlice from './features/Positions/positionsSlice';
 import tokenReducer from './features/Token/tokenSlice';
 import usersSlice from './features/Users/usersSlice';
+import optionsSlice from './features/Options/optionsSlice';
 
 const rootReducer = combineReducers({
   users: usersSlice,
   token: tokenReducer,
   positions: positionsSlice,
+  options: optionsSlice,
 });
 
 const persistConfig = {

@@ -1,26 +1,27 @@
-import { ScreenType } from "../../type/Screen";
+// unused
+import { ScreenType } from '../../type/Screen';
 
-type Paddings = {
+export type Paddings = {
   paddingTop: number;
   paddingLeft: number;
   paddingBottom: number;
   paddingRight: number;
-}
+};
 
-type WrapperPaddings = {
+export type WrapperPaddings = {
   [screen in ScreenType]: Paddings;
-}
+};
 
 export const wrapperPaddings: WrapperPaddings = {
   mobile: {
     paddingTop: 0,
-    paddingLeft: 0,
+    paddingLeft: 15,
     paddingBottom: 0,
-    paddingRight: 0,
+    paddingRight: 15,
   },
   tablet: {
     paddingTop: 0,
-    paddingLeft: 0,
+    paddingLeft: 160,
     paddingBottom: 0,
     paddingRight: 0,
   },
@@ -36,4 +37,4 @@ export const wrapperPaddings: WrapperPaddings = {
     paddingBottom: 0,
     paddingRight: 0,
   },
-}
+};
