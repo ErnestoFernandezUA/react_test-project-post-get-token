@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent,
+  FunctionComponent, ReactNode,
   // useEffect,
   // useState,
 } from 'react';
@@ -9,7 +9,7 @@ import React, {
 import './Wrapper.scss';
 
 interface WrapperProps {
-  children: any;
+  children: ReactNode;
 }
 
 export const Wrapper: FunctionComponent<WrapperProps> = ({

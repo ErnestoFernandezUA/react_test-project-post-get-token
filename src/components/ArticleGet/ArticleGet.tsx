@@ -37,7 +37,7 @@ import { UserType } from '../../type/User';
 import './ArticleGet.scss';
 
 export const ArticleGet: FunctionComponent = () => {
-  const divRef = useRef<any>(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const payloadUsers = useAppSelector(selectPayloadUsers);
@@ -69,7 +69,7 @@ export const ArticleGet: FunctionComponent = () => {
 
   return (
     <article className={classNames('ArticleGet',
-      { 'ArticleGet--start': !users.length })}
+      { 'ArticleGet--first-load': !users.length })}
     >
       <Element name="Get-Component">
         <Container>
@@ -78,7 +78,7 @@ export const ArticleGet: FunctionComponent = () => {
               <h2 className="ArticleGet__title">Working with GET request</h2>
               {error && <p>{error}</p>}
 
-              <List>
+              <List className="Get-Component">
                 {users.map((user: UserType) => (
                   <Card
                     key={user.id}
@@ -109,7 +109,7 @@ export const ArticleGet: FunctionComponent = () => {
                 )}
               </div>
 
-              {/* <div ref={divRef}></div> */}
+              <div ref={divRef}></div>
             </div>
           </Wrapper>
         </Container>

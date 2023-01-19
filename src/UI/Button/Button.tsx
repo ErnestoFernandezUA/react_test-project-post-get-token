@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import classNames from 'classnames';
 import './Button.scss';
 
@@ -7,7 +7,7 @@ type AnyFunction = (...args: unknown[]) => unknown;
 interface ButtonProps {
   className?: string; // External className for position
   disabled?: boolean;
-  children?: any;
+  children?: ReactNode;
   onClick?: AnyFunction;
   width?: number;
 }

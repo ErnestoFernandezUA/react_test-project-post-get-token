@@ -8,7 +8,7 @@ interface InputProps {
   value: string;
   helper?: string;
   errors: string[] | null;
-  onChange?: (...args: any[]) => any;
+  onChange?: (...args: unknown[]) => unknown;
   backgroundColor?: string;
   className?: string;
   maxWidthErrors: number;

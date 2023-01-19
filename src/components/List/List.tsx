@@ -1,9 +1,16 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
+import classNames from 'classnames';
+
 import './List.scss';
 
-export const List: FunctionComponent<{ children: any }> = ({ children }) => {
+type ListProps = {
+  children: ReactNode;
+  className: string;
+};
+
+export const List: FunctionComponent<ListProps> = ({ children, className }) => {
   return (
-    <div className="List">
+    <div className={classNames('List', className)}>
       {children}
     </div>
   );

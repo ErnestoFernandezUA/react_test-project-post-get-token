@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import './Container.scss';
 
 interface ContainerProps {
-  children: any;
+  children: ReactNode;
 }
 
 export const Container: FunctionComponent<ContainerProps> = ({ children }) => {
