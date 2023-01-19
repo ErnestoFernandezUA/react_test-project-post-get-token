@@ -63,6 +63,9 @@ export const getTokenAsync = createAsyncThunk(
         return response;
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('getTokenAsync// error', error);
+
       rejectWithValue(error);
     }
   },
