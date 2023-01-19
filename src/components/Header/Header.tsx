@@ -22,7 +22,7 @@ export const Header: FunctionComponent = () => {
   };
 
   return (
-    <header className="Header">
+    <div className="Header">
 
       {/* <Wrapper> */}
       <div className="Header__container">
@@ -49,6 +49,6 @@ export const Header: FunctionComponent = () => {
       </div>
       {/* </Wrapper> */}
 
-    </header>
+    </div>
   );
 };
