@@ -32,7 +32,7 @@ export function widthImportErrors() {
   const width = window.innerWidth;
 
   // eslint-disable-next-line no-console
-  console.log('width', width);
+  // console.log('width', width);
 
   // Input mobile (<768) + window paddings 16px: width-32 (<412px)
   // max-width input for all vp - 380px (>412px)

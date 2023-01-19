@@ -17,7 +17,7 @@ const TOKEN_ACTIVE_DURATION = 40; // min
 export interface TokenState {
   storage: string | null;
   currentRequestId: string | null;
-  setAt: number | null;
+  timeOfLastSet: number | null;
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
@@ -25,7 +25,7 @@ export interface TokenState {
 const initialState: TokenState = {
   storage: null,
   currentRequestId: null,
-  setAt: null,
+  timeOfLastSet: null,
   statusLoading: 'idle',
   error: null,
 };
@@ -33,30 +33,38 @@ const initialState: TokenState = {
 export const getTokenAsync = createAsyncThunk(
   'token/fetchToken',
   async (_, {
-    // rejectWithValue,
+    rejectWithValue,
     getState,
     requestId,
     // dispatch,
   }) => {
-    // console.log('getTokenAsync/');
-    const state = getState() as RootState;
+    // eslint-disable-next-line no-console
+    console.log('getTokenAsync/');
+    try {
+      const state = getState() as RootState;
 
-    // console.log('getTokenAsync/ requestId = ', state.token.requestId, requestId);
+      // eslint-disable-next-line no-console
+      console.log('getTokenAsync/ requestId = ', state.token.currentRequestId, requestId);
 
-    const isActive = isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);
-    // console.log('getTokenAsync/ isTokenActive: ', isActive);
+      const isActive = isTokenActive(state.token.timeOfLastSet, TOKEN_ACTIVE_DURATION);
 
-    if (requestId === state.token.currentRequestId && !isActive) {
-      const response: TokenResponse = await getToken();
+      // eslint-disable-next-line no-console
+      console.log('getTokenAsync/ isTokenActive: ', isActive);
 
-      // console.log('getTokenAsync/ response', response);
+      if (requestId === state.token.currentRequestId && !isActive) {
+        // eslint-disable-next-line no-console
+        console.log('getTokenAsync/ start get token');
 
-      return response;
+        const response: TokenResponse = await getToken();
+
+        // eslint-disable-next-line no-console
+        console.log('getTokenAsync/ response', response);
+
+        return response;
+      }
+    } catch (error) {
+      rejectWithValue(error);
     }
-    // nothing to do
-    // console.log('getTokenAsync/ token is active and it shouldnt reload');
-
-    // return null;
   },
 );
 
@@ -90,7 +98,8 @@ const tokenSlice = createSlice({
         state: TokenState,
         { meta: { requestId } },
       ) => {
-        // console.log('getTokenAsync.pending/', requestId);
+        // eslint-disable-next-line no-console
+        console.log('getTokenAsync.pending/', requestId);
         state.statusLoading = 'loading';
 
         if (!state.currentRequestId) {
@@ -101,7 +110,7 @@ const tokenSlice = createSlice({
         (state, action: PayloadAction<TokenResponse | undefined>) => {
           if (action.payload) {
             state.storage = action.payload.token;
-            state.setAt = Date.now();
+            state.timeOfLastSet = Date.now();
           }
 
           state.statusLoading = 'idle';
@@ -125,4 +134,4 @@ export const selectToken = (state: RootState) => state.token.storage;
 export const selectTokenStatusLoading = (state: RootState) => state.token.statusLoading;
 export const selectTokenError = (state: RootState) => state.token.error;
 export const selectIsTokenExpired
-= (state: RootState) => isTokenActive(state.token.setAt, TOKEN_ACTIVE_DURATION);
+= (state: RootState) => isTokenActive(state.token.timeOfLastSet, TOKEN_ACTIVE_DURATION);

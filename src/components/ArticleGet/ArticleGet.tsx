@@ -65,7 +65,7 @@ export const ArticleGet: FunctionComponent = () => {
   }, [users.length, payloadUsers, dispatch]);
 
   // eslint-disable-next-line no-console
-  console.log(maxWidthContent);
+  // console.log(maxWidthContent);
 
   return (
     <article className={classNames('ArticleGet',

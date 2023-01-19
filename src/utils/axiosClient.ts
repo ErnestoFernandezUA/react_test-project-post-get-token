@@ -11,19 +11,19 @@ type FetchData = {
 
 export const client = {
   async get<T>(url: string) {
-    const response = await instance.get<T>(url);
-
     // eslint-disable-next-line no-console
     console.log('get', baseURL + url);
+
+    const response = await instance.get<T>(url);
 
     return response.data;
   },
 
-  async post<T>(url: string, data: FetchData) {
-    const response = await instance.post<T>(url, data);
-
+  async post<T>(url: string, data: FetchData, config: any) {
     // eslint-disable-next-line no-console
     console.log('post', baseURL + url, data);
+
+    const response = await instance.post<T>(url, data, config);
 
     return response.data;
   },

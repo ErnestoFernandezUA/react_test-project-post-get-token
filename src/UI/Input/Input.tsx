@@ -24,7 +24,7 @@ export const Input: FunctionComponent<InputProps> = ({
   onChange = () => console.log('no input onChange function'),
   // backgroundColor = 'white',
   className,
-  maxWidthErrors,
+  // maxWidthErrors,
 }) => {
   // const styleInput = {
   //   backgroundColor,
@@ -41,7 +41,7 @@ export const Input: FunctionComponent<InputProps> = ({
   // };
 
   // eslint-disable-next-line no-console
-  console.log('maxWidthErrors', maxWidthErrors);
+  // console.log('maxWidthErrors', maxWidthErrors);
 
   return (
     <div
