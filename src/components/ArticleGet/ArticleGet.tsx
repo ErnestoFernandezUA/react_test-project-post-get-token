@@ -41,15 +41,7 @@ export const ArticleGet: FunctionComponent = () => {
   const [maxWidthContent, setMaxWidthContent] = useState('');
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('setMaxWidthContent');
-    // eslint-disable-next-line no-console
-    console.log('ArticleGet/ maxWidthContent', maxWidthContent);
-
     setMaxWidthContent(`${widthContentColumns()}px`);
-
-    // eslint-disable-next-line no-console
-    console.log('ArticleGet/ maxWidthContent', maxWidthContent);
   }, []);
 
   useEffect(() => {
@@ -100,7 +92,7 @@ export const ArticleGet: FunctionComponent = () => {
           <div className="ArticleGet__button-container">
             {(!users.length || !isLastPage) && (
               <Button
-                onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+                onClick={() => !isLoading && dispatch(getUsersAsync({ link_to_next_page }))}
                 width={120}
                 disabled={isLoading}
               >
@@ -115,3 +107,9 @@ export const ArticleGet: FunctionComponent = () => {
     </article>
   );
 };
+
+// Task:
+// - scroll after payload
+// - animation loading
+// - animation add payload
+// - correct min width content for card
