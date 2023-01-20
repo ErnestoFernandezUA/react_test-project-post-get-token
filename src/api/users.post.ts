@@ -13,4 +13,9 @@ export type PostUserResponse = {
   },
 };
 
-export const postUser = (data: any, config: any) => client.post('/users', data, config);
+export const postUser = (data: any, config: any) => {
+  // eslint-disable-next-line no-console
+  console.log('postUser//');
+
+  return client.post('/users', data, config);
+};

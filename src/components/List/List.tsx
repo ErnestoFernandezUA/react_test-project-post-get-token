@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './List.scss';
 
 type ListProps = {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 

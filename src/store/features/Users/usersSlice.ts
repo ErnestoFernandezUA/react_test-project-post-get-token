@@ -16,7 +16,6 @@ import {
   postUser,
   // PostUserResponse,
 } from '../../../api/users.post';
-// import axios from 'axios';
 
 const DELAY_OF_WAITING = 5000;
 
@@ -99,16 +98,13 @@ export const postUserAsync = createAsyncThunk(
     getState,
     rejectWithValue,
   }) => {
-    // eslint-disable-next-line no-console
-    console.log('postUserAsync', position_id);
-
     try {
       const state = getState() as RootState;
+      const token = state.token.storage;
+      const timeOfLastSet = state.token.timeOfLastSet;
 
-      // eslint-disable-next-line no-console
-      console.log('state.token.storage', state.token.storage);
+
       await new Promise(resolve => setTimeout(resolve, delay));
-      // await dispatch(getTokenAsync());
 
       const formData = new FormData();
 
@@ -118,42 +114,17 @@ export const postUserAsync = createAsyncThunk(
       formData.append('phone', phone);
       formData.append('photo', images[0]);
 
-      // 1 - not work
       // eslint-disable-next-line no-console
       console.log(formData);
 
       const response = await postUser(
+        formData,
         {
-          body: formData,
           headers: {
             Token: String(state.token.storage),
           },
         },
       );
-
-      // 2 - not work
-      // const response = await axios({
-      //   url: 'https://frontend-test-assignment-api.abz.agency/api/v1/users',
-      //   method: 'POST',
-      //   headers: {
-      //     'Token': String(state.token.storage),
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json',
-      //     // 'Authorization': 'Bearer ' + credentials.t
-      //   },
-      //   data: formData,
-      // })
-
-      // 3 - work but fetch
-      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users',
-      //   {
-      //     method: 'POST',
-      //     body: formData,
-      //     headers: {
-      //       'Token': String(state.token.storage),
-      //     },
-      //   }
-      // ).then((res) => res.json());
 
       // eslint-disable-next-line no-console
       console.log('postUserAsync/ response', response);
@@ -219,6 +190,7 @@ const usersSlice = createSlice({
       .addCase(getUsersAsync.rejected, (state) => {
         state.statusLoading = 'failed';
       })
+
       .addCase(postUserAsync.pending, (
         state: UsersState,
       ) => {

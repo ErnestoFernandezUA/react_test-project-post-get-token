@@ -90,8 +90,10 @@ export const Form: FunctionComponent = () => {
           position_id,
         },
       }));
+
       await dispatch(getUsersAsync({ page: 1, count: 6 }));
-    // eslint-disable-next-line no-empty
+
+      // eslint-disable-next-line no-empty
     } catch (error) {
     } finally {
       setIsUploading(false);

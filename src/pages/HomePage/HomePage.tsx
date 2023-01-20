@@ -9,7 +9,6 @@ import './HomePage.scss';
 export const HomePage: FunctionComponent = () => {
   return (
     <section className="HomePage">
-      {/* <div style={{ height: '200vh' }}></div> */}
       <ArticlePromo />
       <ArticleGet />
       <ArticlePost />
