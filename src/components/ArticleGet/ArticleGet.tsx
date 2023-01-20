@@ -4,15 +4,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  // Link,
-  // DirectLink,
-  Element,
-  // Events,
-  // animateScroll as scroll,
-  // scrollSpy,
-  // scroller,
-} from 'react-scroll';
 import classNames from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -33,6 +24,8 @@ import { Button } from '../../UI/Button/Button';
 import { UserType } from '../../type/User';
 
 import './ArticleGet.scss';
+import '../../style/Container.scss';
+import '../../style/Wrapper.scss';
 
 export const ArticleGet: FunctionComponent = () => {
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -44,10 +37,10 @@ export const ArticleGet: FunctionComponent = () => {
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersError);
 
-  const [maxWidthContent, setMaxWidthContent] = useState('160px');
+  const [maxWidthContent, setMaxWidthContent] = useState('');
 
   // eslint-disable-next-line no-console
-  console.log(maxWidthContent);
+  console.log('ArticleGet/ maxWidthContent', maxWidthContent);
 
   useEffect(() => {
     setMaxWidthContent(`${widthContentColumns()}px`);
@@ -67,47 +60,47 @@ export const ArticleGet: FunctionComponent = () => {
 
   return (
     <article className={classNames('ArticleGet',
-      { 'ArticleGet--first-load': !users.length })}
+      { 'ArticleGet--first-load': !users.length },
+      'Container',
+      'Wrapper')}
     >
-      <Element name="Get-Component">
-        <div className="ArticleGet__content">
-          <h2 className="ArticleGet__title">Working with GET request</h2>
-          {error && <p>{error}</p>}
+      <div className="ArticleGet__content">
+        <h2 className="ArticleGet__title">Working with GET request</h2>
+        {error && <p>{error}</p>}
 
-          <List className="Get-Component">
-            {users.map((user: UserType) => (
-              <Card
-                key={user.id}
-                user={user}
-                maxWidthContent={maxWidthContent}
-              />
-            ))}
+        <List className="Get-Component">
+          {users.map((user: UserType) => (
+            <Card
+              key={user.id}
+              user={user}
+              maxWidthContent={maxWidthContent}
+            />
+          ))}
 
-            {payloadUsers.map((user: UserType) => (
-              <Card
-                key={user.id}
-                user={user}
-                maxWidthContent={maxWidthContent}
-              />
-            ))}
-          </List>
+          {payloadUsers.map((user: UserType) => (
+            <Card
+              key={user.id}
+              user={user}
+              maxWidthContent={maxWidthContent}
+            />
+          ))}
+        </List>
 
-          {(isLoading === 'loading') && <>Loading .....</>}
+        {(isLoading === 'loading') && <>Loading .....</>}
 
-          <div className="ArticleGet__button-container">
-            {(!users.length || !isLastPage) && (
-              <Button
-                onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
-                width={120}
-              >
-                Show More
-              </Button>
-            )}
-          </div>
-
-          <div ref={divRef}></div>
+        <div className="ArticleGet__button-container">
+          {(!users.length || !isLastPage) && (
+            <Button
+              onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+              width={120}
+            >
+              Show More
+            </Button>
+          )}
         </div>
-      </Element>
+
+        <div ref={divRef}></div>
+      </div>
     </article>
   );
 };

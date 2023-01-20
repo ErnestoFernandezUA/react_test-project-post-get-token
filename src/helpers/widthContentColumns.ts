@@ -4,7 +4,7 @@ export function widthContentColumns() {
   const width = window.innerWidth; // with scroll
 
   // eslint-disable-next-line no-console
-  console.log(width);
+  console.log('widthContentColumns/ width', width);
 
   // > 1170: padding 0, gap 29x2, scroll 17
   // > 1024: padding 60x2, gap 29x2, scroll 17
