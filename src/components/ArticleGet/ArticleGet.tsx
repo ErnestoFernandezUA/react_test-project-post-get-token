@@ -41,16 +41,16 @@ export const ArticleGet: FunctionComponent = () => {
 
   const [maxWidthContent, setMaxWidthContent] = useState('');
 
-  // eslint-disable-next-line no-console
-  console.log('ArticleGet/ maxWidthContent', maxWidthContent);
-  // eslint-disable-next-line no-console
-  console.log('ArticleGet/ isLoading', isLoading);
-
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log('setMaxWidthContent');
+    // eslint-disable-next-line no-console
+    console.log('ArticleGet/ maxWidthContent', maxWidthContent);
 
     setMaxWidthContent(`${widthContentColumns()}px`);
+
+    // eslint-disable-next-line no-console
+    console.log('ArticleGet/ maxWidthContent', maxWidthContent);
   }, []);
 
   useEffect(() => {
