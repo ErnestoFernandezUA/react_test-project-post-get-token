@@ -266,7 +266,7 @@ export const {
 
 export const selectUsers = (state: RootState) => state.users.storage;
 export const selectPayloadUsers = (state: RootState) => state.users.payload;
-export const selectUsersStatusLoading = (state: RootState) => state.users.statusLoading;
+export const selectUsersIsLoading = (state: RootState) => state.users.statusLoading === 'loading';
 export const selectUsersError = (state: RootState) => state.users.error;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
 export const selectIsLastPage

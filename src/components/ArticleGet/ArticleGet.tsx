@@ -16,7 +16,7 @@ import {
   selectPayloadUsers,
   selectUsers,
   selectUsersError,
-  selectUsersStatusLoading,
+  selectUsersIsLoading,
 } from '../../store/features/Users/usersSlice';
 import { Card } from '../Card';
 import { List } from '../List';
@@ -26,13 +26,14 @@ import { UserType } from '../../type/User';
 import './ArticleGet.scss';
 import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
+import { Loader } from '../Loader';
 
 export const ArticleGet: FunctionComponent = () => {
   const divRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const payloadUsers = useAppSelector(selectPayloadUsers);
-  const isLoading = useAppSelector(selectUsersStatusLoading);
+  const isLoading = useAppSelector(selectUsersIsLoading);
   const link_to_next_page = useAppSelector(selectLinkToNext);
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersError);
@@ -41,6 +42,8 @@ export const ArticleGet: FunctionComponent = () => {
 
   // eslint-disable-next-line no-console
   console.log('ArticleGet/ maxWidthContent', maxWidthContent);
+  // eslint-disable-next-line no-console
+  console.log('ArticleGet/ isLoading', isLoading);
 
   useEffect(() => {
     setMaxWidthContent(`${widthContentColumns()}px`);
@@ -86,13 +89,14 @@ export const ArticleGet: FunctionComponent = () => {
           ))}
         </List>
 
-        {(isLoading === 'loading') && <>Loading .....</>}
+        <Loader isLoading={isLoading} />
 
         <div className="ArticleGet__button-container">
           {(!users.length || !isLastPage) && (
             <Button
               onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
               width={120}
+              disabled={isLoading}
             >
               Show More
             </Button>
