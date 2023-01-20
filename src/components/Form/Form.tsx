@@ -92,18 +92,19 @@ export const Form: FunctionComponent = () => {
         label="Your name"
         type="text"
         value={name}
-        // helper="Your name"
+        // helper="Helper text"
         errors={fails.name}
         onChange={(e) => setName(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
         className="Form__input-name"
         maxWidthErrors={maxWidthErrors}
       />
+
       <Input
         label="Email"
         type="text"
         value={email}
-        // helper="Email"
+        // helper="Helper text"
         errors={['Error1', 'Error2', 'Error3']}
         onChange={(e: any) => setEmail(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
@@ -115,7 +116,7 @@ export const Form: FunctionComponent = () => {
         label="Phone"
         type="text"
         value={phone}
-        // helper="Email"
+        helper="+38 (XXX) XXX - XX - XX"
         errors={['Error1', 'Error2', 'Error3']}
         onChange={(e: any) => setPhone(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
@@ -174,15 +175,6 @@ export const Form: FunctionComponent = () => {
           </div>
         ))}
 
-        {/* <select
-          id="positions"
-          value={position_id}
-          onChange={(e) => setPositionId(e.target.value)}
-        >
-          {positions.map(p => (
-            <option key={p.id} value={p.id}>{p.name}</option>
-          ))}
-        </select> */}
         {fails.position_id && fails.position_id.map(e => (
           <p key={e}>{e}</p>
         ))}
