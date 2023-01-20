@@ -17,6 +17,7 @@ import { Input } from '../../UI/Input';
 
 import './From.scss';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
+import { PositionType } from '../../type/Position';
 
 // const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
 
@@ -30,7 +31,7 @@ export const Form: FunctionComponent = () => {
   const [name, setName] = useState('John');
   const [email, setEmail] = useState('98percent-already-done@go.et');
   const [phone, setPhone] = useState('380989898981');
-  const [position_id, setPositionId] = useState('2');
+  const [position_id, setPositionId] = useState<number>(1);
   const [images, setImages] = useState<any[]>();
   const [isUploading, setIsUploading] = useState(false);
   const inputRef = useRef<any | null>();
@@ -93,7 +94,7 @@ export const Form: FunctionComponent = () => {
         value={name}
         // helper="Your name"
         errors={fails.name}
-        onChange={(e: any) => setName(e.target.value)}
+        onChange={(e) => setName(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
         className="Form__input-name"
         maxWidthErrors={maxWidthErrors}
@@ -101,16 +102,28 @@ export const Form: FunctionComponent = () => {
       <Input
         label="Email"
         type="text"
-        value={name}
+        value={email}
         // helper="Email"
         errors={['Error1', 'Error2', 'Error3']}
-        onChange={(e: any) => setName(e.target.value)}
+        onChange={(e: any) => setEmail(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
         className="Form__input-email"
         maxWidthErrors={maxWidthErrors}
       />
 
-      <label htmlFor="name">
+      <Input
+        label="Phone"
+        type="text"
+        value={phone}
+        // helper="Email"
+        errors={['Error1', 'Error2', 'Error3']}
+        onChange={(e: any) => setPhone(e.target.value)}
+        backgroundColor={variablesCss['--bg-color']}
+        className="Form__input-phone"
+        maxWidthErrors={maxWidthErrors}
+      />
+
+      {/* <label htmlFor="name">
         name:&nbsp;
         <input
           id="name"
@@ -134,7 +147,6 @@ export const Form: FunctionComponent = () => {
           <p key={e}>{e}</p>
         ))}
       </label>
-
       <label htmlFor="phone">
         phone:&nbsp;
         <input
@@ -146,11 +158,23 @@ export const Form: FunctionComponent = () => {
         {fails.phone && fails.phone.map(e => (
           <p key={e}>{e}</p>
         ))}
-      </label>
+      </label> */}
 
       <label htmlFor="positions">
-        positions:&nbsp;
-        <select
+        Select your position:
+        {positions.map((p: PositionType) => (
+          <div key={p.id}>
+            <input
+              type="checkbox"
+              value={p.id}
+              checked={p.id === position_id}
+              onChange={() => setPositionId(p.id)}
+            />
+            {p.name}
+          </div>
+        ))}
+
+        {/* <select
           id="positions"
           value={position_id}
           onChange={(e) => setPositionId(e.target.value)}
@@ -158,7 +182,7 @@ export const Form: FunctionComponent = () => {
           {positions.map(p => (
             <option key={p.id} value={p.id}>{p.name}</option>
           ))}
-        </select>
+        </select> */}
         {fails.position_id && fails.position_id.map(e => (
           <p key={e}>{e}</p>
         ))}

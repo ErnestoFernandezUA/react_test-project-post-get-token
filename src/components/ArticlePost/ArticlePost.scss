@@ -1,7 +1,14 @@
 @import './../../style/titleOfSection.scss';
 
 .ArticlePost {
+  height: 100vh;
+
   &__title {
     @include title-of-section
+  }
+
+  @media(min-width: 1024px) {
+    height: auto;
+    min-height: 500px;
   }
 }
