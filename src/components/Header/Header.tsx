@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  animateScroll as scroll,
-} from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 import { Button } from '../../UI/Button/Button';
 import Logo from '../../images/logo.svg';
