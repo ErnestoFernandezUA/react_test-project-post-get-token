@@ -28,6 +28,17 @@ import './ArticleGet.scss';
 import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
 
+// const mockUser = {
+//   id: 1,
+//   name: 'string',
+//   email: 'string',
+//   phone: 'string',
+//   position: 'string',
+//   position_id: 1,
+//   registration_timestamp: 1,
+//   photo: 'string',
+// };
+
 export const ArticleGet: FunctionComponent = () => {
   // const divRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
@@ -76,6 +87,10 @@ export const ArticleGet: FunctionComponent = () => {
               maxWidthContent={maxWidthContent}
             />
           ))}
+
+          {/* <Card key="a" user={mockUser} />
+          <Card key="b" user={mockUser} />
+          <Card key="c" user={mockUser} /> */}
 
           {payloadUsers.map((user: UserType) => (
             <Card

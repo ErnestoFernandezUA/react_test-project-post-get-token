@@ -18,6 +18,7 @@ export interface TokenState {
   storage: string | null;
   currentRequestId: string | null;
   timeOfLastSet: number | null;
+  activeDuration: number;
   statusLoading: 'idle' | 'loading' | 'failed';
   error: unknown;
 }
@@ -26,6 +27,7 @@ const initialState: TokenState = {
   storage: null,
   currentRequestId: null,
   timeOfLastSet: null,
+  activeDuration: TOKEN_ACTIVE_DURATION,
   statusLoading: 'idle',
   error: null,
 };

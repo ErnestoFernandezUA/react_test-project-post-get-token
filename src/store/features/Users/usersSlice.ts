@@ -16,8 +16,9 @@ import {
   postUser,
   // PostUserResponse,
 } from '../../../api/users.post';
+import { getTokenAsync } from '../Token/tokenSlice';
 
-const DELAY_OF_WAITING = 5000;
+const DELAY_OF_WAITING = 10;
 
 export interface UsersState {
   storage: UserType[];
@@ -91,32 +92,28 @@ export const postUserAsync = createAsyncThunk(
       images,
       position_id,
     },
-    delay = 1000,
+    // delay = 1000,
   }: any,
   {
-    // dispatch,
+    dispatch,
     getState,
     rejectWithValue,
   }) => {
+    const state = getState() as RootState;
+
+    dispatch(getTokenAsync());
+
+    // await new Promise(resolve => setTimeout(resolve, delay));
+
+    const formData = new FormData();
+
+    formData.append('position_id', position_id);
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('photo', images[0]);
+
     try {
-      const state = getState() as RootState;
-      const token = state.token.storage;
-      const timeOfLastSet = state.token.timeOfLastSet;
-
-
-      await new Promise(resolve => setTimeout(resolve, delay));
-
-      const formData = new FormData();
-
-      formData.append('position_id', position_id);
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('phone', phone);
-      formData.append('photo', images[0]);
-
-      // eslint-disable-next-line no-console
-      console.log(formData);
-
       const response = await postUser(
         formData,
         {
@@ -131,6 +128,11 @@ export const postUserAsync = createAsyncThunk(
 
       return response;
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('postUserAsync// rejectWithValue', error);
+      // eslint-disable-next-line no-console
+      console.log(error.message);
+
       rejectWithValue(error);
     }
   },
@@ -153,8 +155,8 @@ const usersSlice = createSlice({
     ) => {
       state.statusLoading = action.payload;
     },
-    resetState: () => {
-      return initialState;
+    resetUsers: (state) => {
+      state.storage = initialState.storage;
     },
   },
   extraReducers: (builder) => {
@@ -222,8 +224,10 @@ const usersSlice = createSlice({
         // }
       })
       .addCase(postUserAsync.rejected, (state) => {
+        // eslint-disable-next-line no-console
+        console.log('postUserAsync.rejected');
+
         state.statusLoading = 'failed';
-        // console.log('postUserAsync.rejected');
       });
   },
 });
@@ -233,7 +237,7 @@ export const {
   addUsers,
   addPayload,
   setStatus,
-  resetState,
+  resetUsers,
 } = usersSlice.actions;
 
 export const selectUsers = (state: RootState) => state.users.storage;

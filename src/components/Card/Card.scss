@@ -1,18 +1,22 @@
 .Card {
-  width: 100%;
   height: 254px; 
   background-color: var(--white);
   color: var(--black);
   border-radius: var(--card-br);
   padding: 20px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  
   font-size: var(--fs-md);
   line-height: var(--lh-md);
   overflow: hidden;
   text-align: center;
+
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   
   &__photo {
     width: 70px;

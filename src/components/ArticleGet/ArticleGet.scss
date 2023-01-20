@@ -1,4 +1,4 @@
-@import './../../style/mixins.scss';
+@import './../../style/titleOfSection.scss';
 
 .ArticleGet {
   &--first-load {
@@ -9,8 +9,7 @@
   }
 
   &__content {
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
   }
 
   &__title {

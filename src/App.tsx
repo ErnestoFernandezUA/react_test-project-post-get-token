@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { getTokenAsync } from './store/features/Token/tokenSlice';
+import { getTokenAsync, resetToken } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
 import { Header } from './components/Header';
@@ -14,13 +14,14 @@ import { NotFound } from './pages/NotFound';
 import { selectScreen, setScreen } from './store/features/Options/optionsSlice';
 import { getTypeScreen } from './helpers/getTypeScreen';
 
-localStorage.clear();
+// localStorage.clear();
 
 function App() {
   const dispatch = useAppDispatch();
   const screen = useAppSelector(selectScreen);
 
   useEffect(() => {
+    dispatch(resetToken());
     dispatch(setScreen(getTypeScreen()));
     dispatch(getTokenAsync());
     dispatch(getPositionsAsync());

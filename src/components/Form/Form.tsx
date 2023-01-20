@@ -6,7 +6,12 @@ import React, {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectPositions } from '../../store/features/Positions/positionsSlice';
-import { getUsersAsync, postUserAsync, selectPostFails } from '../../store/features/Users/usersSlice';
+import {
+  // getUsersAsync,
+  postUserAsync,
+  // resetUsers,
+  selectPostFails,
+} from '../../store/features/Users/usersSlice';
 import { variablesCss } from '../../style/variables';
 import { Input } from '../../UI/Input';
 
@@ -22,10 +27,10 @@ export const Form: FunctionComponent = () => {
 
   // console.log('Form/ fails = ', fails);
 
-  const [name, setName] = useState('Tom');
-  const [email, setEmail] = useState('tom@valid.et');
-  const [phone, setPhone] = useState('+380955388485');
-  const [position_id, setPositionId] = useState('1');
+  const [name, setName] = useState('John');
+  const [email, setEmail] = useState('98percent-already-done@go.et');
+  const [phone, setPhone] = useState('380989898981');
+  const [position_id, setPositionId] = useState('2');
   const [images, setImages] = useState<any[]>();
   const [isUploading, setIsUploading] = useState(false);
   const inputRef = useRef<any | null>();
@@ -40,34 +45,6 @@ export const Form: FunctionComponent = () => {
   const handleClick = () => {
     inputRef.current.click();
   };
-
-  // const handleUpload1 = async () => {
-  //   setIsUploading(true);
-  //   try {
-  //     // const formData = new FormData();
-  //     // formData.append('Image', images[0]);
-
-  //     // const res = await fetch(UPLOAD_URL, {
-  //     //   method: "POST",
-  //     //   body: formData
-  //     // });
-
-  //     // const data = await res.json();
-  //     // console.log(data);
-
-  //     // const { data: { message } } = await axios.post(UPLOAD_URL, formData);
-  //     // alert(message);
-
-  //     // setImages(undefined);
-  //     // inputRef.current.value = "";
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsUploading(false);
-  //   }
-
-  // };
 
   const handleUpload = async () => {
     setIsUploading(true);
@@ -91,7 +68,15 @@ export const Form: FunctionComponent = () => {
         },
       }));
 
-      await dispatch(getUsersAsync({ page: 1, count: 6 }));
+      // eslint-disable-next-line no-console
+      // console.log('before dispatch(resetUsers())');
+
+      // dispatch(resetUsers());
+
+      // eslint-disable-next-line no-console
+      // console.log('after dispatch(resetUsers())');
+
+      // await dispatch(getUsersAsync({ page: 1, count: 6 }));
 
       // eslint-disable-next-line no-empty
     } catch (error) {
@@ -108,7 +93,7 @@ export const Form: FunctionComponent = () => {
         value={name}
         // helper="Your name"
         errors={fails.name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: any) => setName(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
         className="Form__input-name"
         maxWidthErrors={maxWidthErrors}
@@ -118,8 +103,8 @@ export const Form: FunctionComponent = () => {
         type="text"
         value={name}
         // helper="Email"
-        errors={['Error1', 'Error2dsdfsdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 'Error3']}
-        onChange={(e) => setName(e.target.value)}
+        errors={['Error1', 'Error2', 'Error3']}
+        onChange={(e: any) => setName(e.target.value)}
         backgroundColor={variablesCss['--bg-color']}
         className="Form__input-email"
         maxWidthErrors={maxWidthErrors}
@@ -202,7 +187,7 @@ export const Form: FunctionComponent = () => {
         <>
           <div className="img-preview">
             {Array.from(images).map((image) => (
-              <img alt={image} src={URL.createObjectURL(image)} key={image} />
+              <img alt={image} src={URL.createObjectURL(image)} key={image} width={100} />
             ))}
           </div>
           <div className="action-buttons">

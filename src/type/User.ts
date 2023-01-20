@@ -7,4 +7,4 @@ export type UserType = {
   position_id: number,
   registration_timestamp: number,
   photo: string,
-}
+};

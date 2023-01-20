@@ -20,11 +20,13 @@ export const Card: FunctionComponent<UserProps> = ({
 
   return (
     <div className="Card">
-      <img className="Card__photo" src={photo} alt={photo} />
-      <p className="Card__name" style={style}>{name}</p>
-      <p className="Card__position">{position}</p>
-      <p className="Card__email" style={style}>{email}</p>
-      <p className="Card__phone">{phone}</p>
+      <div className="Card__container">
+        <img className="Card__photo" src={photo} alt={photo} />
+        <p className="Card__name" style={style}>{name}</p>
+        <p className="Card__position">{position}</p>
+        <p className="Card__email" style={style}>{email}</p>
+        <p className="Card__phone">{phone}</p>
+      </div>
     </div>
   );
 };
