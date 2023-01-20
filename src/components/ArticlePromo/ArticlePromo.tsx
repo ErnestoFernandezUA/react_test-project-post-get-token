@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React, { FunctionComponent } from 'react';
+
 import { Button } from '../../UI/Button/Button';
 
 import './ArticlePromo.scss';
