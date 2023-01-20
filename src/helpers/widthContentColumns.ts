@@ -15,7 +15,7 @@ export function widthContentColumns() {
   switch (true) {
     case (width > breakpoint.fullscreen):
       // console.log('>1170');
-      return (1170 - 58) / 3 - 40;
+      return (breakpoint.fullscreen - 58) / 3 - 40;
 
     case (width > breakpoint.desktop):
       // console.log('>1024');
@@ -23,7 +23,7 @@ export function widthContentColumns() {
 
     case (width > breakpoint.tablet):
       // console.log('>768');
-      return (width - 64 - 16) / 2 - 40;
+      return (width - 64 - 40) / 2 - 40; // need to correct
 
     default:
       // console.log('<768');

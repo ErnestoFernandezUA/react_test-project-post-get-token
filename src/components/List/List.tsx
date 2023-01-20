@@ -5,7 +5,7 @@ import './List.scss';
 
 type ListProps = {
   children: ReactNode;
-  className: string;
+  className?: string;
 };
 
 export const List: FunctionComponent<ListProps> = ({ children, className }) => {

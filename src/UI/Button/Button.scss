@@ -30,5 +30,6 @@
   &--disabled, &--disabled:hover {
     color: var(--button-disabled-color);
     background-color: var(--button-disabled-bg);
+    cursor: wait;
   }
 }

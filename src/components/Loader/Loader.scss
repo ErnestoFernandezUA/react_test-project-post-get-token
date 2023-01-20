@@ -1,14 +1,12 @@
 .Loader {
   opacity: 0;
-  height: 0px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s linear;
+  transition: all 0.3s linear;
   
   &--isLoading {
     opacity: 1;
-    height: 100px;
-    transition: all 0.5s linear;
   }
 }

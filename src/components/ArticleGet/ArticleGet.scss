@@ -16,13 +16,21 @@
   &__title {
     @include title-of-section;
   }
+  
+  &__loaderUI {
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__button-container {
     display: flex;
     flex-direction: column;  
     align-items: center;
-    padding-top: 54px;
-    padding-bottom: 50px;
+    padding-top: 4px;
+    // padding-bottom: 50px;
   }
 
   @media(min-width: 1024px) {

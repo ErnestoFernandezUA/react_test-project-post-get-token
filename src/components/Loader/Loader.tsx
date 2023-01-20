@@ -9,13 +9,11 @@ interface LoaderProps {
 
 export const Loader: FunctionComponent<LoaderProps> = ({ isLoading }) => {
   return (
-    <div className="Loader">
-      <div className={classNames('Loader__container',
-        { 'Loader--isLoading': isLoading })}
-      >
-        <div className="Loader__logo">
-          Loading...
-        </div>
+    <div className={classNames('Loader',
+      { 'Loader--isLoading': isLoading })}
+    >
+      <div className="Loader__logo">
+        Loading...
       </div>
     </div>
   );
