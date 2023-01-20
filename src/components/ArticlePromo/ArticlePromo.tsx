@@ -9,7 +9,7 @@ import '../../style/Wrapper.scss';
 export const ArticlePromo: FunctionComponent = () => {
   return (
     <article className="Promo Container">
-      <div className="Promo__poster">
+      <div className="Promo__poster Wrapper">
         <h1>Test assignment for front-end developer</h1>
 
         <p>

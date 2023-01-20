@@ -28,8 +28,6 @@ import {
   selectUsersStatusLoading,
 } from '../../store/features/Users/usersSlice';
 import { Card } from '../Card';
-import { Container } from '../DeletedContainer';
-import { Wrapper } from '../DeletedWrapper/Wrapper';
 import { List } from '../List';
 import { Button } from '../../UI/Button/Button';
 import { UserType } from '../../type/User';
@@ -72,47 +70,43 @@ export const ArticleGet: FunctionComponent = () => {
       { 'ArticleGet--first-load': !users.length })}
     >
       <Element name="Get-Component">
-        <Container>
-          <Wrapper>
-            <div className="ArticleGet__content">
-              <h2 className="ArticleGet__title">Working with GET request</h2>
-              {error && <p>{error}</p>}
+        <div className="ArticleGet__content">
+          <h2 className="ArticleGet__title">Working with GET request</h2>
+          {error && <p>{error}</p>}
 
-              <List className="Get-Component">
-                {users.map((user: UserType) => (
-                  <Card
-                    key={user.id}
-                    user={user}
-                    maxWidthContent={maxWidthContent}
-                  />
-                ))}
+          <List className="Get-Component">
+            {users.map((user: UserType) => (
+              <Card
+                key={user.id}
+                user={user}
+                maxWidthContent={maxWidthContent}
+              />
+            ))}
 
-                {payloadUsers.map((user: UserType) => (
-                  <Card
-                    key={user.id}
-                    user={user}
-                    maxWidthContent={maxWidthContent}
-                  />
-                ))}
-              </List>
+            {payloadUsers.map((user: UserType) => (
+              <Card
+                key={user.id}
+                user={user}
+                maxWidthContent={maxWidthContent}
+              />
+            ))}
+          </List>
 
-              {(isLoading === 'loading') && <>Loading .....</>}
+          {(isLoading === 'loading') && <>Loading .....</>}
 
-              <div className="ArticleGet__button-container">
-                {(!users.length || !isLastPage) && (
-                  <Button
-                    onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
-                    width={120}
-                  >
-                    Show More
-                  </Button>
-                )}
-              </div>
+          <div className="ArticleGet__button-container">
+            {(!users.length || !isLastPage) && (
+              <Button
+                onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+                width={120}
+              >
+                Show More
+              </Button>
+            )}
+          </div>
 
-              <div ref={divRef}></div>
-            </div>
-          </Wrapper>
-        </Container>
+          <div ref={divRef}></div>
+        </div>
       </Element>
     </article>
   );

@@ -5,7 +5,7 @@ interface ContainerProps {
   children: ReactNode;
 }
 
-export const Container: FunctionComponent<ContainerProps> = ({ children }) => {
+export const ContainerHOC: FunctionComponent<ContainerProps> = ({ children }) => {
   return (
     <div className="Container">
       {children}

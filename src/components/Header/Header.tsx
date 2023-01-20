@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import {
-  Link,
   animateScroll as scroll,
 } from 'react-scroll';
 
@@ -26,13 +25,9 @@ export const Header: FunctionComponent = () => {
         </div>
 
         <div className="Header__nav">
-          <Link activeClass="active" to="Get-Component" spy smooth duration={500}>
-            <Button
-              disabled={false}
-            >
-              Users
-            </Button>
-          </Link>
+          <Button onClick={() => scroll.scrollTo(window.innerHeight)}>
+            Users
+          </Button>
 
           <Button>Sign in</Button>
         </div>

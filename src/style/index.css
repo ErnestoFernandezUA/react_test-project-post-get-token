@@ -51,4 +51,6 @@
 
 body {
   background-color: var(--bg-color);
+  min-width: 360px;
+  overflow-x: hidden;
 }

@@ -20,9 +20,11 @@
     
   &__logo button {
     border: none;
-    background-color: inherit;
-    transform: translateY(3px);
-    background-color: white;
+    outline: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
   }
     
   &__nav {
