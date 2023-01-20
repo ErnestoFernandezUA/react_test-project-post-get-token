@@ -27,7 +27,6 @@ import { Loader } from '../Loader';
 import './ArticleGet.scss';
 import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
-import '../../style/Payload.scss';
 
 export const ArticleGet: FunctionComponent = () => {
   // const divRef = useRef<HTMLDivElement | null>(null);
@@ -85,9 +84,7 @@ export const ArticleGet: FunctionComponent = () => {
               maxWidthContent={maxWidthContent}
             />
           ))}
-        </List>
 
-        <List className="Payload">
           {payloadUsers.map((user: UserType) => (
             <Card
               key={user.id}
