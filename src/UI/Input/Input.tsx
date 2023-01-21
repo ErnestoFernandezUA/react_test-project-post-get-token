@@ -3,18 +3,20 @@ import classNames from 'classnames';
 import './Input.scss';
 
 interface InputProps {
+  name: string;
   label: string;
   type: 'text' | 'password';
   value: string;
   helper?: string;
   errors: string[] | null;
-  onChange?: (...args: unknown[]) => unknown;
+  onChange?: any;
   backgroundColor?: string;
   className?: string;
   maxWidthErrors: number;
 }
 
 export const Input: FunctionComponent<InputProps> = ({
+  name,
   label,
   type = 'text',
   value,
@@ -59,6 +61,7 @@ export const Input: FunctionComponent<InputProps> = ({
         )}
 
         <input
+          name={name}
           id="input"
           type={type}
           value={value}
