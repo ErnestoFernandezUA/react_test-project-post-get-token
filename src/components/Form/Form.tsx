@@ -108,7 +108,6 @@ export const Form: FunctionComponent = () => {
         label="Your name"
         type="text"
         value={user.name}
-        // helper="Helper text"
         errors={fails.name}
         onChange={onChange}
         backgroundColor={variablesCss['--bg-color']}
@@ -121,7 +120,6 @@ export const Form: FunctionComponent = () => {
         label="Email"
         type="text"
         value={user.email}
-        // helper="Helper text"
         errors={['Error1', 'Error2', 'Error3']}
         onChange={onChange}
         backgroundColor={variablesCss['--bg-color']}
@@ -142,57 +140,21 @@ export const Form: FunctionComponent = () => {
         maxWidthErrors={maxWidthErrors}
       />
 
-      {/* <label htmlFor="name">
-        name:&nbsp;
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(e: any) => setName(e.target.value)}
-        />
-        {fails.name && fails.name.map(e => (
-          <p key={e}>{e}</p>
-        ))}
-      </label>
-      <label htmlFor="email">
-        email:&nbsp;
-        <input
-          id="email"
-          type="text"
-          value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
-        />
-        {fails.email && fails.email.map(e => (
-          <p key={e}>{e}</p>
-        ))}
-      </label>
-      <label htmlFor="phone">
-        phone:&nbsp;
-        <input
-          id="phone"
-          type="text"
-          value={phone}
-          onChange={(e: any) => setPhone(e.target.value)}
-        />
-        {fails.phone && fails.phone.map(e => (
-          <p key={e}>{e}</p>
-        ))}
-      </label> */}
-
       <label htmlFor="positions">
         Select your position:
         {positions.map((p: PositionType) => (
           <div key={p.id}>
-            <input
-              name="position_id"
-              type="checkbox"
-              value={p.id}
-              checked={p.id === user.position_id}
-              onChange={onChange}
-            />
-            {p.name}
-            &nbsp;
-            {p.id === user.position_id ? 'true' : 'false'}
+            <label htmlFor={p.name}>
+              <input
+                id={p.name}
+                name="position_id"
+                type="checkbox"
+                value={p.id}
+                checked={p.id === user.position_id}
+                onChange={onChange}
+              />
+              {p.name}
+            </label>
           </div>
         ))}
 
@@ -203,7 +165,7 @@ export const Form: FunctionComponent = () => {
 
       <label htmlFor="file">
         <div style={{
-          visibility: 'hidden',
+          // visibility: 'hidden',
         }}
         >
           <input
@@ -224,9 +186,9 @@ export const Form: FunctionComponent = () => {
       {user.images?.length ? (
         <>
           <div className="img-preview">
-            {Array.from(user.images).map((image) => (
+            {/* {Array.from(user.images).map((image) => (
               <img alt={image} src={URL.createObjectURL(image)} key={image} width={100} />
-            ))}
+            ))} */}
           </div>
           <div className="action-buttons">
             <button
