@@ -4,9 +4,10 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../../index';
-import { getPositions } from '../../../api/position';
+import { getPositions, PositionsResponse } from '../../../api/position';
 import { PositionType } from '../../../type/Position';
 
 export interface PositionsState {
@@ -24,15 +25,17 @@ const initialState: PositionsState = {
 export const getPositionsAsync = createAsyncThunk(
   'users/getPositions',
   async (_, { rejectWithValue }) => {
-    let response;
-
     try {
-      response = await getPositions();
+      const response: PositionsResponse = await getPositions();
+
+      if (response.success) {
+        return response.positions;
+      }
     } catch (error) {
       rejectWithValue(error);
     }
 
-    return response;
+    return [];
   },
 );
 
@@ -67,13 +70,15 @@ const positionsSlice = createSlice({
           state.statusLoading = 'loading';
         })
       .addCase(getPositionsAsync.fulfilled,
-        (state, action) => {
+        (
+          state,
+          action,
+        ) => {
           state.statusLoading = 'idle';
 
-          if (action.payload && action.payload.success) {
-            // always overwriting previous storage
-            state.storage = action.payload.positions;
-          }
+          state.storage = action.payload.map(
+            (pos) => ({ ...pos, id: String(pos.id) }),
+          );
         })
       .addCase(getPositionsAsync.rejected, (state) => {
         state.statusLoading = 'failed';

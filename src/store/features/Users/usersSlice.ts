@@ -17,6 +17,8 @@ import {
   // PostUserResponse,
 } from '../../../api/users.post';
 import { getTokenAsync } from '../Token/tokenSlice';
+import { FormPost } from '../../../type/From';
+// eslint-disable-next-line import/no-cycle
 
 const DELAY_OF_WAITING = 10;
 
@@ -93,7 +95,7 @@ export const postUserAsync = createAsyncThunk(
       position_id,
     },
     // delay = 1000,
-  }: any,
+  }: FormPost,
   {
     dispatch,
     getState,

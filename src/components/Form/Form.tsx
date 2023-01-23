@@ -7,9 +7,7 @@ import React, {
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectPositions } from '../../store/features/Positions/positionsSlice';
 import {
-  // getUsersAsync,
   postUserAsync,
-  // resetUsers,
   selectPostFails,
 } from '../../store/features/Users/usersSlice';
 import { variablesCss } from '../../style/variables';
@@ -18,14 +16,13 @@ import { Input } from '../../UI/Input';
 import './From.scss';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
 import { PositionType } from '../../type/Position';
-
-// const UPLOAD_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/post';
+import { UserPost } from '../../type/From';
 
 const initialUser = {
   name: 'John',
   email: '98percent-already-done@go.et',
   phone: '380989898981',
-  position_id: 1,
+  position_id: '1',
   images: [],
 };
 
@@ -33,9 +30,8 @@ export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
   const positions = useAppSelector(selectPositions);
   const fails = useAppSelector(selectPostFails);
-  // console.log('Form/ fails = ', fails);
 
-  const [user, setUser] = useState(initialUser);
+  const [user, setUser] = useState<UserPost>(initialUser);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -55,24 +51,18 @@ export const Form: FunctionComponent = () => {
     console.log(user);
   };
 
-  // const [name, setName] = useState('John');
-  // const [email, setEmail] = useState('98percent-already-done@go.et');
-  // const [phone, setPhone] = useState('380989898981');
-  // const [position_id, setPositionId] = useState<number>(1);
-  // const [images, setImages] = useState<any[]>();
-
   const [isUploading, setIsUploading] = useState(false);
-  const inputRef = useRef<any | null>();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [maxWidthErrors, setMaxWidthErrors] = useState(328);
 
   useEffect(() => {
     setMaxWidthErrors(widthImportErrors());
   }, [dispatch]);
 
-  // console.log(positions);
-
   const handleClick = () => {
-    inputRef.current.click();
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
   };
 
   const handleUpload = async () => {
@@ -123,7 +113,7 @@ export const Form: FunctionComponent = () => {
         errors={['Error1', 'Error2', 'Error3']}
         onChange={onChange}
         backgroundColor={variablesCss['--bg-color']}
-        className="Form__input-email"
+        className="Form__input-email Wrapper"
         maxWidthErrors={maxWidthErrors}
       />
 
@@ -149,8 +139,8 @@ export const Form: FunctionComponent = () => {
                 id={p.name}
                 name="position_id"
                 type="checkbox"
-                value={p.id}
-                checked={p.id === user.position_id}
+                value={String(p.id)}
+                checked={String(p.id) === user.position_id}
                 onChange={onChange}
               />
               {p.name}
@@ -172,15 +162,15 @@ export const Form: FunctionComponent = () => {
             name="images"
             type="file"
             onChange={onChange}
-            accept="image/*"
+            accept="image/jpg"
             ref={inputRef}
             multiple
             disabled={isUploading}
           />
         </div>
-        {fails.images && fails.images.map(e => (
+        {/* {fails.images && fails.images.map(e => (
           <p key={e}>{e}</p>
-        ))}
+        ))} */}
       </label>
 
       {user.images?.length ? (

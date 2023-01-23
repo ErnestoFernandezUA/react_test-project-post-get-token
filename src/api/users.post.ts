@@ -13,14 +13,14 @@ export type PostUserResponse = {
   },
 };
 
-export type AxiosError = {
-  code: string;
-  config: any;
-  message: string;
-  name: string;
-  request: any;
-  response: any;
-};
+// export type AxiosError = {
+//   code: string;
+//   config: ;
+//   message: string;
+//   name: string;
+//   request: any;
+//   response: any;
+// };
 
 export const postUser = (data: any, config: any) => {
   // eslint-disable-next-line no-console

@@ -60,7 +60,7 @@ export const ArticleGet: FunctionComponent = () => {
       if (payloadUsers.length > 0) {
         dispatch(addPayload());
       }
-    }, 5000);
+    }, 50);
 
     // if (divRef.current !== null) {
     //   divRef.current.scrollIntoView({ behavior: 'smooth' }); // use react-scroll

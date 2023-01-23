@@ -5,7 +5,10 @@ import {
 } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { getTokenAsync, resetToken } from './store/features/Token/tokenSlice';
+import {
+  getTokenAsync,
+  // resetToken,
+} from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
 import { Header } from './components/Header';
@@ -21,7 +24,7 @@ function App() {
   const screen = useAppSelector(selectScreen);
 
   useEffect(() => {
-    dispatch(resetToken());
+    // dispatch(resetToken());
     dispatch(setScreen(getTypeScreen()));
     dispatch(getTokenAsync());
     dispatch(getPositionsAsync());

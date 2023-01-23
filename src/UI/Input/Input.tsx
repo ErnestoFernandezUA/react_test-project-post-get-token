@@ -9,9 +9,9 @@ interface InputProps {
   value: string;
   helper?: string;
   errors: string[] | null;
-  onChange?: any;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   backgroundColor?: string;
-  className?: string;
+  className?: string; // but possible more than one classnames
   maxWidthErrors: number;
 }
 
@@ -24,16 +24,18 @@ export const Input: FunctionComponent<InputProps> = ({
   errors,
   // eslint-disable-next-line no-console
   onChange = () => console.log('no input onChange function'),
-  // backgroundColor = 'white',
-  className,
+  backgroundColor = 'white',
+  className = '',
   // maxWidthErrors,
 }) => {
+  const classNamePrepare = className.trim().split(' ');
+
   // const styleInput = {
   //   backgroundColor,
   // };
-  // const styleLabel = {
-  //   backgroundColor,
-  // };
+  const styleLabel = {
+    backgroundColor,
+  };
   // const styleInput__input = {
   //   backgroundColor,
   // };
@@ -47,14 +49,14 @@ export const Input: FunctionComponent<InputProps> = ({
 
   return (
     <div
-      className={classNames('Input', className)}
+      className={classNames('Input', ...classNamePrepare)}
       // style={styleInput}
     >
       <label htmlFor="input">
         {value && (
           <p
             className="Input__label"
-            // style={styleLabel}
+            style={styleLabel}
           >
             {label}
           </p>

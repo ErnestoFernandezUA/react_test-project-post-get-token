@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const baseURL = 'https://frontend-test-assignment-api.abz.agency/api/v1';
 
@@ -19,7 +19,7 @@ export const client = {
     return response.data;
   },
 
-  async post<T>(url: string, data: FetchData, config: any) {
+  async post<T>(url: string, data: FetchData, config: AxiosRequestConfig) {
     // eslint-disable-next-line no-console
     console.log('post', baseURL + url, data);
 
