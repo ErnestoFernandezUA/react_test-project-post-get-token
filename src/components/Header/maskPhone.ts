@@ -1,26 +1,37 @@
-export const maskPhone = (value: string) => {
+export const maskPhone = (value = '') => {
+  // eslint-disable-next-line no-console
+  console.log('maskPhone', value);
   let result = '';
 
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < value.length; i++) {
-    if ([3, 5, 8, 10, 12].includes(i)) {
+  for (let i = 0; i < Math.min(12, value.length); i++) {
+    const el = value[i];
+
+    // eslint-disable-next-line no-console
+    console.log(i, el);
+
+    if ([3, 5, 8, 10].includes(i)) {
       result += ' ';
     }
 
-    result += value[i];
+    if ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(Number(el))) {
+      result += el;
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('el - not a number', result);
+
+      return result;
+    }
   }
 
-  if (result.length >= 17
-    || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(Number(result[result.length - 1]))) {
-    // eslint-disable-next-line no-console
-    console.log('true');
-
-    return result.slice(0, -2);
-  }
+  // eslint-disable-next-line no-console
+  console.log(result);
 
   return result;
 };
 
 export const unMaskPhone = (value: string) => {
-  return value.split('').filter(el => el !== ' ').join('');
+  return value.split('')
+    .filter((el, i) => (el !== ' ' && i < 16))
+    .join('');
 };

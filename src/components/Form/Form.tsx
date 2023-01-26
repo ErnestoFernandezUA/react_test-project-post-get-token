@@ -26,7 +26,10 @@ import { PostResponsePayload } from '../../api/users.post';
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
-import { maskPhone, unMaskPhone } from '../Header/maskPhone';
+import {
+  maskPhone,
+  unMaskPhone,
+} from '../Header/maskPhone';
 
 const initialUser = {
   // name: 'John',
@@ -64,6 +67,9 @@ export const Form: FunctionComponent = () => {
       value,
       files,
     } = event.target;
+
+    // eslint-disable-next-line no-console
+    console.log(name, value, files);
 
     setUser({
       ...user,
@@ -131,6 +137,9 @@ export const Form: FunctionComponent = () => {
       console.log(errorPost);
     }
   };
+
+  // eslint-disable-next-line no-console
+  console.log('user:', user);
 
   return (
     <div className="Form Wrapper">
