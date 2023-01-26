@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import classNames from 'classnames';
 import './Input.scss';
 
@@ -11,7 +11,7 @@ interface InputProps {
   errors: string[] | null;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   backgroundColor?: string;
-  className?: string; // but possible more than one classnames
+  className?: string;
   maxWidthErrors: number;
 }
 
@@ -25,10 +25,10 @@ export const Input: FunctionComponent<InputProps> = ({
   // eslint-disable-next-line no-console
   onChange = () => console.log('no input onChange function'),
   backgroundColor = 'white',
-  className = '',
+  className: classNameExternal = '',
   // maxWidthErrors,
 }) => {
-  const classNamePrepare = className.trim().split(' ');
+  const { current } = useRef(classNameExternal.trim().split(' '));
 
   // const styleInput = {
   //   backgroundColor,
@@ -49,7 +49,7 @@ export const Input: FunctionComponent<InputProps> = ({
 
   return (
     <div
-      className={classNames('Input', ...classNamePrepare)}
+      className={classNames('Input', ...current)}
       // style={styleInput}
     >
       <label htmlFor="input">
@@ -69,27 +69,29 @@ export const Input: FunctionComponent<InputProps> = ({
           value={value}
           onChange={onChange}
           className={classNames('Input__input',
-            { 'Input__input--error': errors?.length })}
+            { 'Input__input--error': errors })}
           placeholder={label}
           // style={styleInput__input}
         />
       </label>
 
-      {errors?.length ? (
-        <div className="Input__error-container">
-          {/* {errors.map((e: string) => (
-            <div
-              key={e}
-              className="Input__error"
-              style={styleError}
-            >
-              {e}
-            </div>
-          ))} */}
-        </div>
-      ) : (
-        <p className="Input__helpers">{helper}</p>
-      )}
+      <div className="Input__error-container">
+        {errors?.length ? (
+          <>
+            {errors.map((e: string) => (
+              <div
+                key={e}
+                className="Input__error"
+                // style={styleError}
+              >
+                {e}
+              </div>
+            ))}
+          </>
+        ) : (
+          <p className="Input__helpers">{helper}</p>
+        )}
+      </div>
 
     </div>
   );

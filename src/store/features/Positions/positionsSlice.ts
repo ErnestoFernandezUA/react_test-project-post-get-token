@@ -70,14 +70,11 @@ const positionsSlice = createSlice({
           state.statusLoading = 'loading';
         })
       .addCase(getPositionsAsync.fulfilled,
-        (
-          state,
-          action,
-        ) => {
+        (state, action) => {
           state.statusLoading = 'idle';
 
           state.storage = action.payload.map(
-            (pos) => ({ ...pos, id: String(pos.id) }),
+            pos => ({ ...pos, id: String(pos.id) }),
           );
         })
       .addCase(getPositionsAsync.rejected, (state) => {

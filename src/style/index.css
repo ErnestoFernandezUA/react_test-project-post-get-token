@@ -22,6 +22,7 @@
   --bg-color: #E5E5E5;
   --white: #FFFFFF;
   --black: rgba(0, 0, 0, 0.87);
+  --error-color: #CB3D40;
   
   /* UI */
   --button-color: rgba(0, 0, 0, 0.87);
@@ -34,9 +35,8 @@
   
   --field-border-enabled: #D0CFCF;
   --field-radii: 4px;
-  --field-helper-text: #7E7E7E;
-  --field-border-error: rgba(203, 61, 64, 1);
-  --error-color: #CB3D40;
+  --field-color-placeholder: #7E7E7E;
+  --field-color-border-error: #CB3D40;
 
   --card-br: 10px;
 }

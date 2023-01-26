@@ -1,6 +1,8 @@
 @import './../../style/titleOfSection.scss';
 
 .ArticleGet {
+  position: relative;
+
   &--first-load {
     min-height: 100vh;
     display: flex;
@@ -15,29 +17,31 @@
   &__title {
     @include title-of-section;
   }
-  
-  &__loaderUI {
-    height: 140px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
 
   &__button-container {
+    height: 84px;
     display: flex;
     flex-direction: column;  
     align-items: center;
-    padding-top: 4px;
+    justify-content: end;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__anchor {
+    visibility: hidden;
+    position: absolute;
+    bottom: calc(100vh - 129px);
+    width: 100px;
+    height: 100px;
   }
 
   @media(min-width: 1024px) {
     min-height: 0;
     display: block;
-    align-items: initial;
-
-    &__button-container {
-      padding-top: 50px;
-    }
+    // align-items: initial;
   }
 }
+

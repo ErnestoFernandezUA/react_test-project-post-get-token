@@ -1,9 +1,10 @@
-export const variablesCss = {
+export const variablesCSS = {
   '--fs-sm': 12,
   '--fs-md': 16,
   '--fs-h1': 40,
 
   '--fw-normal': 400,
+
   '--lh-sm': 14,
   '--lh-md': 26,
   '--lh-h1': 40,
@@ -27,8 +28,8 @@ export const variablesCss = {
 
   '--field-border-enabled': '#D0CFCF',
   '--field-radii': 4,
-  '--field-helper-text': '#7E7E7E',
-  '--field-border-error': 'rgba(203, 61, 64, 1)',
+  '--field-color-placeholder': '#7E7E7E',
+  '--field-color-border-error': 'rgba(203, 61, 64, 1)',
   '--error-color': '#CB3D40',
 
   '--card-br': 10,

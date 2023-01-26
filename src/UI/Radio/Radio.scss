@@ -1,0 +1,21 @@
+.Radio {
+  width: fit-content;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-normal);
+  line-height: var(--lh-md);
+  color: var(--black);
+
+  & img {
+  } 
+
+  & input {
+    display: none;
+  }
+
+  & span {
+    margin-left: 12px;
+  }
+}

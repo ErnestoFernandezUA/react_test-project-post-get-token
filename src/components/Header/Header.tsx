@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll, scroller } from 'react-scroll';
 
 import { Button } from '../../UI/Button/Button';
 import Logo from '../../images/logo.svg';
@@ -13,6 +13,14 @@ export const Header: FunctionComponent = () => {
     scroll.scrollToTop();
   };
 
+  const scrollTo = (elem: string) => {
+    scroller.scrollTo(elem, {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    })
+  };
+
   return (
     <div className="Header">
       <div className="Header__container Container Wrapper">
@@ -23,11 +31,17 @@ export const Header: FunctionComponent = () => {
         </div>
 
         <div className="Header__nav">
-          <Button onClick={() => scroll.scrollTo(window.innerHeight)}>
+          <Button
+            onClick={() => scrollTo('ArticleGet')}
+          >
             Users
           </Button>
 
-          <Button>Sign in</Button>
+          <Button
+            onClick={() => scrollTo('ArticlePost')}
+          >
+            Sign up
+          </Button>
         </div>
       </div>
     </div>

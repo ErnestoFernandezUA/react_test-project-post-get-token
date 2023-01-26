@@ -1,5 +1,6 @@
 import { UserType } from '../type/User';
 import { client } from '../utils/axiosClient';
+import { endpointAPI } from './endpointsAPI';
 
 export type GetUsersParams = {
   link_to_next_page?: string | null;
@@ -21,10 +22,14 @@ export type GetUsersResponse = {
   users: UserType[];
 };
 
-export const getAllUsers = () => client.get('/users');
-export const getUserById = (userId: number) => client.get(`/users/${userId}`);
+export const getAllUsers = () => client.get(endpointAPI.users);
+export const getUserById = (userId: number) => client.get(`${endpointAPI.users}/${userId}`);
 export const getUsersPage = (
   link: string | null,
   page: number,
   count: number,
-) => client.get<GetUsersResponse>(link || `/users?page=${page}&count=${count}`);
+) => {
+  return (link)
+  ? client.get<GetUsersResponse>(link)
+  : client.get<GetUsersResponse>(endpointAPI.users, { params: { page, count }});
+}

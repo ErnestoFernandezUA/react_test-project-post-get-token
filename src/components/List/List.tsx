@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode, useRef } from 'react';
 import classNames from 'classnames';
 
 import './List.scss';
@@ -8,9 +8,14 @@ type ListProps = {
   className?: string;
 };
 
-export const List: FunctionComponent<ListProps> = ({ children, className }) => {
+export const List: FunctionComponent<ListProps> = ({
+  children, 
+  className: classNameExternal = ''
+}) => {
+  const { current } = useRef(classNameExternal.trim().split(' '));
+
   return (
-    <div className={classNames('List', className)}>
+    <div className={classNames('List', ...current)}>
       {children}
     </div>
   );

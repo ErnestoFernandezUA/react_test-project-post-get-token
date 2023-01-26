@@ -1,0 +1,41 @@
+.Select {
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+
+  &__title {
+    margin-bottom: 11px;
+  }
+
+  &__radio {
+    margin-bottom: 7px;
+  }
+
+  &__errors-container {
+    position: absolute;
+    z-index: 5000;
+    top: calc(100%);
+    left: 14px;
+  }
+
+  &__error {
+    margin: 0;
+    box-sizing: border-box;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-sm);
+    color: var(--error-color);
+    // bottom: -2px;
+    // left: 14px;
+    background-color: transparent;
+    padding: 0 16px;
+    cursor: pointer;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+  }
+}

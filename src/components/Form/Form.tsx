@@ -5,104 +5,135 @@ import React, {
   useState,
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectPositions } from '../../store/features/Positions/positionsSlice';
+import { getTokenAsync } from '../../store/features/Token/tokenSlice';
 import {
+  getUsersAsync,
   postUserAsync,
+  resetUsers,
   selectPostFails,
+  selectUserIsUpLoading,
+  selectUsersErrorPost,
 } from '../../store/features/Users/usersSlice';
-import { variablesCss } from '../../style/variables';
 import { Input } from '../../UI/Input';
-
-import './From.scss';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
-import { PositionType } from '../../type/Position';
-import { UserPost } from '../../type/From';
+import { UserPost } from '../../type/Form';
+
+import { variablesCSS } from '../../style/variables';
+import './From.scss';
+import '../../style/Wrapper.scss';
+import { Select } from '../Select';
+import { Button } from '../../UI/Button';
+import { InputFile } from '../../UI/InputFile';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { PostResponsePayload } from '../../api/users.post';
 
 const initialUser = {
-  name: 'John',
-  email: '98percent-already-done@go.et',
-  phone: '380989898981',
-  position_id: '1',
-  images: [],
+  // name: 'John',
+  // email: '98percent-already-done@go.et',
+  // phone: '380989898981',
+  // position_id: '1',
+  // photo: new File(["initial"], "initial.jpg"),
+  photo: undefined,
+
+  name: '',
+  email: '',
+  phone: '',
+  position_id: '',
 };
+
+// reqex validation
 
 export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
-  const positions = useAppSelector(selectPositions);
-  const fails = useAppSelector(selectPostFails);
 
+  const error = useAppSelector(selectUsersErrorPost);
+  const validationFails = useAppSelector(selectPostFails);
+  const isUploading = useAppSelector(selectUserIsUpLoading);
   const [user, setUser] = useState<UserPost>(initialUser);
+  const maxWidthErrors = useRef(widthImportErrors());
+
+  const {
+    name,
+    email,
+    phone,
+    position_id,
+    photo,
+  } = user;
+
+  // useEffect(() => {
+  //   // setMaxWidthErrors(widthImportErrors());
+  //   // console.log('validation');
+  // }, [dispatch, validationFails.phone?.length]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       name,
       value,
+      files,
     } = event.target;
-
-    // eslint-disable-next-line no-console
-    console.log('name-value', name, value);
 
     setUser({
       ...user,
-      [name]: name === 'position_id' ? Number(value) : value,
+      [name]: files ? files[0] : value,
     });
-
-    // eslint-disable-next-line no-console
-    console.log(user);
   };
 
-  const [isUploading, setIsUploading] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [maxWidthErrors, setMaxWidthErrors] = useState(328);
-
-  useEffect(() => {
-    setMaxWidthErrors(widthImportErrors());
-  }, [dispatch]);
-
-  const handleClick = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
+  const isValid = () => {
+    
+    if (!photo) {
+      console.log('validation false');
+      return false;
     }
+
+
+    return true
   };
 
-  const handleUpload = async () => {
-    setIsUploading(true);
+  const handleUpload = async (event: React.FormEvent) => {
+    event.preventDefault();
 
+    if (!isValid()) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('position_id', position_id);
+    formData.append('photo', photo!);
+    
     try {
-      // eslint-disable-next-line no-console
-      console.log('handleUpload', { user });
+      dispatch(getTokenAsync());
+      const addUserResponse = await dispatch(postUserAsync(formData)) as PayloadAction<PostResponsePayload>;
 
-      dispatch(postUserAsync({ user }));
+      console.log('form/ addUser', addUserResponse);
 
-      // eslint-disable-next-line no-console
-      // console.log('before dispatch(resetUsers())');
+      if (addUserResponse.payload.success) {
+        dispatch(resetUsers());
 
-      // dispatch(resetUsers());
-
-      // eslint-disable-next-line no-console
-      // console.log('after dispatch(resetUsers())');
-
-      // await dispatch(getUsersAsync({ page: 1, count: 6 }));
-
-      // eslint-disable-next-line no-empty
+        console.log('Form// getUsersAsync');
+        await dispatch(getUsersAsync({}));
+      }
     } catch (error) {
-    } finally {
-      setIsUploading(false);
+      console.log(error);
     }
   };
 
   return (
-    <div className="Form">
+    <div className="Form Wrapper">
+      {error && <h2 className='Form__error-message'>{error}</h2>}
+
       <Input
         name="name"
         label="Your name"
         type="text"
         value={user.name}
-        errors={fails.name}
+        errors={validationFails.name}
         onChange={onChange}
-        backgroundColor={variablesCss['--bg-color']}
-        className="Form__input-name"
-        maxWidthErrors={maxWidthErrors}
+        backgroundColor={variablesCSS['--bg-color']}
+        className="Form__input Form__input-name"
+        maxWidthErrors={maxWidthErrors.current}
       />
 
       <Input
@@ -110,11 +141,11 @@ export const Form: FunctionComponent = () => {
         label="Email"
         type="text"
         value={user.email}
-        errors={['Error1', 'Error2', 'Error3']}
+        errors={validationFails.email}
         onChange={onChange}
-        backgroundColor={variablesCss['--bg-color']}
-        className="Form__input-email Wrapper"
-        maxWidthErrors={maxWidthErrors}
+        backgroundColor={variablesCSS['--bg-color']}
+        className="Form__input Form__input-email"
+        maxWidthErrors={maxWidthErrors.current}
       />
 
       <Input
@@ -123,85 +154,34 @@ export const Form: FunctionComponent = () => {
         type="text"
         value={user.phone}
         helper="+38 (XXX) XXX - XX - XX"
-        errors={['Error1', 'Error2', 'Error3']}
+        errors={validationFails.phone}
         onChange={onChange}
-        backgroundColor={variablesCss['--bg-color']}
-        className="Form__input-phone"
-        maxWidthErrors={maxWidthErrors}
+        backgroundColor={variablesCSS['--bg-color']}
+        className="Form__input Form__input-phone"
+        maxWidthErrors={maxWidthErrors.current}
       />
 
-      <label htmlFor="positions">
-        Select your position:
-        {positions.map((p: PositionType) => (
-          <div key={p.id}>
-            <label htmlFor={p.name}>
-              <input
-                id={p.name}
-                name="position_id"
-                type="checkbox"
-                value={String(p.id)}
-                checked={String(p.id) === user.position_id}
-                onChange={onChange}
-              />
-              {p.name}
-            </label>
-          </div>
-        ))}
+      <Select
+        currentValue={user.position_id}
+        onChange={onChange}
+        className="Form__input"
+      />
 
-        {fails.position_id && fails.position_id.map(e => (
-          <p key={e}>{e}</p>
-        ))}
-      </label>
+      <InputFile
+        fileName={user.photo?.name}
+        isDisabled={isUploading} 
+        onChange={onChange} 
+        fails={validationFails.photo}
+        className="Form__input"
+      />
 
-      <label htmlFor="file">
-        <div style={{
-          // visibility: 'hidden',
-        }}
-        >
-          <input
-            name="images"
-            type="file"
-            onChange={onChange}
-            accept="image/jpg"
-            ref={inputRef}
-            multiple
-            disabled={isUploading}
-          />
-        </div>
-        {/* {fails.images && fails.images.map(e => (
-          <p key={e}>{e}</p>
-        ))} */}
-      </label>
-
-      {user.images?.length ? (
-        <>
-          <div className="img-preview">
-            {/* {Array.from(user.images).map((image) => (
-              <img alt={image} src={URL.createObjectURL(image)} key={image} width={100} />
-            ))} */}
-          </div>
-          <div className="action-buttons">
-            <button
-              type="button"
-              onClick={handleClick}
-              disabled={isUploading}
-            >
-              Change
-            </button>
-            {/* <button onClick={handleUpload} disabled={isUploading}>Upload</button> */}
-          </div>
-        </>
-      ) : (
-        <button type="button" onClick={handleClick}>Chose Images</button>
-      )}
-
-      <button
-        type="button"
-        onClick={() => handleUpload()}
+      <Button
+        onClick={(e:React.FormEvent) => handleUpload(e)}
         disabled={isUploading}
+        className="Form__button-submit"
       >
-        Post User
-      </button>
+        Sign up
+      </Button>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import { client } from '../utils/axiosClient';
+import { endpointAPI } from './endpointsAPI';
 
-export type PostUserResponse = {
+export type PostResponsePayload = {
   success: boolean;
-  user_id: number;
+  user_id?: number;
   message: string;
   fails?: {
     name: string[],
@@ -11,20 +12,29 @@ export type PostUserResponse = {
     position_id: string[],
     photo: string[],
   },
+  type: string;
 };
 
-// export type AxiosError = {
-//   code: string;
-//   config: ;
-//   message: string;
-//   name: string;
-//   request: any;
-//   response: any;
-// };
+export interface PostResponse {
+  payload: PostResponsePayload;
+  error?: {
+    message: string;
+  },
+  meta?: {
+    aborted: boolean;
+    arg: FormData;
+    condition: false;
+    rejectedWithValue: boolean;
+    requestId: string;
+    requestStatus: string;
+  }
+}
 
-export const postUser = (data: any, config: any) => {
-  // eslint-disable-next-line no-console
-  console.log('postUser//');
-
-  return client.post('/users', data, config);
-};
+export const postUser = (
+  data: any,
+  Token: string,
+) => client.post<PostResponse>(
+  endpointAPI.users,
+  data,
+  { headers: { Token, 'Content-Type': 'multipart/form-data' }},
+);

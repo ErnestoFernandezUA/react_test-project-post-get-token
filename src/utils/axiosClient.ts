@@ -10,18 +10,18 @@ type FetchData = {
 };
 
 export const client = {
-  async get<T>(url: string) {
+  async get<T>(url: string, config?: AxiosRequestConfig) {
     // eslint-disable-next-line no-console
-    console.log('get', baseURL + url);
+    console.log('instance get', baseURL + url);
 
-    const response = await instance.get<T>(url);
+    const response = await instance.get<T>(url, config);
 
     return response.data;
   },
 
   async post<T>(url: string, data: FetchData, config: AxiosRequestConfig) {
     // eslint-disable-next-line no-console
-    console.log('post', baseURL + url, data);
+    console.log('instance post', baseURL + url, data);
 
     const response = await instance.post<T>(url, data, config);
 

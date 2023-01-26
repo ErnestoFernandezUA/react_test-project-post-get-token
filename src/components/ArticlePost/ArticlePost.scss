@@ -2,6 +2,10 @@
 
 .ArticlePost {
   height: 100vh;
+  min-height: 741px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &__title {
     @include title-of-section
@@ -9,6 +13,6 @@
 
   @media(min-width: 1024px) {
     height: auto;
-    min-height: 500px;
+    padding-bottom: 100px;
   }
 }

@@ -7,7 +7,6 @@ import {
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
   getTokenAsync,
-  // resetToken,
 } from './store/features/Token/tokenSlice';
 import { getUsersAsync } from './store/features/Users/usersSlice';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
@@ -17,14 +16,11 @@ import { NotFound } from './pages/NotFound';
 import { selectScreen, setScreen } from './store/features/Options/optionsSlice';
 import { getTypeScreen } from './helpers/getTypeScreen';
 
-// localStorage.clear();
-
 function App() {
   const dispatch = useAppDispatch();
   const screen = useAppSelector(selectScreen);
 
   useEffect(() => {
-    // dispatch(resetToken());
     dispatch(setScreen(getTypeScreen()));
     dispatch(getTokenAsync());
     dispatch(getPositionsAsync());
@@ -34,7 +30,10 @@ function App() {
     if (screen
       && screen !== 'mobile'
       && screen !== 'tablet') {
-      dispatch(getUsersAsync({ page: 1, count: 6 }));
+      
+      console.log('App// getUsersAsync');
+
+      dispatch(getUsersAsync({}));
     }
   }, [dispatch, screen]);
 
@@ -42,7 +41,7 @@ function App() {
     <>
       <Header />
 
-      <div style={{
+      {/* <div style={{
         position: 'fixed',
         top: '70px',
         left: '20px',
@@ -50,7 +49,7 @@ function App() {
       }}
       >
         {`window.innerWidth ${window.innerWidth} x window.innerHeight ${window.innerHeight}`}
-      </div>
+      </div> */}
 
       <main>
         <Outlet />

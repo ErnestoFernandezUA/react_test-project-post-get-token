@@ -1,0 +1,77 @@
+.InputFile {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  height: 54px;
+  border-radius: var(--field-radii);
+  border: 1px solid var(--field-border-enabled);
+  position: relative;
+  padding-top: 14px;
+
+  &__button {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    display: inline-block;
+    height: 54px;
+    width: 83px;
+    text-align: center;
+    border-radius: var(--field-radii) 0 0 var(--field-radii);
+    border: 1px solid var(--black);
+    padding-top: 14px;
+  }
+
+  &__value {
+    padding-left: 99px;
+    padding-right: 16px;
+    color: var(--black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+
+    &--empty{
+      color: var(--field-color-placeholder);
+    }
+  }
+
+  &__error-container {
+    position: absolute;
+    z-index: 5000;
+    top: 62px;
+  }
+
+  &__error {
+    margin: 0;
+    box-sizing: border-box;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-sm);
+    color: var(--error-color);
+    // bottom: -2px;
+    // left: 14px;
+    background-color: transparent;
+    padding: 0 16px;
+    cursor: pointer;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+  }
+
+  &--error {
+    border: 2px solid var(--field-color-border-error);
+  }
+
+  &--error > &__button {
+    top: -2px;
+    left: -2px;
+    border: 2px solid var(--field-color-border-error);
+  }
+}

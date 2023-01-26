@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   createSlice,
   PayloadAction,
+  SerializedError,
 } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
 import {
@@ -13,31 +14,34 @@ import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 // import { getTokenAsync } from '../Token/tokenSlice';
 import {
-  postUser,
+  postUser, PostResponsePayload,
   // PostUserResponse,
 } from '../../../api/users.post';
-import { getTokenAsync } from '../Token/tokenSlice';
-import { FormPost } from '../../../type/From';
+import { AxiosError } from 'axios';
 // eslint-disable-next-line import/no-cycle
 
-const DELAY_OF_WAITING = 10;
+const DELAY_OF_WAITING_GET = 1000;
+const DELAY_OF_WAITING_POST = 0;
 
 export interface UsersState {
   storage: UserType[];
   payload: UserType[];
+
   statusLoading: 'idle' | 'loading' | 'failed';
-  error: string | null;
+  statusUpLoading: 'idle' | 'loading' | 'failed';
+  errorMessageGet: string | null;
+  errorMessagePost: string | null;
 
   link_to_next_page: string | null;
   current_page: number | null;
   total_pages: number | null;
   positions: string[];
 
-  fails: {
+  validationFails: {
     name: string[] | null;
     email: string[] | null;
     phone: string[] | null;
-    images: string[] | null;
+    photo: string[] | null;
     position_id: string[] | null;
   }
 }
@@ -45,19 +49,22 @@ export interface UsersState {
 const initialState: UsersState = {
   storage: [],
   payload: [],
+
   statusLoading: 'idle',
-  error: null,
+  statusUpLoading: 'idle',
+  errorMessageGet: null,
+  errorMessagePost: null,
 
   link_to_next_page: null,
   current_page: null,
   total_pages: null,
   positions: [],
 
-  fails: {
+  validationFails: {
     name: null,
     email: null,
     phone: null,
-    images: null,
+    photo: null,
     position_id: null,
   },
 };
@@ -65,15 +72,18 @@ const initialState: UsersState = {
 export const getUsersAsync = createAsyncThunk(
   'users/fetchUsers',
   async ({
-    link_to_next_page = null,
-    page = 1,
-    count = 6,
-    delay = DELAY_OF_WAITING,
-  }:GetUsersParams,
-  { rejectWithValue }) => {
+      link_to_next_page = null,
+      page = 1,
+      count = 6,
+    }:GetUsersParams,
+    { rejectWithValue },
+  ) => {
     try {
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolve, DELAY_OF_WAITING_GET));
       const response = await getUsersPage(link_to_next_page, page, count);
+
+      // eslint-disable-next-line no-console
+      console.log(response);
 
       return response;
     } catch (error) {
@@ -82,60 +92,26 @@ export const getUsersAsync = createAsyncThunk(
   },
 );
 
-// reqex validation
-
 export const postUserAsync = createAsyncThunk(
   'users/postUser',
-  async ({
-    user: {
-      name,
-      email,
-      phone,
-      images,
-      position_id,
-    },
-    // delay = 1000,
-  }: FormPost,
-  {
-    dispatch,
-    getState,
-    rejectWithValue,
-  }) => {
+  async (data: FormData, { rejectWithValue, getState }) => {
     const state = getState() as RootState;
+    const token = String(state.token.storage);
 
-    dispatch(getTokenAsync());
-
-    // await new Promise(resolve => setTimeout(resolve, delay));
-
-    const formData = new FormData();
-
-    formData.append('position_id', position_id);
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('phone', phone);
-    formData.append('photo', images[0]);
+    await new Promise(resolve => setTimeout(resolve, DELAY_OF_WAITING_POST));
 
     try {
-      const response = await postUser(
-        formData,
-        {
-          headers: {
-            Token: String(state.token.storage),
-          },
-        },
-      );
+      const response = await postUser(data, token);
 
       // eslint-disable-next-line no-console
-      console.log('postUserAsync/ response', response);
+      console.log('postUserAsync/ response', response)
 
       return response;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('postUserAsync// rejectWithValue', error);
-      // eslint-disable-next-line no-console
-      console.log(error.message);
+      const err = error as AxiosError;
+      console.log('postUserAsync// rejectWithValue', err.response!.data as PostResponsePayload);
 
-      rejectWithValue(error);
+      return rejectWithValue(err.response!.data);
     }
   },
 );
@@ -151,11 +127,26 @@ const usersSlice = createSlice({
       state.storage.push(...state.payload);
       state.payload.length = 0;
     },
-    setStatus: (
+    setStatusLoading: (
       state: UsersState,
       action: PayloadAction<'idle' | 'loading' | 'failed'>,
     ) => {
       state.statusLoading = action.payload;
+    },
+    addErrorName: (state: UsersState, action: PayloadAction<string>) => {
+      state.validationFails.name?.push(action.payload);
+    },
+    addErrorEmail: (state: UsersState, action: PayloadAction<string>) => {
+      state.validationFails.email?.push(action.payload);
+    },
+    addErrorPhone: (state: UsersState, action: PayloadAction<string>) => {
+      state.validationFails.phone?.push(action.payload);
+    },
+    addErrorPhoto: (state: UsersState, action: PayloadAction<string>) => {
+      state.validationFails.name?.push(action.payload);
+    },
+    addErrorPosition_Id: (state: UsersState, action: PayloadAction<string>) => {
+      state.validationFails.name?.push(action.payload);
     },
     resetUsers: (state) => {
       state.storage = initialState.storage;
@@ -188,7 +179,7 @@ const usersSlice = createSlice({
             state.total_pages = total_pages;
             state.current_page = page;
           } else {
-            state.error = 'getUsersAsync.fulfilled/ response.success = false';
+            state.errorMessageGet = 'getUsersAsync.fulfilled/ response.success = false';
           }
         })
       .addCase(getUsersAsync.rejected, (state) => {
@@ -199,25 +190,25 @@ const usersSlice = createSlice({
         state: UsersState,
       ) => {
         state.statusLoading = 'loading';
+        state.validationFails = initialState.validationFails;
       })
       .addCase(postUserAsync.fulfilled, (
         state,
-        action,
-        //     :PayloadAction<PostUserResponse, string, {
-        //     arg: any;
-        //     requestId: string;
-        //     requestStatus: "fulfilled";
-        // }, never>
+        action:PayloadAction<unknown, string, {
+          arg: FormData;
+          requestId: string;
+          requestStatus: "fulfilled";
+        }, never>,
       ) => {
         state.statusLoading = 'idle';
 
         // eslint-disable-next-line no-console
-        console.log('postUserAsync.fulfilled/ action.payload', action.payload);
+        console.log('postUserAsync.fulfilled/ action.payload', action);
         // state.storage.push(action.payload);
-        if (!action.payload) {
-          // eslint-disable-next-line no-useless-return
-          return;
-        }
+        // if (!action.payload) {
+        //   // eslint-disable-next-line no-useless-return
+        //   return;
+        // }
 
         // if (action.payload.success) {
         //   console.log(action.payload.message);
@@ -225,11 +216,26 @@ const usersSlice = createSlice({
         //   state.fails = { ...state.fails, ...action.payload.fails};
         // }
       })
-      .addCase(postUserAsync.rejected, (state) => {
+      .addCase(postUserAsync.rejected, (
+        state,
+        action:PayloadAction<any, string, {
+            arg: FormData;
+            requestId: string;
+            requestStatus: "rejected";
+            aborted: boolean;
+            condition: boolean;
+          } & ({
+              rejectedWithValue: true;
+          } | ({
+              rejectedWithValue: false;
+          } & {})), SerializedError>
+      ) => {
         // eslint-disable-next-line no-console
-        console.log('postUserAsync.rejected');
+        console.log('postUserAsync.rejected/ action.payload', action.payload);
 
-        state.statusLoading = 'failed';
+        state.statusLoading = 'idle';
+        state.errorMessagePost = action.payload.message;
+        state.validationFails = action.payload.fails;
       });
   },
 });
@@ -238,15 +244,31 @@ export default usersSlice.reducer;
 export const {
   addUsers,
   addPayload,
-  setStatus,
+  setStatusLoading,
   resetUsers,
+
+  addErrorName,
+  addErrorEmail,
+  addErrorPhone,
+  addErrorPhoto,
+  addErrorPosition_Id,
 } = usersSlice.actions;
 
 export const selectUsers = (state: RootState) => state.users.storage;
 export const selectPayloadUsers = (state: RootState) => state.users.payload;
 export const selectUsersIsLoading = (state: RootState) => state.users.statusLoading === 'loading';
-export const selectUsersError = (state: RootState) => state.users.error;
+export const selectUserIsUpLoading = (state: RootState) => state.users.statusUpLoading === 'loading';
+export const selectUsersErrorGet = (state: RootState) => state.users.errorMessageGet;
+export const selectUsersErrorPost = (state: RootState) => state.users.errorMessagePost;
 export const selectLinkToNext = (state: RootState) => state.users.link_to_next_page;
 export const selectIsLastPage
 = (state: RootState) => state.users.current_page === state.users.total_pages;
-export const selectPostFails = (state: RootState) => state.users.fails;
+export const selectPostFails = (state: RootState) => state.users.validationFails;
+
+export const addError = {
+  name: addErrorName,
+  email: addErrorEmail,
+  phone: addErrorPhone,
+  photo: addErrorPhoto,
+  position_id: addErrorPosition_Id,
+};

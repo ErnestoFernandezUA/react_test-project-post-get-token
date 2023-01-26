@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {
   FunctionComponent,
   useEffect,
-  // useRef,
-  useState,
+  useRef,
 } from 'react';
 import classNames from 'classnames';
+import { Element, scroller } from 'react-scroll'
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { widthContentColumns } from '../../helpers/widthContentColumns';
@@ -15,7 +16,7 @@ import {
   selectLinkToNext,
   selectPayloadUsers,
   selectUsers,
-  selectUsersError,
+  selectUsersErrorGet,
   selectUsersIsLoading,
 } from '../../store/features/Users/usersSlice';
 import { Card } from '../Card';
@@ -28,103 +29,93 @@ import './ArticleGet.scss';
 import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
 
-// const mockUser = {
-//   id: 1,
-//   name: 'string',
-//   email: 'string',
-//   phone: 'string',
-//   position: 'string',
-//   position_id: 1,
-//   registration_timestamp: 1,
-//   photo: 'string',
-// };
-
 export const ArticleGet: FunctionComponent = () => {
-  // const divRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const payloadUsers = useAppSelector(selectPayloadUsers);
   const isLoading = useAppSelector(selectUsersIsLoading);
   const link_to_next_page = useAppSelector(selectLinkToNext);
   const isLastPage = useAppSelector(selectIsLastPage);
-  const error = useAppSelector(selectUsersError);
-
-  const [maxWidthContent, setMaxWidthContent] = useState('');
-
-  useEffect(() => {
-    setMaxWidthContent(`${widthContentColumns()}px`);
-  }, []);
+  const error = useAppSelector(selectUsersErrorGet);
+  const maxWidthContent = useRef(`${widthContentColumns()}px`);
 
   useEffect(() => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
         dispatch(addPayload());
+        scrollTo('ArticleGet__anchor');
       }
-    }, 50);
-
-    // if (divRef.current !== null) {
-    //   divRef.current.scrollIntoView({ behavior: 'smooth' }); // use react-scroll
-    // }
+    }, 350);
   }, [users.length, payloadUsers, dispatch]);
 
+  const scrollTo = (elem: string) => {
+    scroller.scrollTo(elem, {
+      duration: 500,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    })
+  };
+
   return (
-    <article
-      className={classNames('ArticleGet',
-        { 'ArticleGet--first-load': !users.length },
-        'Container',
-        'Wrapper')}
-    >
-      <div className="ArticleGet__content">
-        <h2 className="ArticleGet__title">Working with GET request</h2>
+    <Element name="ArticleGet">
+      <article
+        className={classNames('ArticleGet',
+          { 'ArticleGet--first-load': !users.length },
+          'Container',
+          'Wrapper')}
+      >
+        <div className="ArticleGet__content">
+          <h2 className="ArticleGet__title">Working with GET request</h2>
 
-        {error && <p>{error}</p>}
+          {error && <p>{error}</p>}
 
-        <List>
-          {users.map((user: UserType) => (
-            <Card
-              key={user.id}
-              user={user}
-              maxWidthContent={maxWidthContent}
-            />
-          ))}
-
-          {/* <Card key="a" user={mockUser} />
-          <Card key="b" user={mockUser} />
-          <Card key="c" user={mockUser} /> */}
-
-          {payloadUsers.map((user: UserType) => (
-            <Card
-              key={user.id}
-              user={user}
-              maxWidthContent={maxWidthContent}
-            />
-          ))}
-        </List>
-
-        <div className="ArticleGet__loaderUI">
-          <Loader isLoading={isLoading} />
-
-          <div className="ArticleGet__button-container">
-            {(!users.length || !isLastPage) && (
-              <Button
-                onClick={() => !isLoading && dispatch(getUsersAsync({ link_to_next_page }))}
-                width={120}
-                disabled={isLoading}
-              >
-                Show More
-              </Button>
+          <List>
+            {users.map((user: UserType) => (
+              <Card
+                key={user.id}
+                user={user}
+                maxWidthContent={maxWidthContent.current}
+              />
+            ))}
+      
+            {payloadUsers.map((user: UserType) => (
+              <Card
+                className="Payload"
+                key={user.id}
+                user={user}
+                maxWidthContent={maxWidthContent.current}
+              />
+            ))}
+          </List>
+          
+          <div
+            className={classNames('ArticleGet__button-container',
+            { 'ArticleGet__button-container--hidden' : isLastPage && users.length })}
+          >
+            { isLoading ? (
+              <Loader /> 
+            ) : (
+              <>
+                {(!users.length || !isLastPage) && (
+                  <Button
+                    onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+                    width={120}
+                    disabled={isLoading}
+                  >
+                    Show More
+                  </Button>
+                )}
+              </>
             )}
           </div>
-        </div>
 
-        {/* <div ref={divRef}></div> */}
-      </div>
-    </article>
+          <div
+            id="ArticleGet__anchor" 
+            className="ArticleGet__anchor"
+          >
+          </div>
+        </div>
+      </article>
+    </Element>
   );
 };
-
-// Task:
-// - scroll after payload
-// - animation loading
-// - animation add payload
-// - correct min width content for card
