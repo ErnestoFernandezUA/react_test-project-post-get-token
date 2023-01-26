@@ -31,7 +31,10 @@ export const Card: FunctionComponent<UserProps> = ({
         <img className="Card__photo" src={photo} alt={photo} />
         <p className="Card__name" style={style}>{name}</p>
         <p className="Card__position">{position}</p>
-        <p className="Card__email" style={style}>{email}</p>
+        <p className="Card__email" style={style}>
+          {email}
+          <span className="Card__email--hover">{email}</span>
+        </p>
         <p className="Card__phone">{phone}</p>
       </div>
     </div>

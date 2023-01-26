@@ -33,7 +33,25 @@
   }
   
   &__email {
+    
+    position: relative;
+    cursor: pointer;
+    
+    &--hover {
+      overflow: visible;
+      position: absolute;
+      bottom: 10px;
+      left: 100px;
+      z-index: 50;
+      background-color: red;
+      visibility: hidden;
+    }
+    
+    &:hover &--hover {
+      visibility: visible;
+    } 
   }
+
   
   &__phone {
     

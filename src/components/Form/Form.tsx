@@ -26,6 +26,7 @@ import { PostResponsePayload } from '../../api/users.post';
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
+import { maskPhone, unMaskPhone } from '../Header/maskPhone';
 
 const initialUser = {
   // name: 'John',
@@ -66,7 +67,12 @@ export const Form: FunctionComponent = () => {
 
     setUser({
       ...user,
-      [name]: files ? files[0] : value,
+      // eslint-disable-next-line no-nested-ternary
+      [name]: files
+        ? files[0]
+        : name === 'phone'
+          ? unMaskPhone(value)
+          : value,
     });
   };
 
@@ -158,7 +164,7 @@ export const Form: FunctionComponent = () => {
         name="phone"
         label="Phone"
         type="text"
-        value={user.phone}
+        value={maskPhone(user.phone)}
         helper="+38 (XXX) XXX - XX - XX"
         errors={validationFails.phone}
         onChange={onChange}
