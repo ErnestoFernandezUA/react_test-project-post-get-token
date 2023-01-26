@@ -9,8 +9,8 @@ type ListProps = {
 };
 
 export const List: FunctionComponent<ListProps> = ({
-  children, 
-  className: classNameExternal = ''
+  children,
+  className: classNameExternal = '',
 }) => {
   const { current } = useRef(classNameExternal.trim().split(' '));
 

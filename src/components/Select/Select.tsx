@@ -1,11 +1,11 @@
-import { FunctionComponent, useRef } from "react";
-import classNames from "classnames";
+import React, { FunctionComponent, useRef } from 'react';
+import classNames from 'classnames';
 
-import { selectPositions } from "../../store/features/Positions/positionsSlice";
-import { selectPostFails } from "../../store/features/Users/usersSlice";
-import { useAppSelector } from "../../store/hooks";
-import { PositionType } from "../../type/Position";
-import { Radio } from "../../UI/Radio";
+import { selectPositions } from '../../store/features/Positions/positionsSlice';
+import { selectPostFails } from '../../store/features/Users/usersSlice';
+import { useAppSelector } from '../../store/hooks';
+import { PositionType } from '../../type/Position';
+import { Radio } from '../../UI/Radio';
 
 import './Select.scss';
 
@@ -14,7 +14,7 @@ interface SelectProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className: string;
 }
- 
+
 export const Select: FunctionComponent<SelectProps> = ({
   currentValue,
   onChange,
@@ -25,8 +25,7 @@ export const Select: FunctionComponent<SelectProps> = ({
   const { current } = useRef(classNamesExternal.trim().split(' '));
 
   return (
-    <div className={classNames('Select', ...current )}
-    >     
+    <div className={classNames('Select', ...current)}>
       <p className="Select__title">Select your position:</p>
 
       {positions.map((position: PositionType) => (
@@ -38,7 +37,7 @@ export const Select: FunctionComponent<SelectProps> = ({
           />
         </div>
       ))}
-      
+
       <div className="Select__errors-container">
         {fails.position_id && fails.position_id.map(e => (
           <p key={e} className="Select__error">{e}</p>
@@ -46,4 +45,4 @@ export const Select: FunctionComponent<SelectProps> = ({
       </div>
     </div>
   );
-}
+};

@@ -30,7 +30,7 @@ function App() {
     if (screen
       && screen !== 'mobile'
       && screen !== 'tablet') {
-      
+      // eslint-disable-next-line no-console
       console.log('App// getUsersAsync');
 
       dispatch(getUsersAsync({}));

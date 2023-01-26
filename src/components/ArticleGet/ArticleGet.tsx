@@ -5,7 +5,7 @@ import React, {
   useRef,
 } from 'react';
 import classNames from 'classnames';
-import { Element, scroller } from 'react-scroll'
+import { Element, scroller } from 'react-scroll';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { widthContentColumns } from '../../helpers/widthContentColumns';
@@ -39,6 +39,12 @@ export const ArticleGet: FunctionComponent = () => {
   const error = useAppSelector(selectUsersErrorGet);
   const maxWidthContent = useRef(`${widthContentColumns()}px`);
 
+  const scrollTo = (elem: string) => scroller.scrollTo(elem, {
+    duration: 500,
+    delay: 0,
+    smooth: 'easeInOutQuart',
+  });
+
   useEffect(() => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
@@ -47,14 +53,6 @@ export const ArticleGet: FunctionComponent = () => {
       }
     }, 350);
   }, [users.length, payloadUsers, dispatch]);
-
-  const scrollTo = (elem: string) => {
-    scroller.scrollTo(elem, {
-      duration: 500,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-    })
-  };
 
   return (
     <Element name="ArticleGet">
@@ -77,7 +75,7 @@ export const ArticleGet: FunctionComponent = () => {
                 maxWidthContent={maxWidthContent.current}
               />
             ))}
-      
+
             {payloadUsers.map((user: UserType) => (
               <Card
                 className="Payload"
@@ -87,13 +85,13 @@ export const ArticleGet: FunctionComponent = () => {
               />
             ))}
           </List>
-          
+
           <div
             className={classNames('ArticleGet__button-container',
-            { 'ArticleGet__button-container--hidden' : isLastPage && users.length })}
+              { 'ArticleGet__button-container--hidden': isLastPage && users.length })}
           >
             { isLoading ? (
-              <Loader /> 
+              <Loader />
             ) : (
               <>
                 {(!users.length || !isLastPage) && (
@@ -110,7 +108,7 @@ export const ArticleGet: FunctionComponent = () => {
           </div>
 
           <div
-            id="ArticleGet__anchor" 
+            id="ArticleGet__anchor"
             className="ArticleGet__anchor"
           >
           </div>

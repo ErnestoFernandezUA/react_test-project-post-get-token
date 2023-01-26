@@ -18,7 +18,7 @@ export const Header: FunctionComponent = () => {
       duration: 800,
       delay: 0,
       smooth: 'easeInOutQuart',
-    })
+    });
   };
 
   return (

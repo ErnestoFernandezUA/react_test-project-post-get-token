@@ -4,7 +4,6 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../../index';
 import { getPositions, PositionsResponse } from '../../../api/position';

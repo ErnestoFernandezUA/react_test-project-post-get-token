@@ -5,6 +5,7 @@ import './Button.scss';
 type AnyFunction = (...args: any[]) => any;
 
 interface ButtonProps {
+  tableIndex?: number;
   disabled?: boolean;
   children?: ReactNode;
   onClick?: AnyFunction;
@@ -13,6 +14,7 @@ interface ButtonProps {
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({
+  tableIndex,
   disabled = false,
   children = '',
   // eslint-disable-next-line no-console
@@ -24,9 +26,11 @@ export const Button: FunctionComponent<ButtonProps> = ({
 
   return (
     <div
+      role="button"
+      tabIndex={tableIndex}
       className={classNames('Button',
         { 'Button--disabled': disabled },
-        ...current )}
+        ...current)}
       onClick={onClick}
       style={{ width }}
       onKeyDown={() => {}}

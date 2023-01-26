@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import { FunctionComponent, useRef } from "react";
+import React, { FunctionComponent, useRef } from 'react';
+import classNames from 'classnames';
 
 import './InputFile.scss';
 
@@ -10,7 +10,7 @@ interface InputFileProps {
   fails?: string[] | null | undefined,
   className?: string;
 }
- 
+
 export const InputFile: FunctionComponent<InputFileProps> = ({
   fileName,
   isDisabled,
@@ -21,33 +21,32 @@ export const InputFile: FunctionComponent<InputFileProps> = ({
   const { current } = useRef(classNameExternal.trim().split(' '));
 
   return (
-    <> 
+    <>
       <label
         htmlFor="file"
         className={classNames('InputFile',
           { 'InputFile--error': fails?.length },
-          ...current,
-        )}
+          ...current)}
       >
         <div className="InputFile__button">
           Upload
         </div>
-          <input
-            id="file"
-            name="photo"
-            type="file"
-            onChange={onChange}
-            accept="image/jpg"
-            multiple={false}
-            disabled={isDisabled}
-            className="InputFile__input"
-            hidden
-          />
+        <input
+          id="file"
+          name="photo"
+          type="file"
+          onChange={onChange}
+          accept="image/jpg"
+          multiple={false}
+          disabled={isDisabled}
+          className="InputFile__input"
+          hidden
+        />
 
         <span className={classNames('InputFile__value',
-          {'InputFile__value--empty': !fileName})}
+          { 'InputFile__value--empty': !fileName })}
         >
-          {fileName ? fileName : 'Upload your photo'}
+          {fileName || 'Upload your photo'}
         </span>
 
         <div className="InputFile__error-container">
@@ -58,4 +57,4 @@ export const InputFile: FunctionComponent<InputFileProps> = ({
       </label>
     </>
   );
-}
+};

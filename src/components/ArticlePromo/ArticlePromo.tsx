@@ -9,13 +9,11 @@ import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
 
 export const ArticlePromo: FunctionComponent = () => {
-  const scrollTo = (elem: string) => {
-    scroller.scrollTo(elem, {
-      duration: 800,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-    })
-  };
+  const scrollTo = (elem: string) => scroller.scrollTo(elem, {
+    duration: 800,
+    delay: 0,
+    smooth: 'easeInOutQuart',
+  });
 
   return (
     <article className="Promo Container">
@@ -27,7 +25,8 @@ export const ArticlePromo: FunctionComponent = () => {
         </p>
 
         <Button
-          className="Promo__button" width={120}
+          className="Promo__button"
+          width={120}
           onClick={() => scrollTo('ArticlePost')}
         >
           Sign up

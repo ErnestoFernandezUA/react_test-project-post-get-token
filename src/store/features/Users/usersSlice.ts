@@ -6,19 +6,17 @@ import {
   PayloadAction,
   SerializedError,
 } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+
 // eslint-disable-next-line import/no-cycle
 import {
   RootState,
 } from '../../index';
 import { UserType } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
-// import { getTokenAsync } from '../Token/tokenSlice';
 import {
   postUser, PostResponsePayload,
-  // PostUserResponse,
 } from '../../../api/users.post';
-import { AxiosError } from 'axios';
-// eslint-disable-next-line import/no-cycle
 
 const DELAY_OF_WAITING_GET = 1000;
 const DELAY_OF_WAITING_POST = 0;
@@ -72,12 +70,11 @@ const initialState: UsersState = {
 export const getUsersAsync = createAsyncThunk(
   'users/fetchUsers',
   async ({
-      link_to_next_page = null,
-      page = 1,
-      count = 6,
-    }:GetUsersParams,
-    { rejectWithValue },
-  ) => {
+    link_to_next_page = null,
+    page = 1,
+    count = 6,
+  }:GetUsersParams,
+  { rejectWithValue }) => {
     try {
       await new Promise(resolve => setTimeout(resolve, DELAY_OF_WAITING_GET));
       const response = await getUsersPage(link_to_next_page, page, count);
@@ -104,14 +101,16 @@ export const postUserAsync = createAsyncThunk(
       const response = await postUser(data, token);
 
       // eslint-disable-next-line no-console
-      console.log('postUserAsync/ response', response)
+      console.log('postUserAsync/ response', response);
 
       return response;
     } catch (error) {
       const err = error as AxiosError;
-      console.log('postUserAsync// rejectWithValue', err.response!.data as PostResponsePayload);
 
-      return rejectWithValue(err.response!.data);
+      // eslint-disable-next-line no-console
+      console.log('postUserAsync// rejectWithValue', err.response?.data as PostResponsePayload);
+
+      return rejectWithValue(err.response?.data);
     }
   },
 );
@@ -197,7 +196,7 @@ const usersSlice = createSlice({
         action:PayloadAction<unknown, string, {
           arg: FormData;
           requestId: string;
-          requestStatus: "fulfilled";
+          requestStatus: 'fulfilled';
         }, never>,
       ) => {
         state.statusLoading = 'idle';
@@ -219,16 +218,16 @@ const usersSlice = createSlice({
       .addCase(postUserAsync.rejected, (
         state,
         action:PayloadAction<any, string, {
-            arg: FormData;
-            requestId: string;
-            requestStatus: "rejected";
-            aborted: boolean;
-            condition: boolean;
-          } & ({
-              rejectedWithValue: true;
-          } | ({
-              rejectedWithValue: false;
-          } & {})), SerializedError>
+          arg: FormData;
+          requestId: string;
+          requestStatus: 'rejected';
+          aborted: boolean;
+          condition: boolean;
+        } & ({
+          rejectedWithValue: true;
+        } | ({
+          rejectedWithValue: false;
+        } & {})), SerializedError>,
       ) => {
         // eslint-disable-next-line no-console
         console.log('postUserAsync.rejected/ action.payload', action.payload);

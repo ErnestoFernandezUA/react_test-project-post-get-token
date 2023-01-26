@@ -1,5 +1,5 @@
-import { FunctionComponent } from "react";
-import { PositionType } from "../../type/Position";
+import React, { FunctionComponent } from 'react';
+import { PositionType } from '../../type/Position';
 
 import Selected from '../../images/selected.svg';
 import notSelected from '../../images/notSelected.svg';
@@ -10,7 +10,7 @@ interface RadioProps {
   position: PositionType;
   onChange:(event: React.ChangeEvent<HTMLInputElement>) => void;
 }
- 
+
 export const Radio: FunctionComponent<RadioProps> = ({
   current,
   position: {
@@ -23,7 +23,7 @@ export const Radio: FunctionComponent<RadioProps> = ({
     <label htmlFor={name} className="Radio">
       <img
         src={id === current ? Selected : notSelected}
-        alt="name" 
+        alt="name"
       />
       <input
         id={name}
@@ -33,8 +33,8 @@ export const Radio: FunctionComponent<RadioProps> = ({
         checked={id === current}
         onChange={onChange}
         className="Select__radio"
-      />             
+      />
       <span>{name}</span>
     </label>
   );
-}
+};

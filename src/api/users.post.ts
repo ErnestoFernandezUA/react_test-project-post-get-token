@@ -31,10 +31,10 @@ export interface PostResponse {
 }
 
 export const postUser = (
-  data: any,
+  data: FormData,
   Token: string,
 ) => client.post<PostResponse>(
   endpointAPI.users,
   data,
-  { headers: { Token, 'Content-Type': 'multipart/form-data' }},
+  { headers: { Token, 'Content-Type': 'multipart/form-data' } },
 );

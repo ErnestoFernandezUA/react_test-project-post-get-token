@@ -30,6 +30,6 @@ export const getUsersPage = (
   count: number,
 ) => {
   return (link)
-  ? client.get<GetUsersResponse>(link)
-  : client.get<GetUsersResponse>(endpointAPI.users, { params: { page, count }});
-}
+    ? client.get<GetUsersResponse>(link)
+    : client.get<GetUsersResponse>(endpointAPI.users, { params: { page, count } });
+};

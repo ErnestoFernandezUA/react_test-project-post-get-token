@@ -1,9 +1,10 @@
 import React, {
   FunctionComponent,
-  useEffect,
   useRef,
   useState,
 } from 'react';
+import { PayloadAction } from '@reduxjs/toolkit';
+
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getTokenAsync } from '../../store/features/Token/tokenSlice';
 import {
@@ -17,15 +18,14 @@ import {
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
 import { UserPost } from '../../type/Form';
+import { Select } from '../Select';
+import { Button } from '../../UI/Button';
+import { InputFile } from '../../UI/InputFile';
+import { PostResponsePayload } from '../../api/users.post';
 
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
-import { Select } from '../Select';
-import { Button } from '../../UI/Button';
-import { InputFile } from '../../UI/InputFile';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { PostResponsePayload } from '../../api/users.post';
 
 const initialUser = {
   // name: 'John',
@@ -52,14 +52,6 @@ export const Form: FunctionComponent = () => {
   const [user, setUser] = useState<UserPost>(initialUser);
   const maxWidthErrors = useRef(widthImportErrors());
 
-  const {
-    name,
-    email,
-    phone,
-    position_id,
-    photo,
-  } = user;
-
   // useEffect(() => {
   //   // setMaxWidthErrors(widthImportErrors());
   //   // console.log('validation');
@@ -79,14 +71,14 @@ export const Form: FunctionComponent = () => {
   };
 
   const isValid = () => {
-    
-    if (!photo) {
+    if (!user.photo) {
+      // eslint-disable-next-line no-console
       console.log('validation false');
+
       return false;
     }
 
-
-    return true
+    return true;
   };
 
   const handleUpload = async (event: React.FormEvent) => {
@@ -96,33 +88,47 @@ export const Form: FunctionComponent = () => {
       return;
     }
 
+    const {
+      name,
+      email,
+      phone,
+      position_id,
+      photo,
+    } = user;
+
     const formData = new FormData();
+
     formData.append('name', name);
     formData.append('email', email);
     formData.append('phone', phone);
     formData.append('position_id', position_id);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     formData.append('photo', photo!);
-    
+
     try {
       dispatch(getTokenAsync());
-      const addUserResponse = await dispatch(postUserAsync(formData)) as PayloadAction<PostResponsePayload>;
+      const addUserResponse
+      = await dispatch(postUserAsync(formData)) as PayloadAction<PostResponsePayload>;
 
+      // eslint-disable-next-line no-console
       console.log('form/ addUser', addUserResponse);
 
       if (addUserResponse.payload.success) {
         dispatch(resetUsers());
 
+        // eslint-disable-next-line no-console
         console.log('Form// getUsersAsync');
         await dispatch(getUsersAsync({}));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (errorPost) {
+      // eslint-disable-next-line no-console
+      console.log(errorPost);
     }
   };
 
   return (
     <div className="Form Wrapper">
-      {error && <h2 className='Form__error-message'>{error}</h2>}
+      {error && <h2 className="Form__error-message">{error}</h2>}
 
       <Input
         name="name"
@@ -169,8 +175,8 @@ export const Form: FunctionComponent = () => {
 
       <InputFile
         fileName={user.photo?.name}
-        isDisabled={isUploading} 
-        onChange={onChange} 
+        isDisabled={isUploading}
+        onChange={onChange}
         fails={validationFails.photo}
         className="Form__input"
       />
