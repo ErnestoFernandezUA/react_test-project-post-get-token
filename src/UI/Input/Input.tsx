@@ -8,7 +8,7 @@ interface InputProps {
   type: 'text' | 'password';
   value: string;
   helper?: string;
-  errors: string[] | null;
+  errors?: string[];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   backgroundColor?: string;
   className?: string;
@@ -21,7 +21,7 @@ export const Input: FunctionComponent<InputProps> = ({
   type = 'text',
   value,
   helper,
-  errors,
+  errors = [],
   // eslint-disable-next-line no-console
   onChange = () => console.log('no input onChange function'),
   backgroundColor = 'white',
@@ -69,7 +69,7 @@ export const Input: FunctionComponent<InputProps> = ({
           value={value}
           onChange={onChange}
           className={classNames('Input__input',
-            { 'Input__input--error': errors })}
+            { 'Input__input--error': errors?.length })}
           placeholder={label}
           // style={styleInput__input}
         />

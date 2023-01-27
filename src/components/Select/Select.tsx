@@ -2,7 +2,7 @@ import React, { FunctionComponent, useRef } from 'react';
 import classNames from 'classnames';
 
 import { selectPositions } from '../../store/features/Positions/positionsSlice';
-import { selectPostFails } from '../../store/features/Users/usersSlicePost';
+// import { selectPostFails } from '../../store/features/Users/usersSlicePost';
 import { useAppSelector } from '../../store/hooks';
 import { PositionType } from '../../type/Position';
 import { Radio } from '../../UI/Radio';
@@ -13,15 +13,16 @@ interface SelectProps {
   currentValue: string,
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className: string;
+  fails?: string[];
 }
 
 export const Select: FunctionComponent<SelectProps> = ({
   currentValue,
   onChange,
   className: classNamesExternal = '',
+  fails = [],
 }) => {
   const positions = useAppSelector(selectPositions);
-  const fails = useAppSelector(selectPostFails);
   const { current } = useRef(classNamesExternal.trim().split(' '));
 
   return (
@@ -39,7 +40,7 @@ export const Select: FunctionComponent<SelectProps> = ({
       ))}
 
       <div className="Select__errors-container">
-        {fails.position_id && fails.position_id.map(e => (
+        {fails && fails.map(e => (
           <p key={e} className="Select__error">{e}</p>
         ))}
       </div>

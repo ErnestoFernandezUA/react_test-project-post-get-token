@@ -7,7 +7,7 @@ interface InputFileProps {
   fileName: string | undefined;
   isDisabled: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  fails?: string[] | null | undefined,
+  fails?: string[] | undefined,
   className?: string;
 }
 
@@ -15,10 +15,14 @@ export const InputFile: FunctionComponent<InputFileProps> = ({
   fileName,
   isDisabled,
   onChange,
-  fails,
+  fails = [],
   className: classNameExternal = '',
 }) => {
   const { current } = useRef(classNameExternal.trim().split(' '));
+  // const fails = ['Error1', 'Error2'];
+
+  // eslint-disable-next-line no-console
+  // console.log(failsExternal);
 
   return (
     <>
@@ -50,7 +54,7 @@ export const InputFile: FunctionComponent<InputFileProps> = ({
         </span>
 
         <div className="InputFile__error-container">
-          {fails?.length && fails.map((e: string) => (
+          {Boolean(fails.length) && fails.map((e: string) => (
             <p key={e} className="InputFile__error">{e}</p>
           ))}
         </div>

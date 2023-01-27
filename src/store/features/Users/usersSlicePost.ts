@@ -12,83 +12,40 @@ import { AxiosError } from 'axios';
 import {
   RootState,
 } from '../../store';
-// import { UserType } from '../../../type/User';
-// import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 import {
   postUser, PostResponsePayload,
 } from '../../../api/users.post';
 
-// const DELAY_OF_WAITING_GET = 1000;
-const DELAY_OF_WAITING_POST = 0;
+const DELAY_OF_WAITING_POST = 5000;
 
-export interface UsersState {
-  // storage: UserType[];
-  // payload: UserType[];
-
-  // statusLoading: 'idle' | 'loading' | 'failed';
+export interface UsersStatePost {
   statusUpLoading: 'idle' | 'loading' | 'failed';
-  // errorMessageGet: string | null;
-  errorMessagePost: string | null;
-
-  // link_to_next_page: string | null;
-  // current_page: number | null;
-  // total_pages: number | null;
+  errorMessage: string | null;
 
   validationFails: {
-    name: string[] | null;
-    email: string[] | null;
-    phone: string[] | null;
-    photo: string[] | null;
-    position_id: string[] | null;
+    name: string[];
+    email: string[];
+    phone: string[];
+    photo: string[];
+    position_id: string[];
   }
 }
 
-const initialState: UsersState = {
-  // storage: [],
-  // payload: [],
-
-  // statusLoading: 'idle',
+const initialState: UsersStatePost = {
   statusUpLoading: 'idle',
-  // errorMessageGet: null,
-  errorMessagePost: null,
-
-  // link_to_next_page: null,
-  // current_page: null,
-  // total_pages: null,
+  errorMessage: null,
 
   validationFails: {
-    name: null,
-    email: null,
-    phone: null,
-    photo: null,
-    position_id: null,
+    name: [],
+    email: [],
+    phone: [],
+    photo: [],
+    position_id: [],
   },
 };
 
-// export const getUsersAsync = createAsyncThunk(
-//   'users/fetchUsers',
-//   async ({
-//     link_to_next_page = null,
-//     page = 1,
-//     count = 6,
-//   }:GetUsersParams,
-//   { rejectWithValue }) => {
-//     try {
-//       await new Promise(resolve => setTimeout(resolve, DELAY_OF_WAITING_GET));
-//       const response = await getUsersPage(link_to_next_page, page, count);
-
-//       // eslint-disable-next-line no-console
-//       console.log(response);
-
-//       return response;
-//     } catch (error) {
-//       rejectWithValue(error);
-//     }
-//   },
-// );
-
 export const postUserAsync = createAsyncThunk(
-  'users/postUser',
+  'usersPost/post',
   async (data: FormData, { rejectWithValue, getState }) => {
     const state = getState() as RootState;
     const token = String(state.token.storage);
@@ -114,79 +71,44 @@ export const postUserAsync = createAsyncThunk(
 );
 
 const usersSlicePost = createSlice({
-  name: 'userPost',
+  name: 'usersPost',
   initialState,
   reducers: {
-    // addUsers: (state: UsersState, action: PayloadAction<UserType[]>) => {
-    //   state.storage.push(...action.payload);
+    setError: (state: UsersStatePost, action: PayloadAction<{
+      property: 'name' | 'email' | 'phone' | 'position_id' | 'photo',
+      error: string;
+    }>) => {
+      state.validationFails[action.payload.property].push(action.payload.error);
+    },
+    clearErrorMessage: (state: UsersStatePost) => {
+      state.errorMessage = null;
+    },
+    // addErrorName: (state: UsersStatePost, action: PayloadAction<string>) => {
+    //   state.validationFails.name?.push(action.payload);
     // },
-    // addPayload: (state: UsersState) => {
-    //   state.storage.push(...state.payload);
-    //   state.payload.length = 0;
+    // addErrorEmail: (state: UsersStatePost, action: PayloadAction<string>) => {
+    //   state.validationFails.email?.push(action.payload);
     // },
-    // setStatusLoading: (
-    //   state: UsersState,
-    //   action: PayloadAction<'idle' | 'loading' | 'failed'>,
-    // ) => {
-    //   state.statusLoading = action.payload;
+    // addErrorPhone: (state: UsersStatePost, action: PayloadAction<string>) => {
+    //   state.validationFails.phone?.push(action.payload);
     // },
-    addErrorName: (state: UsersState, action: PayloadAction<string>) => {
-      state.validationFails.name?.push(action.payload);
-    },
-    addErrorEmail: (state: UsersState, action: PayloadAction<string>) => {
-      state.validationFails.email?.push(action.payload);
-    },
-    addErrorPhone: (state: UsersState, action: PayloadAction<string>) => {
-      state.validationFails.phone?.push(action.payload);
-    },
-    addErrorPhoto: (state: UsersState, action: PayloadAction<string>) => {
-      state.validationFails.name?.push(action.payload);
-    },
-    addErrorPosition_Id: (state: UsersState, action: PayloadAction<string>) => {
-      state.validationFails.name?.push(action.payload);
-    },
-    // resetUsers: (state) => {
-    //   state.storage = initialState.storage;
+    // addErrorPhoto: (state: UsersStatePost, action: PayloadAction<string>) => {
+    //   state.validationFails.name?.push(action.payload);
+    // },
+    // addErrorPosition_Id: (state: UsersStatePost, action: PayloadAction<string>) => {
+    //   state.validationFails.name?.push(action.payload);
     // },
   },
   extraReducers: (builder) => {
     builder
-    // .addCase(getUsersAsync.pending, (
-    //   state: UsersState,
-    // ) => {
-    //   state.statusLoading = 'loading';
-    // })
-    // .addCase(getUsersAsync.fulfilled,
-    //   (
-    //     state: UsersState,
-    //     action:PayloadAction<GetUsersResponse | undefined,
-    //     string, {arg: GetUsersParams; requestId: string; requestStatus: 'fulfilled';}, never>,
-    //   ) => {
-    //     if (action.payload && action.payload.success) {
-    //       const {
-    //         users,
-    //         links: { next_url },
-    //         total_pages,
-    //         page,
-    //       } = action.payload;
-
-    //       state.payload.push(...users);
-    //       state.statusLoading = 'idle';
-    //       state.link_to_next_page = next_url;
-    //       state.total_pages = total_pages;
-    //       state.current_page = page;
-    //     } else {
-    //       state.errorMessageGet = 'getUsersAsync.fulfilled/ response.success = false';
-    //     }
-    //   })
-    // .addCase(getUsersAsync.rejected, (state) => {
-    //   state.statusLoading = 'failed';
-    // })
-
       .addCase(postUserAsync.pending, (
-        state: UsersState,
+        state: UsersStatePost,
       ) => {
+        // eslint-disable-next-line no-console
+        console.log('postUserAsync.pending/');
+
         state.statusUpLoading = 'loading';
+        state.errorMessage = null;
         state.validationFails = initialState.validationFails;
       })
       .addCase(postUserAsync.fulfilled, (
@@ -231,46 +153,34 @@ const usersSlicePost = createSlice({
         console.log('postUserAsync.rejected/ action.payload', action.payload);
 
         state.statusUpLoading = 'failed';
-        state.errorMessagePost = action.payload.message;
-        state.validationFails = action.payload.fails;
+        state.errorMessage = action.payload.message;
+        state.validationFails = action.payload.fails || initialState.validationFails;
       });
   },
 });
 
 export default usersSlicePost.reducer;
 export const {
-  // addUsers,
-  // addPayload,
-  // setStatusLoading,
-  // resetUsers,
-
-  addErrorName,
-  addErrorEmail,
-  addErrorPhone,
-  addErrorPhoto,
-  addErrorPosition_Id,
+  setError,
+  clearErrorMessage,
+// addErrorName,
+// addErrorEmail,
+// addErrorPhone,
+// addErrorPhoto,
+// addErrorPosition_Id,
 } = usersSlicePost.actions;
 
-// export const selectUsers = (state: RootState) => state.usersGet.storage;
-// export const selectPayloadUsers = (state: RootState) => state.usersGet.payload;
-
-// export const selectUsersIsLoading
-// = (state: RootState) => state.usersGet.statusLoading === 'loading';
-export const selectUserIsUpLoading
+export const selectIsUpLoading
 = (state: RootState) => state.usersPost.statusUpLoading === 'loading';
-// export const selectUsersErrorGet = (state: RootState) => state.usersGet.errorMessageGet;
-export const selectUsersErrorPost = (state: RootState) => state.usersPost.errorMessagePost;
-export const selectPostFails = (state: RootState) => state.usersPost.validationFails;
-export const selectIsUserErrorPost
+export const selectIsErrorPost
 = (state: RootState) => state.usersPost.statusUpLoading === 'failed';
-// export const selectLinkToNext = (state: RootState) => state.usersGet.link_to_next_page;
-// export const selectIsLastPage
-// = (state: RootState) => state.usersGet.current_page === state.usersGet.total_pages;
+export const selectUsersPostErrorMessage = (state: RootState) => state.usersPost.errorMessage;
+export const selectPostFails = (state: RootState) => state.usersPost.validationFails;
 
-export const addError = {
-  name: addErrorName,
-  email: addErrorEmail,
-  phone: addErrorPhone,
-  photo: addErrorPhoto,
-  position_id: addErrorPosition_Id,
-};
+// export const addError = {
+//   name: addErrorName,
+//   email: addErrorEmail,
+//   phone: addErrorPhone,
+//   photo: addErrorPhoto,
+//   position_id: addErrorPosition_Id,
+// };

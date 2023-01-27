@@ -1,12 +1,12 @@
 .Form {
+  height: 655px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
 
   &__error-message {
-    position: absolute;
-    top: -30px;
     color: var(--error-color);
   }
 
