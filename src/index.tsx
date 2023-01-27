@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 import { RouterProvider } from 'react-router-dom';
 
-import store, { persistor } from './store';
+import store, { persistor } from './store/store';
 import { router } from './App';
 
 import './style/index.css';

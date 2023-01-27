@@ -9,12 +9,12 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getTokenAsync } from '../../store/features/Token/tokenSlice';
 import {
   getUsersAsync,
-  postUserAsync,
+  // postUserAsync,
   resetUsers,
-  selectPostFails,
-  selectUserIsUpLoading,
-  selectUsersErrorPost,
-} from '../../store/features/Users/usersSliceGET';
+  // selectPostFails,
+  // selectUserIsUpLoading,
+  // selectUsersErrorPost,
+} from '../../store/features/Users/usersSliceGet';
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
 import { UserPost } from '../../type/Form';
@@ -30,6 +30,9 @@ import {
   maskPhone,
   unMaskPhone,
 } from '../Header/maskPhone';
+import {
+  postUserAsync, selectPostFails, selectUserIsUpLoading, selectUsersErrorPost,
+} from '../../store/features/Users/usersSlicePost';
 
 const initialUser = {
   // name: 'John',

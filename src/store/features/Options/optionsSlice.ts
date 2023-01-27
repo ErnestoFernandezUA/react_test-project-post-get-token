@@ -4,7 +4,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
-import { RootState } from '../../index';
+import { RootState } from '../../store';
 import { ScreenType } from '../../../type/Screen';
 
 export interface OptionsState {

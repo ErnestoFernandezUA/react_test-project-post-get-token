@@ -9,7 +9,7 @@ import { getToken, TokenResponse } from '../../../api/token';
 // eslint-disable-next-line import/no-cycle
 import {
   RootState,
-} from '../..';
+} from '../../store';
 import { isTokenActive } from './isTokenActive';
 
 const TOKEN_ACTIVE_DURATION = 40; // min
