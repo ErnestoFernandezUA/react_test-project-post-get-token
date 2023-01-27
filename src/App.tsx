@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
   getTokenAsync,
 } from './store/features/Token/tokenSlice';
-import { getUsersAsync } from './store/features/Users/usersSlice';
+import { getUsersAsync } from './store/features/Users/usersGETSlice';
 import { getPositionsAsync } from './store/features/Positions/positionsSlice';
 import { Header } from './components/Header';
 import { HomePage } from './pages/HomePage/HomePage';

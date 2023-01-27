@@ -14,7 +14,7 @@ import {
   selectPostFails,
   selectUserIsUpLoading,
   selectUsersErrorPost,
-} from '../../store/features/Users/usersSlice';
+} from '../../store/features/Users/usersGETSlice';
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
 import { UserPost } from '../../type/Form';
@@ -55,6 +55,8 @@ export const Form: FunctionComponent = () => {
   const isUploading = useAppSelector(selectUserIsUpLoading);
   const [user, setUser] = useState<UserPost>(initialUser);
   const maxWidthErrors = useRef(widthImportErrors());
+  // const [isSuccess, setIsSuccess] = useState(false);
+  // const [isError, setIsError] = useState(false);
 
   // useEffect(() => {
   //   // setMaxWidthErrors(widthImportErrors());
@@ -135,6 +137,9 @@ export const Form: FunctionComponent = () => {
     } catch (errorPost) {
       // eslint-disable-next-line no-console
       console.log(errorPost);
+    } finally {
+      setTimeout(() => {
+      }, 2000);
     }
   };
 

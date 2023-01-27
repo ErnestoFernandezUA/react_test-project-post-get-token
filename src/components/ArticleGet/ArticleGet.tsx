@@ -18,7 +18,7 @@ import {
   selectUsers,
   selectUsersErrorGet,
   selectUsersIsLoading,
-} from '../../store/features/Users/usersSlice';
+} from '../../store/features/Users/usersGETSlice';
 import { Card } from '../Card';
 import { List } from '../List';
 import { Button } from '../../UI/Button/Button';

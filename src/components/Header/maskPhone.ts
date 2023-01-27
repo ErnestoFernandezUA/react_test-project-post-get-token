@@ -5,9 +5,6 @@ export const maskPhone = (value = '') => {
   for (let i = 0; i < Math.min(13, value.length); i++) {
     const el = value[i];
 
-    // eslint-disable-next-line no-console
-    console.log(i, el);
-
     if ([3, 5, 8, 10].includes(i)) {
       result += ' ';
     }
@@ -15,9 +12,6 @@ export const maskPhone = (value = '') => {
     if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+'].includes(el)) {
       result += el;
     } else {
-      // eslint-disable-next-line no-console
-      console.log('el - not a number', result);
-
       return result;
     }
   }
