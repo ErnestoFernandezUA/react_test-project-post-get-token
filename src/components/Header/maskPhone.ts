@@ -5,9 +5,6 @@ export const maskPhone = (value = '') => {
   for (let i = 2; i < Math.min(12, value.length); i++) {
     const el = value[i];
 
-    // eslint-disable-next-line no-console
-    console.log(el);
-
     if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(el)) {
       if (i === 2) {
         result += '(';
@@ -26,9 +23,6 @@ export const maskPhone = (value = '') => {
       return result;
     }
   }
-
-  // eslint-disable-next-line no-console
-  console.log(result);
 
   return result;
 };
