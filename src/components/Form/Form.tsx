@@ -14,7 +14,7 @@ import {
   selectPostFails,
   selectUserIsUpLoading,
   selectUsersErrorPost,
-} from '../../store/features/Users/usersGETSlice';
+} from '../../store/features/Users/usersSliceGET';
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
 import { UserPost } from '../../type/Form';

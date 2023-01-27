@@ -2,7 +2,7 @@ import React, { FunctionComponent, useRef } from 'react';
 import classNames from 'classnames';
 
 import { selectPositions } from '../../store/features/Positions/positionsSlice';
-import { selectPostFails } from '../../store/features/Users/usersGETSlice';
+import { selectPostFails } from '../../store/features/Users/usersSliceGET';
 import { useAppSelector } from '../../store/hooks';
 import { PositionType } from '../../type/Position';
 import { Radio } from '../../UI/Radio';

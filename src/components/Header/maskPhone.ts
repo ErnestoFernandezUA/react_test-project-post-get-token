@@ -1,15 +1,26 @@
 export const maskPhone = (value = '') => {
-  let result = '+';
+  let result = '+38 ';
 
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < Math.min(13, value.length); i++) {
+  for (let i = 2; i < Math.min(12, value.length); i++) {
     const el = value[i];
 
-    if ([3, 5, 8, 10].includes(i)) {
-      result += ' ';
-    }
+    // eslint-disable-next-line no-console
+    console.log(el);
 
-    if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+'].includes(el)) {
+    if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(el)) {
+      if (i === 2) {
+        result += '(';
+      }
+
+      if (i === 5) {
+        result += ')';
+      }
+
+      if ([5, 8, 10].includes(i)) {
+        result += ' ';
+      }
+
       result += el;
     } else {
       return result;
@@ -24,5 +35,8 @@ export const maskPhone = (value = '') => {
 
 export const unMaskPhone = (value: string) => value
   .split('')
-  .filter((el, i) => (el !== ' ' && i < 17 && i !== 0))
+  .filter((el, i) => (
+    i < 19
+    && el !== ' ' && el !== '(' && el !== ')' && el !== '+'
+  ))
   .join('');
