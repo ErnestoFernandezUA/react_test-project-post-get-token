@@ -17,18 +17,18 @@ import {
 } from '../../../api/users.post';
 import { UserPost } from '../../../type/User';
 
-const DELAY_OF_WAITING_POST = 1000;
+const DELAY_OF_WAITING_POST = 5000;
 
 export interface UsersStatePost {
   statusUpLoading: 'idle' | 'loading' | 'failed';
-  errorMessage: string | null;
+  serverMessage: string | null;
 
   validationFails: UserPost<string[]>;
 }
 
 const initialState: UsersStatePost = {
   statusUpLoading: 'idle',
-  errorMessage: null,
+  serverMessage: null,
 
   validationFails: {
     name: [],
@@ -81,7 +81,7 @@ const usersSlicePost = createSlice({
       state.validationFails = { ...initialState.validationFails };
     },
     clearErrorMessage: (state: UsersStatePost) => {
-      state.errorMessage = null;
+      state.serverMessage = null;
     },
     addErrorName: (state: UsersStatePost, action: PayloadAction<string>) => {
       state.validationFails.name.push(action.payload);
@@ -108,12 +108,12 @@ const usersSlicePost = createSlice({
         console.log('postUserAsync.pending/');
 
         state.statusUpLoading = 'loading';
-        state.errorMessage = null;
+        state.serverMessage = null;
         state.validationFails = initialState.validationFails;
       })
       .addCase(postUserAsync.fulfilled, (
         state,
-        action:PayloadAction<unknown, string, {
+        action:PayloadAction<any, string, {
           arg: FormData;
           requestId: string;
           requestStatus: 'fulfilled';
@@ -123,17 +123,8 @@ const usersSlicePost = createSlice({
 
         // eslint-disable-next-line no-console
         console.log('postUserAsync.fulfilled/ action.payload', action);
-        // state.storage.push(action.payload);
-        // if (!action.payload) {
-        //   // eslint-disable-next-line no-useless-return
-        //   return;
-        // }
 
-        // if (action.payload.success) {
-        //   console.log(action.payload.message);
-        // } else {
-        //   state.fails = { ...state.fails, ...action.payload.fails};
-        // }
+        state.serverMessage = action.payload.message;
       })
       .addCase(postUserAsync.rejected, (
         state,
@@ -153,7 +144,7 @@ const usersSlicePost = createSlice({
         console.log('postUserAsync.rejected/ action.payload', action.payload);
 
         state.statusUpLoading = 'failed';
-        state.errorMessage = action.payload.message;
+        state.serverMessage = action.payload.message;
         state.validationFails = action.payload.fails || initialState.validationFails;
       });
   },
@@ -173,9 +164,9 @@ export const {
 
 export const selectIsUpLoading
 = (state: RootState) => state.usersPost.statusUpLoading === 'loading';
-export const selectIsErrorPost
+export const selectIsPostRejected
 = (state: RootState) => state.usersPost.statusUpLoading === 'failed';
-export const selectUsersPostErrorMessage = (state: RootState) => state.usersPost.errorMessage;
+export const selectUsersPostServerMessage = (state: RootState) => state.usersPost.serverMessage;
 export const selectPostFails = (state: RootState) => state.usersPost.validationFails;
 
 export const addError: UserPost<any> = {

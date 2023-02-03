@@ -13,10 +13,10 @@ import {
 } from '../../store/features/Users/usersSliceGet';
 import {
   postUserAsync,
-  selectIsErrorPost,
+  selectIsPostRejected,
   selectPostFails,
   selectIsUpLoading,
-  selectUsersPostErrorMessage,
+  selectUsersPostServerMessage,
   clearErrorMessage,
   addError,
   clearError,
@@ -34,11 +34,12 @@ import {
   maskPhone,
   unMaskPhone,
 } from '../Header/maskPhone';
+import { UserKeys, UserPost } from '../../type/User';
 
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
-import { UserKeys, UserPost } from '../../type/User';
+import Success from '../../images/success-image.svg';
 
 const initialUser = {
   name: '',
@@ -53,11 +54,12 @@ const initialUser = {
 export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
 
-  const isErrorPost = useAppSelector(selectIsErrorPost);
-  const errorMessage = useAppSelector(selectUsersPostErrorMessage);
+  const isPostRejected = useAppSelector(selectIsPostRejected);
+  const serverMessage = useAppSelector(selectUsersPostServerMessage);
   const validationFails = useAppSelector<UserPost<string[]>>(selectPostFails);
   const isUploading = useAppSelector(selectIsUpLoading);
   const [user, setUser] = useState<UserPost<string, File | undefined>>(initialUser);
+  const [isPostSuccess, setIsPostSuccess] = useState<boolean>(false);
   const maxWidthErrors = useRef(widthImportErrors());
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,6 +133,7 @@ export const Form: FunctionComponent = () => {
 
     try {
       dispatch(getTokenAsync());
+
       const addUserResponse
       = await dispatch(postUserAsync(formData)) as PayloadAction<PostResponsePayload>;
 
@@ -138,6 +141,7 @@ export const Form: FunctionComponent = () => {
       console.log('form/ addUser', addUserResponse);
 
       if (addUserResponse.payload.success) {
+        setIsPostSuccess(true);
         dispatch(resetUsers());
 
         // eslint-disable-next-line no-console
@@ -150,21 +154,29 @@ export const Form: FunctionComponent = () => {
     } finally {
       setTimeout(() => {
         dispatch(clearErrorMessage());
+        setIsPostSuccess(false);
       }, 2000);
     }
   };
 
   return (
     <div className="Form Wrapper">
-      {isErrorPost && (
-        <h2 className="Form__error-message">{errorMessage}</h2>
-      )}
-
       {isUploading && (
         <Loader />
       )}
 
-      {!errorMessage && !isUploading && (
+      {isPostRejected && (
+        <h2 className="Form__server-message">{serverMessage}</h2>
+      )}
+
+      {isPostSuccess && (
+        <>
+          <h2 className="Form__title-success">{serverMessage}</h2>
+          <img src={Success} alt="success" />
+        </>
+      )}
+
+      {!serverMessage && !isUploading && !isPostSuccess && (
         <>
           <Input
             name="name"
