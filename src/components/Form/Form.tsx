@@ -86,6 +86,7 @@ export const Form: FunctionComponent = () => {
     const key = e.target.name;
 
     if (!user[key as keyof UserPost<string>]) {
+      dispatch(clearError({ property: key as UserKeys }));
       dispatch(addError[key as keyof UserPost<any>](`The ${key} field is required.`));
     }
   };
