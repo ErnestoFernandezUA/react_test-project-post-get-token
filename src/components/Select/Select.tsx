@@ -26,7 +26,9 @@ export const Select: FunctionComponent<SelectProps> = ({
   const { current } = useRef(classNamesExternal.trim().split(' '));
 
   return (
-    <div className={classNames('Select', ...current)}>
+    <div
+      className={classNames('Select', ...current)}
+    >
       <p className="Select__title">Select your position:</p>
 
       {positions.map((position: PositionType) => (

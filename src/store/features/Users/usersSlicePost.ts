@@ -15,7 +15,7 @@ import {
 import {
   postUser, PostResponsePayload,
 } from '../../../api/users.post';
-import { UserTypePost } from '../../../type/User';
+import { UserPost } from '../../../type/User';
 
 const DELAY_OF_WAITING_POST = 1000;
 
@@ -23,13 +23,7 @@ export interface UsersStatePost {
   statusUpLoading: 'idle' | 'loading' | 'failed';
   errorMessage: string | null;
 
-  validationFails: {
-    name: string[];
-    email: string[];
-    phone: string[];
-    photo: string[];
-    position_id: string[];
-  }
+  validationFails: UserPost<string[]>;
 }
 
 const initialState: UsersStatePost = {
@@ -75,11 +69,16 @@ const usersSlicePost = createSlice({
   name: 'usersPost',
   initialState,
   reducers: {
-    setError: (state: UsersStatePost, action: PayloadAction<{
+    clearError: (state: UsersStatePost, action: PayloadAction<{
       property: 'name' | 'email' | 'phone' | 'position_id' | 'photo',
-      error: string;
     }>) => {
-      state.validationFails[action.payload.property].push(action.payload.error);
+      const key = action.payload.property;
+
+      state.validationFails[key] = initialState.validationFails[key as keyof
+      UserPost<string[]>] || []; // ts...hm
+    },
+    clearAllErrors: (state) => {
+      state.validationFails = { ...initialState.validationFails };
     },
     clearErrorMessage: (state: UsersStatePost) => {
       state.errorMessage = null;
@@ -94,7 +93,7 @@ const usersSlicePost = createSlice({
       state.validationFails.phone.push(action.payload);
     },
     addErrorPhoto: (state: UsersStatePost, action: PayloadAction<string>) => {
-      state.validationFails.photo.push(action.payload);
+      state.validationFails.photo?.push(action.payload);
     },
     addErrorPosition_Id: (state: UsersStatePost, action: PayloadAction<string>) => {
       state.validationFails.position_id.push(action.payload);
@@ -162,8 +161,9 @@ const usersSlicePost = createSlice({
 
 export default usersSlicePost.reducer;
 export const {
-  setError,
+  clearError,
   clearErrorMessage,
+  clearAllErrors,
   addErrorName,
   addErrorEmail,
   addErrorPhone,
@@ -178,7 +178,7 @@ export const selectIsErrorPost
 export const selectUsersPostErrorMessage = (state: RootState) => state.usersPost.errorMessage;
 export const selectPostFails = (state: RootState) => state.usersPost.validationFails;
 
-export const addError: UserTypePost<any> = {
+export const addError: UserPost<any> = {
   name: addErrorName,
   email: addErrorEmail,
   phone: addErrorPhone,

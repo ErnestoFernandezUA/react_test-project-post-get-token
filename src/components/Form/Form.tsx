@@ -18,12 +18,8 @@ import {
   selectIsUpLoading,
   selectUsersPostErrorMessage,
   clearErrorMessage,
-  // addErrorPhoto,
-  // addErrorName,
-  // addErrorEmail,
-  // addErrorPhone,
-  // addErrorPosition_Id,
   addError,
+  clearError,
 } from '../../store/features/Users/usersSlicePost';
 
 import { Input } from '../../UI/Input';
@@ -42,7 +38,7 @@ import {
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
-import { UserTypePost } from '../../type/User';
+import { UserKeys, UserPost } from '../../type/User';
 
 const initialUser = {
   name: '',
@@ -59,9 +55,9 @@ export const Form: FunctionComponent = () => {
 
   const isErrorPost = useAppSelector(selectIsErrorPost);
   const errorMessage = useAppSelector(selectUsersPostErrorMessage);
-  const validationFails = useAppSelector(selectPostFails);
+  const validationFails = useAppSelector<UserPost<string[]>>(selectPostFails);
   const isUploading = useAppSelector(selectIsUpLoading);
-  const [user, setUser] = useState<UserTypePost<string>>(initialUser);
+  const [user, setUser] = useState<UserPost<string, File | undefined>>(initialUser);
   const maxWidthErrors = useRef(widthImportErrors());
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +66,10 @@ export const Form: FunctionComponent = () => {
       value,
       files,
     } = event.target;
+
+    if (validationFails[name as keyof UserPost<string[]>]?.length) {
+      dispatch(clearError({ property: name as UserKeys }));
+    }
 
     setUser({
       ...user,
@@ -82,11 +82,11 @@ export const Form: FunctionComponent = () => {
     });
   };
 
-  const onBlur = (e) => {
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const key = e.target.name;
 
-    if (!user[key as keyof UserTypePost<string>]) {
-      dispatch(addError[key as keyof UserTypePost<any>](`The ${key} field is required.`));
+    if (!user[key as keyof UserPost<string>]) {
+      dispatch(addError[key as keyof UserPost<any>](`The ${key} field is required.`));
     }
   };
 
@@ -94,11 +94,10 @@ export const Form: FunctionComponent = () => {
     let isValidInputs = true;
 
     Object.keys(addError).forEach((key: string) => {
-      // eslint-disable-next-line no-console
-      console.log('key = ', key, !user[key as keyof UserTypePost<string>]);
+      dispatch(clearError({ property: key as UserKeys }));
 
-      if (!user[key as keyof UserTypePost<string>]) {
-        dispatch(addError[key as keyof UserTypePost<any>](`The ${key} field is required.`));
+      if (!user[key as keyof UserPost<string>]) {
+        dispatch(addError[key as keyof UserPost<any>](`The ${key} field is required.`));
         isValidInputs = false;
       }
     });
@@ -127,8 +126,7 @@ export const Form: FunctionComponent = () => {
     formData.append('email', email);
     formData.append('phone', phone);
     formData.append('position_id', position_id);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    formData.append('photo', photo!);
+    formData.append('photo', photo as File);
 
     try {
       dispatch(getTokenAsync());
@@ -210,16 +208,14 @@ export const Form: FunctionComponent = () => {
           <Select
             currentValue={user.position_id}
             onChange={onChange}
-            onBlur={onBlur}
             className="Form__input"
             fails={validationFails.position_id}
           />
 
           <InputFile
-            fileName={user.photo?.name}
+            fileName={(user.photo as File)?.name}
             isDisabled={isUploading}
             onChange={onChange}
-            onBlur={onBlur}
             fails={validationFails.photo}
             className="Form__input"
           />

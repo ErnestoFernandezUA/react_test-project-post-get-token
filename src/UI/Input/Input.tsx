@@ -10,7 +10,7 @@ interface InputProps {
   helper?: string;
   errors?: string[];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: any;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   backgroundColor?: string;
   className?: string;
   maxWidthErrors: number;
@@ -27,39 +27,18 @@ export const Input: FunctionComponent<InputProps> = ({
   onChange = () => console.log('no input onChange function'),
   // eslint-disable-next-line no-console
   onBlur = () => console.log('no input onBlur function'),
-  backgroundColor = 'white',
   className: classNameExternal = '',
-  // maxWidthErrors,
 }) => {
   const { current } = useRef(classNameExternal.trim().split(' '));
-
-  // const styleInput = {
-  //   backgroundColor,
-  // };
-  const styleLabel = {
-    backgroundColor,
-  };
-  // const styleInput__input = {
-  //   backgroundColor,
-  // };
-  // const styleError = {
-  //   maxWidth: maxWidthErrors,
-  //   border: '1px solid green',
-  // };
-
-  // eslint-disable-next-line no-console
-  // console.log('maxWidthErrors', maxWidthErrors);
 
   return (
     <div
       className={classNames('Input', ...current)}
-      // style={styleInput}
     >
       <label htmlFor="input">
         {value && (
           <p
             className="Input__label"
-            style={styleLabel}
           >
             {label}
           </p>
@@ -75,7 +54,6 @@ export const Input: FunctionComponent<InputProps> = ({
           className={classNames('Input__input',
             { 'Input__input--error': errors?.length })}
           placeholder={label}
-          // style={styleInput__input}
         />
       </label>
 
@@ -86,7 +64,6 @@ export const Input: FunctionComponent<InputProps> = ({
               <div
                 key={e}
                 className="Input__error"
-                // style={styleError}
               >
                 {e}
               </div>

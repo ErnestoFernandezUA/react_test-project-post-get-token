@@ -19,10 +19,6 @@ export const InputFile: FunctionComponent<InputFileProps> = ({
   className: classNameExternal = '',
 }) => {
   const { current } = useRef(classNameExternal.trim().split(' '));
-  // const fails = ['Error1', 'Error2'];
-
-  // eslint-disable-next-line no-console
-  // console.log(failsExternal);
 
   return (
     <>
