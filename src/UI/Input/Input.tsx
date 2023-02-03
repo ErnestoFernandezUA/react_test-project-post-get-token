@@ -10,6 +10,7 @@ interface InputProps {
   helper?: string;
   errors?: string[];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: any;
   backgroundColor?: string;
   className?: string;
   maxWidthErrors: number;
@@ -24,6 +25,8 @@ export const Input: FunctionComponent<InputProps> = ({
   errors = [],
   // eslint-disable-next-line no-console
   onChange = () => console.log('no input onChange function'),
+  // eslint-disable-next-line no-console
+  onBlur = () => console.log('no input onBlur function'),
   backgroundColor = 'white',
   className: classNameExternal = '',
   // maxWidthErrors,
@@ -68,6 +71,7 @@ export const Input: FunctionComponent<InputProps> = ({
           type={type}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           className={classNames('Input__input',
             { 'Input__input--error': errors?.length })}
           placeholder={label}

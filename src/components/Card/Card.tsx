@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useRef } from 'react';
 import classNames from 'classnames';
 
-import { UserType } from '../../type/User';
+import { UserTypeGet } from '../../type/User';
 
 import './Card.scss';
 import '../../style/Payload.scss';
 
 interface UserProps {
-  user: UserType;
+  user: UserTypeGet;
   maxWidthContent?: string;
   className?: string;
 }

@@ -18,11 +18,16 @@ import {
   selectIsUpLoading,
   selectUsersPostErrorMessage,
   clearErrorMessage,
+  // addErrorPhoto,
+  // addErrorName,
+  // addErrorEmail,
+  // addErrorPhone,
+  // addErrorPosition_Id,
+  addError,
 } from '../../store/features/Users/usersSlicePost';
 
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
-import { UserPost } from '../../type/Form';
 import { Select } from '../Select';
 import { Button } from '../../UI/Button';
 import { InputFile } from '../../UI/InputFile';
@@ -37,16 +42,17 @@ import {
 import { variablesCSS } from '../../style/variables';
 import './From.scss';
 import '../../style/Wrapper.scss';
+import { UserTypePost } from '../../type/User';
 
 const initialUser = {
-  name: 'John',
-  email: '98percent-already-done@go.et',
-  phone: '380989898981',
+  name: '',
+  email: '',
+  phone: '',
   position_id: '',
   photo: undefined,
 };
 
-// reqex validation
+// add reqex validation
 
 export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +61,7 @@ export const Form: FunctionComponent = () => {
   const errorMessage = useAppSelector(selectUsersPostErrorMessage);
   const validationFails = useAppSelector(selectPostFails);
   const isUploading = useAppSelector(selectIsUpLoading);
-  const [user, setUser] = useState<UserPost>(initialUser);
+  const [user, setUser] = useState<UserTypePost<string>>(initialUser);
   const maxWidthErrors = useRef(widthImportErrors());
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,9 +70,6 @@ export const Form: FunctionComponent = () => {
       value,
       files,
     } = event.target;
-
-    // eslint-disable-next-line no-console
-    console.log(name, value, files);
 
     setUser({
       ...user,
@@ -79,15 +82,28 @@ export const Form: FunctionComponent = () => {
     });
   };
 
-  const isValid = () => {
-    if (!user.photo) {
-      // eslint-disable-next-line no-console
-      console.log('validation false');
+  const onBlur = (e) => {
+    const key = e.target.name;
 
-      return false;
+    if (!user[key as keyof UserTypePost<string>]) {
+      dispatch(addError[key as keyof UserTypePost<any>](`The ${key} field is required.`));
     }
+  };
 
-    return true;
+  const isValid = () => {
+    let isValidInputs = true;
+
+    Object.keys(addError).forEach((key: string) => {
+      // eslint-disable-next-line no-console
+      console.log('key = ', key, !user[key as keyof UserTypePost<string>]);
+
+      if (!user[key as keyof UserTypePost<string>]) {
+        dispatch(addError[key as keyof UserTypePost<any>](`The ${key} field is required.`));
+        isValidInputs = false;
+      }
+    });
+
+    return isValidInputs;
   };
 
   const handleUpload = async (event: React.FormEvent) => {
@@ -139,14 +155,6 @@ export const Form: FunctionComponent = () => {
     }
   };
 
-  // eslint-disable-next-line no-console
-  console.log(
-    'user:',
-    user,
-    'isErrorPost', isErrorPost,
-    'isUploading', isUploading,
-  );
-
   return (
     <div className="Form Wrapper">
       {isErrorPost && (
@@ -166,6 +174,7 @@ export const Form: FunctionComponent = () => {
             value={user.name}
             errors={validationFails.name}
             onChange={onChange}
+            onBlur={onBlur}
             backgroundColor={variablesCSS['--bg-color']}
             className="Form__input Form__input-name"
             maxWidthErrors={maxWidthErrors.current}
@@ -178,6 +187,7 @@ export const Form: FunctionComponent = () => {
             value={user.email}
             errors={validationFails.email}
             onChange={onChange}
+            onBlur={onBlur}
             backgroundColor={variablesCSS['--bg-color']}
             className="Form__input Form__input-email"
             maxWidthErrors={maxWidthErrors.current}
@@ -191,6 +201,7 @@ export const Form: FunctionComponent = () => {
             helper="+38 (XXX) XXX - XX - XX"
             errors={validationFails.phone}
             onChange={onChange}
+            onBlur={onBlur}
             backgroundColor={variablesCSS['--bg-color']}
             className="Form__input Form__input-phone"
             maxWidthErrors={maxWidthErrors.current}
@@ -199,6 +210,7 @@ export const Form: FunctionComponent = () => {
           <Select
             currentValue={user.position_id}
             onChange={onChange}
+            onBlur={onBlur}
             className="Form__input"
             fails={validationFails.position_id}
           />
@@ -207,6 +219,7 @@ export const Form: FunctionComponent = () => {
             fileName={user.photo?.name}
             isDisabled={isUploading}
             onChange={onChange}
+            onBlur={onBlur}
             fails={validationFails.photo}
             className="Form__input"
           />

@@ -8,14 +8,14 @@ import {
 
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../../store';
-import { UserType } from '../../../type/User';
+import { UserTypeGet } from '../../../type/User';
 import { getUsersPage, GetUsersParams, GetUsersResponse } from '../../../api/users.get';
 
 const DELAY_OF_WAITING_GET = 1000;
 
 export interface UsersStateGet {
-  storage: UserType[];
-  payload: UserType[];
+  storage: UserTypeGet[];
+  payload: UserTypeGet[];
 
   link_to_next_page: string | null;
   current_page: number | null;
@@ -63,7 +63,7 @@ const usersSliceGet = createSlice({
   name: 'userGet',
   initialState,
   reducers: {
-    addUsers: (state: UsersStateGet, action: PayloadAction<UserType[]>) => {
+    addUsers: (state: UsersStateGet, action: PayloadAction<UserTypeGet[]>) => {
       state.storage.push(...action.payload);
     },
     addPayload: (state: UsersStateGet) => {

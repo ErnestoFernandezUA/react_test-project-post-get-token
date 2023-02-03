@@ -1,14 +1,15 @@
 import { client } from '../utils/axiosClient';
 import { endpointAPI } from './endpointsAPI';
 
-export type UserPostProperties = 'name' | 'email' | 'phone' | 'position_id' | 'photo';
-export type UserPost<T> = { [key in UserPostProperties]: T };
+type UserPostProperties = 'name' | 'email' | 'phone' | 'position_id' | 'photo';
+
+type Fails<T> = { [key in UserPostProperties]: T};
 
 export type PostResponsePayload = {
   success: boolean;
   user_id?: number;
   message: string;
-  fails?: UserPost<string[]>;
+  fails?: Fails<string[]>;
   type: string;
 };
 

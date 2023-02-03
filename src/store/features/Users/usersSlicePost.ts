@@ -15,8 +15,9 @@ import {
 import {
   postUser, PostResponsePayload,
 } from '../../../api/users.post';
+import { UserTypePost } from '../../../type/User';
 
-const DELAY_OF_WAITING_POST = 5000;
+const DELAY_OF_WAITING_POST = 1000;
 
 export interface UsersStatePost {
   statusUpLoading: 'idle' | 'loading' | 'failed';
@@ -83,21 +84,21 @@ const usersSlicePost = createSlice({
     clearErrorMessage: (state: UsersStatePost) => {
       state.errorMessage = null;
     },
-    // addErrorName: (state: UsersStatePost, action: PayloadAction<string>) => {
-    //   state.validationFails.name?.push(action.payload);
-    // },
-    // addErrorEmail: (state: UsersStatePost, action: PayloadAction<string>) => {
-    //   state.validationFails.email?.push(action.payload);
-    // },
-    // addErrorPhone: (state: UsersStatePost, action: PayloadAction<string>) => {
-    //   state.validationFails.phone?.push(action.payload);
-    // },
-    // addErrorPhoto: (state: UsersStatePost, action: PayloadAction<string>) => {
-    //   state.validationFails.name?.push(action.payload);
-    // },
-    // addErrorPosition_Id: (state: UsersStatePost, action: PayloadAction<string>) => {
-    //   state.validationFails.name?.push(action.payload);
-    // },
+    addErrorName: (state: UsersStatePost, action: PayloadAction<string>) => {
+      state.validationFails.name.push(action.payload);
+    },
+    addErrorEmail: (state: UsersStatePost, action: PayloadAction<string>) => {
+      state.validationFails.email.push(action.payload);
+    },
+    addErrorPhone: (state: UsersStatePost, action: PayloadAction<string>) => {
+      state.validationFails.phone.push(action.payload);
+    },
+    addErrorPhoto: (state: UsersStatePost, action: PayloadAction<string>) => {
+      state.validationFails.photo.push(action.payload);
+    },
+    addErrorPosition_Id: (state: UsersStatePost, action: PayloadAction<string>) => {
+      state.validationFails.position_id.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -163,11 +164,11 @@ export default usersSlicePost.reducer;
 export const {
   setError,
   clearErrorMessage,
-// addErrorName,
-// addErrorEmail,
-// addErrorPhone,
-// addErrorPhoto,
-// addErrorPosition_Id,
+  addErrorName,
+  addErrorEmail,
+  addErrorPhone,
+  addErrorPhoto,
+  addErrorPosition_Id,
 } = usersSlicePost.actions;
 
 export const selectIsUpLoading
@@ -177,10 +178,10 @@ export const selectIsErrorPost
 export const selectUsersPostErrorMessage = (state: RootState) => state.usersPost.errorMessage;
 export const selectPostFails = (state: RootState) => state.usersPost.validationFails;
 
-// export const addError = {
-//   name: addErrorName,
-//   email: addErrorEmail,
-//   phone: addErrorPhone,
-//   photo: addErrorPhoto,
-//   position_id: addErrorPosition_Id,
-// };
+export const addError: UserTypePost<any> = {
+  name: addErrorName,
+  email: addErrorEmail,
+  phone: addErrorPhone,
+  photo: addErrorPhoto,
+  position_id: addErrorPosition_Id,
+};

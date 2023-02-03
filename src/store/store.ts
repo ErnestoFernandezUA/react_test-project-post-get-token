@@ -35,7 +35,7 @@ const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['token'],
-  // blacklist: ['posts'],
+  // blacklist: [],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

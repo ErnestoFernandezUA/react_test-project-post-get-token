@@ -1,4 +1,4 @@
-import { UserType } from '../type/User';
+import { UserTypeGet } from '../type/User';
 import { client } from '../utils/axiosClient';
 import { endpointAPI } from './endpointsAPI';
 
@@ -19,7 +19,7 @@ export type GetUsersResponse = {
   success: boolean;
   total_pages: number | null;
   total_users: number | null;
-  users: UserType[];
+  users: UserTypeGet[];
 };
 
 export const getAllUsers = () => client.get(endpointAPI.users);

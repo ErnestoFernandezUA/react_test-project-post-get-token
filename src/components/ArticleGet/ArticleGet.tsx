@@ -22,7 +22,7 @@ import {
 import { Card } from '../Card';
 import { List } from '../List';
 import { Button } from '../../UI/Button/Button';
-import { UserType } from '../../type/User';
+import { UserTypeGet } from '../../type/User';
 import { Loader } from '../Loader';
 
 import './ArticleGet.scss';
@@ -68,7 +68,7 @@ export const ArticleGet: FunctionComponent = () => {
           {error && <p>{error}</p>}
 
           <List>
-            {users.map((user: UserType) => (
+            {users.map((user: UserTypeGet) => (
               <Card
                 key={user.id}
                 user={user}
@@ -76,7 +76,7 @@ export const ArticleGet: FunctionComponent = () => {
               />
             ))}
 
-            {payloadUsers.map((user: UserType) => (
+            {payloadUsers.map((user: UserTypeGet) => (
               <Card
                 className="Payload"
                 key={user.id}
