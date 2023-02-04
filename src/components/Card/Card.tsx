@@ -21,7 +21,7 @@ export const Card: FunctionComponent<UserProps> = ({
   maxWidthContent = '',
   className: classNameExternal = '',
 }) => {
-  const [mousePos, setMousePos] = useState<{ x: number, y: number}>({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState<{ top: number, left: number}>({ top: 0, left: 0 });
   const [isShown, setIsShown] = useState(false);
   const { current } = useRef(classNameExternal.trim().split(' '));
   const style = {
@@ -31,7 +31,7 @@ export const Card: FunctionComponent<UserProps> = ({
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      setMousePos({ x: event.clientX, y: event.clientY });
+      setMousePos({ top: event.clientY + 28, left: event.clientX - 10 });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -58,10 +58,7 @@ export const Card: FunctionComponent<UserProps> = ({
             {isShown && (
               <span
                 className="Card__email--hovered"
-                style={{
-                  top: mousePos.y + 28,
-                  left: mousePos.x - 10,
-                }}
+                style={mousePos}
               >
                 {email}
               </span>
