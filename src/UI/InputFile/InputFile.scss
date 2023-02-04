@@ -2,12 +2,13 @@
   display: block;
   width: 100%;
   max-width: 380px;
-  height: 54px;
+  min-height: 54px;
   border-radius: var(--field-radii);
   border: 1px solid var(--field-border-enabled);
   position: relative;
   padding-top: 14px;
-
+  box-sizing: border-box;
+  
   &__button {
     position: absolute;
     top: -1px;
@@ -50,8 +51,6 @@
     font-size: var(--fs-sm);
     line-height: var(--lh-sm);
     color: var(--error-color);
-    // bottom: -2px;
-    // left: 14px;
     background-color: transparent;
     padding: 0 16px;
     cursor: pointer;

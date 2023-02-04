@@ -2,13 +2,11 @@ import { UserPost } from '../type/User';
 import { client } from '../utils/axiosClient';
 import { endpointAPI } from './endpointsAPI';
 
-type Fails = UserPost<string[]>;
-
 export type PostResponsePayload = {
   success: boolean;
   user_id?: number;
   message: string;
-  fails?: Fails;
+  fails?: UserPost<string[]>;
   type: string;
 };
 
@@ -24,7 +22,7 @@ export interface PostResponse {
     rejectedWithValue: boolean;
     requestId: string;
     requestStatus: string;
-  }
+  },
 }
 
 export const postUser = (

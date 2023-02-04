@@ -1,19 +1,37 @@
 @import './../../style/titleOfSection.scss';
 
 .ArticlePost {
-  height: 100vh;
-  min-height: 741px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 100px;
+  min-height: 100vh;
+
+  &__anchor {
+    position: absolute;
+    top: 0;
+  }
+
+  &__content {
+    padding-bottom: 20px;
+  }
 
   &__title {
-    @include title-of-section
+    @include title-of-section;
+    padding-top: 100px;
+    margin-bottom: 50px;
   }
 
   @media(min-width: 1024px) {
     height: auto;
-    padding-bottom: 20px;
+  }
+
+  @media(max-height: 900px) {
+    &__anchor {
+    }
+
+    &__content {
+    
+    }
   }
 }

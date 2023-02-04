@@ -32,10 +32,30 @@
   &__position {
   }
   
+  &__email-container {
+    position: relative;
+  }
+
   &__email {
     
-    position: relative;
     cursor: pointer;
+    & a {
+      text-decoration: none;
+      color: var(--black);
+    }
+    
+    &--hovered {
+      top: 0;
+      left: 0;
+      position: fixed;
+      overflow: visible;
+      width: auto;
+      background-color: var(--black);
+      padding: 3px 16px;
+      border-radius: var(--button-radii);
+      
+      color: var(--white);
+    }
     
     &--hover {
       overflow: visible;
@@ -43,7 +63,6 @@
       bottom: 10px;
       left: 100px;
       z-index: 50;
-      background-color: red;
       visibility: hidden;
     }
     

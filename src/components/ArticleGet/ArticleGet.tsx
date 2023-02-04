@@ -28,6 +28,7 @@ import { Loader } from '../Loader';
 import './ArticleGet.scss';
 import '../../style/Container.scss';
 import '../../style/Wrapper.scss';
+import { selectScreen } from '../../store/features/Options/optionsSlice';
 
 export const ArticleGet: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,8 @@ export const ArticleGet: FunctionComponent = () => {
   const isLastPage = useAppSelector(selectIsLastPage);
   const error = useAppSelector(selectUsersErrorGet);
   const maxWidthContent = useRef(`${widthContentColumns()}px`);
+  const isFirstRender = useRef(true);
+  const screen = useAppSelector(selectScreen);
 
   const scrollTo = (elem: string) => scroller.scrollTo(elem, {
     duration: 500,
@@ -49,71 +52,74 @@ export const ArticleGet: FunctionComponent = () => {
     setTimeout(() => {
       if (payloadUsers.length > 0) {
         dispatch(addPayload());
-        scrollTo('ArticleGet__anchor');
+
+        if (isFirstRender.current
+          && (screen === 'desktop' || screen === 'fullscreen')) {
+          isFirstRender.current = false;
+        } else {
+          scrollTo('ArticleGet-anchor-bottom');
+        }
       }
     }, 350);
   }, [users.length, payloadUsers, dispatch]);
 
   return (
-    <Element name="ArticleGet">
-      <article
-        className={classNames('ArticleGet',
-          { 'ArticleGet--first-load': !users.length },
-          'Container',
-          'Wrapper')}
-      >
-        <div className="ArticleGet__content">
-          <h2 className="ArticleGet__title">Working with GET request</h2>
+    <article
+      className={classNames('ArticleGet',
+        { 'ArticleGet--first-load': !users.length },
+        'Container',
+        'Wrapper')}
+    >
+      <Element name="ArticleGet-anchor-head" className="ArticleGet__anchor-head"></Element>
 
-          {error && <p>{error}</p>}
+      <div className="ArticleGet__content">
+        <h2 className="ArticleGet__title">Working with GET request</h2>
 
-          <List>
-            {users.map((user: UserTypeGet) => (
-              <Card
-                key={user.id}
-                user={user}
-                maxWidthContent={maxWidthContent.current}
-              />
-            ))}
+        {error && <p>{error}</p>}
 
-            {payloadUsers.map((user: UserTypeGet) => (
-              <Card
-                className="Payload"
-                key={user.id}
-                user={user}
-                maxWidthContent={maxWidthContent.current}
-              />
-            ))}
-          </List>
+        <List>
+          {users.map((user: UserTypeGet) => (
+            <Card
+              key={user.id}
+              user={user}
+              maxWidthContent={maxWidthContent.current}
+            />
+          ))}
 
-          <div
-            className={classNames('ArticleGet__button-container',
-              { 'ArticleGet__button-container--hidden': isLastPage && users.length })}
-          >
-            { isLoading ? (
-              <Loader />
-            ) : (
-              <>
-                {(!users.length || !isLastPage) && (
-                  <Button
-                    onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
-                    width={120}
-                    disabled={isLoading}
-                  >
-                    Show More
-                  </Button>
-                )}
-              </>
-            )}
-          </div>
+          {payloadUsers.map((user: UserTypeGet) => (
+            <Card
+              className="Payload"
+              key={user.id}
+              user={user}
+              maxWidthContent={maxWidthContent.current}
+            />
+          ))}
+        </List>
 
-          <div
-            id="ArticleGet__anchor"
-            className="ArticleGet__anchor"
-          >
-          </div>
+        <div
+          className={classNames('ArticleGet__button-container',
+            { 'ArticleGet__button-container--hidden': isLastPage && users.length })}
+        >
+          { isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {(!users.length || !isLastPage) && (
+                <Button
+                  onClick={() => dispatch(getUsersAsync({ link_to_next_page }))}
+                  width={120}
+                  disabled={isLoading}
+                >
+                  Show More
+                </Button>
+              )}
+            </>
+          )}
         </div>
-      </article>
-    </Element>
+
+      </div>
+
+      <Element name="ArticleGet-anchor-bottom" className="ArticleGet__anchor-bottom"></Element>
+    </article>
   );
 };

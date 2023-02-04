@@ -2,12 +2,24 @@
 
 .ArticleGet {
   position: relative;
+  min-height: 100vh;
 
-  &--first-load {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  &__anchor-head {
+    opacity: 0.3;
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    top: 0;
+    z-index: 5000;
+  }
+
+  &__anchor-bottom {
+    opacity: 0.3;
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    bottom: calc(100vh - 100px);
+    z-index: 5000;
   }
 
   &__content {
@@ -16,6 +28,7 @@
 
   &__title {
     @include title-of-section;
+    padding: 140px 0 50px;
   }
 
   &__button-container {
@@ -24,24 +37,25 @@
     flex-direction: column;  
     align-items: center;
     justify-content: end;
+    padding-bottom: 20px;
 
     &--hidden {
-      display: none;
+      height: 20px;
+      visibility: hidden;
     }
   }
 
-  &__anchor {
-    visibility: hidden;
-    position: absolute;
-    bottom: calc(100vh - 129px);
-    width: 100px;
-    height: 100px;
+  @media(min-width: 1024px) {
+    display: block;
   }
 
-  @media(min-width: 1024px) {
-    min-height: 0;
-    display: block;
-    // align-items: initial;
+  @media(max-height: 1025px) {
+    min-height: 100vh;
+
+    &--first-load {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
-

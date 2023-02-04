@@ -32,7 +32,7 @@ export const Header: FunctionComponent = () => {
 
         <div className="Header__nav">
           <Button
-            onClick={() => scrollTo('ArticleGet')}
+            onClick={() => scrollTo('ArticleGet-anchor-head')}
           >
             Users
           </Button>

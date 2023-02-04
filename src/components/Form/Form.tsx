@@ -4,6 +4,7 @@ import React, {
   useState,
 } from 'react';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { scroller } from 'react-scroll';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getTokenAsync } from '../../store/features/Token/tokenSlice';
@@ -53,7 +54,6 @@ const initialUser = {
 
 export const Form: FunctionComponent = () => {
   const dispatch = useAppDispatch();
-
   const isPostRejected = useAppSelector(selectIsPostRejected);
   const serverMessage = useAppSelector(selectUsersPostServerMessage);
   const validationFails = useAppSelector<UserPost<string[]>>(selectPostFails);
@@ -89,7 +89,7 @@ export const Form: FunctionComponent = () => {
 
     if (!user[key as keyof UserPost<string>]) {
       dispatch(clearError({ property: key as UserKeys }));
-      dispatch(addError[key as keyof UserPost<any>](`The ${key} field is required.`));
+      dispatch(addError[key as keyof UserPost<string[]>](`The ${key} field is required.`));
     }
   };
 
@@ -100,12 +100,20 @@ export const Form: FunctionComponent = () => {
       dispatch(clearError({ property: key as UserKeys }));
 
       if (!user[key as keyof UserPost<string>]) {
-        dispatch(addError[key as keyof UserPost<any>](`The ${key} field is required.`));
+        dispatch(addError[key as keyof UserPost<string[]>](`The ${key} field is required.`));
         isValidInputs = false;
       }
     });
 
     return isValidInputs;
+  };
+
+  const scrollTo = (elem: string) => {
+    scroller.scrollTo(elem, {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
   };
 
   const handleUpload = async (event: React.FormEvent) => {
@@ -137,15 +145,15 @@ export const Form: FunctionComponent = () => {
       const addUserResponse
       = await dispatch(postUserAsync(formData)) as PayloadAction<PostResponsePayload>;
 
-      // eslint-disable-next-line no-console
-      console.log('form/ addUser', addUserResponse);
-
       if (addUserResponse.payload.success) {
         setIsPostSuccess(true);
         dispatch(resetUsers());
 
-        // eslint-disable-next-line no-console
-        console.log('Form// getUsersAsync');
+        setTimeout(() => {
+          scrollTo('ArticleGet-anchor-head');
+        }, 1000);
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         await dispatch(getUsersAsync({}));
       }
     } catch (errorPost) {
@@ -236,7 +244,6 @@ export const Form: FunctionComponent = () => {
           <Button
             onClick={(e:React.FormEvent) => handleUpload(e)}
             disabled={isUploading}
-            className="Form__button-submit"
           >
             Sign up
           </Button>

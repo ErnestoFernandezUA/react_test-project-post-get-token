@@ -2,13 +2,11 @@ import React, { FunctionComponent, ReactNode, useRef } from 'react';
 import classNames from 'classnames';
 import './Button.scss';
 
-type AnyFunction = (...args: any[]) => any;
-
 interface ButtonProps {
   tableIndex?: number;
   disabled?: boolean;
   children?: ReactNode;
-  onClick?: AnyFunction;
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   width?: number;
   className?: string;
 }

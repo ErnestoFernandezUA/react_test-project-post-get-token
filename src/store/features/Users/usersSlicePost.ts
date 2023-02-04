@@ -13,11 +13,11 @@ import {
   RootState,
 } from '../../store';
 import {
-  postUser, PostResponsePayload,
+  postUser,
 } from '../../../api/users.post';
-import { UserPost } from '../../../type/User';
+import { UserKeys, UserPost } from '../../../type/User';
 
-const DELAY_OF_WAITING_POST = 5000;
+const DELAY_OF_WAITING_POST = 1000;
 
 export interface UsersStatePost {
   statusUpLoading: 'idle' | 'loading' | 'failed';
@@ -50,15 +50,9 @@ export const postUserAsync = createAsyncThunk(
     try {
       const response = await postUser(data, token);
 
-      // eslint-disable-next-line no-console
-      console.log('postUserAsync/ response', response);
-
       return response;
     } catch (error) {
       const err = error as AxiosError;
-
-      // eslint-disable-next-line no-console
-      console.log('postUserAsync// rejectWithValue', err.response?.data as PostResponsePayload);
 
       return rejectWithValue(err.response?.data);
     }
@@ -70,7 +64,7 @@ const usersSlicePost = createSlice({
   initialState,
   reducers: {
     clearError: (state: UsersStatePost, action: PayloadAction<{
-      property: 'name' | 'email' | 'phone' | 'position_id' | 'photo',
+      property: UserKeys,
     }>) => {
       const key = action.payload.property;
 
@@ -104,9 +98,6 @@ const usersSlicePost = createSlice({
       .addCase(postUserAsync.pending, (
         state: UsersStatePost,
       ) => {
-        // eslint-disable-next-line no-console
-        console.log('postUserAsync.pending/');
-
         state.statusUpLoading = 'loading';
         state.serverMessage = null;
         state.validationFails = initialState.validationFails;
@@ -119,16 +110,16 @@ const usersSlicePost = createSlice({
           requestStatus: 'fulfilled';
         }, never>,
       ) => {
-        state.statusUpLoading = 'idle';
-
         // eslint-disable-next-line no-console
-        console.log('postUserAsync.fulfilled/ action.payload', action);
+        console.log(action.payload);
 
+        state.statusUpLoading = 'idle';
         state.serverMessage = action.payload.message;
       })
       .addCase(postUserAsync.rejected, (
         state,
-        action:PayloadAction<any, string, {
+        action:PayloadAction<any,
+        string, {
           arg: FormData;
           requestId: string;
           requestStatus: 'rejected';
@@ -141,7 +132,9 @@ const usersSlicePost = createSlice({
         } & {})), SerializedError>,
       ) => {
         // eslint-disable-next-line no-console
-        console.log('postUserAsync.rejected/ action.payload', action.payload);
+        console.log('postUserAsync.rejected');
+        // eslint-disable-next-line no-console
+        console.log(action.payload);
 
         state.statusUpLoading = 'failed';
         state.serverMessage = action.payload.message;

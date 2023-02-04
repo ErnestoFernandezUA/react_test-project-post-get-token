@@ -1,6 +1,8 @@
 .Button {
   display: inline-block;
   height: 34px;
+  min-height: 34px;
+  box-sizing: border-box;
   width: 100px;
   font-size: var(--fs-md);
   border-radius: var(--button-br);
