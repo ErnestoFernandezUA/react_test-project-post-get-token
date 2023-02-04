@@ -7,8 +7,9 @@
   font-weight: var(--fw-normal);
   line-height: var(--lh-md);
   color: var(--black);
-
+  
   & img {
+    cursor: pointer;
   } 
 
   & input {
@@ -17,5 +18,6 @@
 
   & span {
     margin-left: 12px;
+    cursor: pointer;
   }
 }

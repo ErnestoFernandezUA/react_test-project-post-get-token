@@ -3,9 +3,6 @@ import { breakpoint } from '../style/breakpoints';
 export function widthContentColumns() {
   const width = window.innerWidth; // with scroll
 
-  // eslint-disable-next-line no-console
-  // console.log('widthContentColumns/ width', width);
-
   // > 1170: padding 0, gap 29x2, scroll 17
   // > 1024: padding 60x2, gap 29x2, scroll 17
   // > 768: padding 32x2, gap 16, scroll 17

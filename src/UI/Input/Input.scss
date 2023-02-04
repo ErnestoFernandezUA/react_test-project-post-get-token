@@ -5,7 +5,6 @@
   position: relative;
   padding: 0;  
   box-sizing: border-box;
-  cursor: pointer;
 
   &__label {
     margin: 0;
@@ -30,6 +29,7 @@
     background-color: transparent;
     color: var(--black);
     outline: none;
+    cursor: pointer;
 
     &::placeholder {
       // color: var(--field-color-placeholder);
@@ -37,6 +37,7 @@
 
     &:focus, &:active {
       border: 1px solid var(--field-border-enabled);
+      cursor: default;
     }
 
     &--error {
@@ -44,15 +45,14 @@
     }
   }
 
-  &__helpers {
-
+  &__helpers:hover {
+    cursor: default;
   }
 
   &__error-container {
     position: absolute;
     z-index: 5000;
     top: 58px;
-    // max-width: 380px;
   }
 
   &__error, &__helpers {
@@ -61,8 +61,6 @@
     font-size: var(--fs-sm);
     line-height: var(--lh-sm);
     color: var(--error-color);
-    // bottom: -2px;
-    // left: 14px;
     background-color: transparent;
     padding: 0 16px;
     cursor: pointer;

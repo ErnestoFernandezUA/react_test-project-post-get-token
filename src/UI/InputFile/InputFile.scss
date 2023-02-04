@@ -8,7 +8,8 @@
   position: relative;
   padding-top: 14px;
   box-sizing: border-box;
-  
+  cursor: pointer;
+
   &__button {
     position: absolute;
     top: -1px;
@@ -20,6 +21,7 @@
     border-radius: var(--field-radii) 0 0 var(--field-radii);
     border: 1px solid var(--black);
     padding-top: 14px;
+    cursor: pointer;
   }
 
   &__value {

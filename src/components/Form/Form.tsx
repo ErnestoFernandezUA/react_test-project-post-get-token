@@ -25,7 +25,7 @@ import {
 
 import { Input } from '../../UI/Input';
 import { widthImportErrors } from '../../helpers/widthContentColumns';
-import { Select } from '../Select';
+import { Select } from '../../UI/Select';
 import { Button } from '../../UI/Button';
 import { InputFile } from '../../UI/InputFile';
 import { PostResponsePayload } from '../../api/users.post';

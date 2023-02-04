@@ -49,9 +49,6 @@ export const getUsersAsync = createAsyncThunk(
       await new Promise(resolve => setTimeout(resolve, DELAY_OF_WAITING_GET));
       const response = await getUsersPage(link_to_next_page, page, count);
 
-      // eslint-disable-next-line no-console
-      console.log(response);
-
       return response;
     } catch (error) {
       rejectWithValue(error);
